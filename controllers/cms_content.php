@@ -28,7 +28,7 @@ class Cms_Content extends Admin_Controller
 
 	protected $globalHandlers = array();
 
-	protected $required_permissions = array('cms:content_manage');
+	protected $required_permissions = array('cms:manage_content');
 
 	public function __construct()
 	{

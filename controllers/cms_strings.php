@@ -32,12 +32,12 @@ class Cms_Strings extends Admin_Controller
 
     protected $globalHandlers = array();
 
-    protected $required_permissions = array('cms:string_manage');
+    protected $required_permissions = array('cms:manage_content');
 
     public function __construct()
     {
         parent::__construct();
-        $this->app_menu = 'website';
+        $this->app_menu = 'cms';
         $this->app_module_name = 'CMS';
 
         $this->list_record_onclick = "new PopupForm('index_onshow_manage_string_form', { ajaxFields: {string_id: '%s' } }); return false;";

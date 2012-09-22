@@ -28,7 +28,7 @@ class Cms_Partials extends Admin_Controller
 
 	protected $globalHandlers = array();
 
-	protected $required_permissions = array('cms:template_manage');
+	protected $required_permissions = array('cms:manage_partials');
 
 	public function __construct()
 	{

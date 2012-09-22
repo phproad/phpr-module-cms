@@ -28,7 +28,7 @@ class Cms_Templates extends Admin_Controller
 
 	protected $globalHandlers = array();
 
-	protected $required_permissions = array('cms:template_manage');
+	protected $required_permissions = array('cms:manage_templates');
 
 	public function __construct()
 	{

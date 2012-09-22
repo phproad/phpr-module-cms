@@ -30,7 +30,7 @@ class Cms_Pages extends Admin_Controller
 
 	protected $globalHandlers = array();
 
-	protected $required_permissions = array('cms:page_manage');
+	protected $required_permissions = array('cms:manage_pages', 'cms:manage_content');
 
 	public function __construct()
 	{
@@ -42,7 +42,6 @@ class Cms_Pages extends Admin_Controller
 		$this->form_redirect = url('/cms/pages');
 		$this->form_create_save_redirect = url('/cms/pages/edit/%s/'.uniqid());
 		$this->app_page = 'pages';
-
 	}
 
 	public function index()
