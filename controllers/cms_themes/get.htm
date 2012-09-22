@@ -1,0 +1,12 @@
+<? Admin_Breadcrumb::add('Themes', 'cms/themes')->add($this->app_page_title);?>
+<? Phpr_View::beginBlock("head") ?>
+    <link rel="stylesheet" href="<?=Phpr::$config->get('PHPR_URL', 'phpr')?>/modules/db/behaviors/db_formbehavior/resources/css/forms.css" type="text/css" />    
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+    <?=flash() ?>
+
+    <? if (isset($fatalError)): ?>
+        <p><a href="<?=url('cms/themes') ?>">Return to themes list</a></p>
+    <? endif ?>
+<? Phpr_View::endBlock() ?>

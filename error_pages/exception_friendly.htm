@@ -1,0 +1,16 @@
+<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_ID') || Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
+	<p>
+		We're sorry, something went wrong. Please contact customer support.
+		<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_ID')): ?>
+			Include this log ID number: <?=$error->log_id ?>.
+			<br /><br />
+		<? endif ?>
+		
+		<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
+			Include this information:
+			<br /><br />
+			<?=implode("<br />", str_split(Phpr_ErrorLog::encode_error_details($error), 64)) ?>
+			<br /><br />
+		<? endif ?>
+	</p>
+<? endif ?>

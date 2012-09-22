@@ -1,0 +1,15 @@
+<div class="toolbar">
+	<?=cp_button('New theme', 'icon add', url('/cms/themes/create')) ?>
+	<?=cp_button('Duplicate theme', 'icon duplicate', array('href'=>'#', 'onclick'=>"duplicate_theme(); return false;")) ?>
+	<?=cp_button('Delete selected', 'icon delete', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?>
+	<div class="separator">&nbsp;</div>
+	<?=cp_button('Set default theme', 'icon default', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	<div class="separator">&nbsp;</div>
+	<?=cp_button('Export theme', 'icon export', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	<?=cp_button('Import theme', 'icon import', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+	<? /*
+	<?=cp_button('Enable selected', 'icon enable', array('href'=>'#', 'onclick'=>"return enable_selected()")) ?>
+	<?=cp_button('Disable selected', 'icon disable', array('href'=>'#', 'onclick'=>"return disable_selected()")) ?>
+	*/ ?>
+	<div class="clear"></div>
+</div>

@@ -1,0 +1,42 @@
+<div>
+	<div id="duplicate_form">
+		<h2>Duplicate theme</h2>
+		<div class="content">
+			<div class="form-400">
+				<?=Phpr_Form::openTag() ?>
+
+					<? if (!isset($fatalError)): ?>
+						<p>Please provide details for the new theme.</p>
+					
+						<? $this->formRender($theme) ?>
+						
+						<script type="text/javascript">
+							$('duplicate_form').addEvent('popupLoaded', function(){
+								init_user_agent_ui();
+							});
+						</script>
+
+						<?=admin_ajax_button('Duplicate', 'index_onduplicate_theme', array('class'=>'positive'), "
+							loadIndicator: {injectInElement: true},
+							update: 'themes_page_content',
+							prepareFunction: function(){phprTriggerSave();},
+							onSuccess: cancelPopup,
+							onAfterUpdate: update_scrollable_toolbars
+							") ?>
+						<?=admin_button('Cancel', array('onclick'=>"
+							cancelPopup();
+							return false;
+						")) ?>
+						
+						<input type="hidden" name="theme_id" value="<?=$existing_theme->id ?>"/>
+					<? else: ?>
+						<div class="formFlash"><?=flash() ?></div>
+						<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+					<? endif ?>
+				
+					<div class="clear"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,301 @@
+<?php
+
+class Cms_Theme extends Cms_Base
+{
+	public $table_name = 'cms_themes';
+	public $enabled = 1;
+
+	private static $theme_active = false;
+	private static $theme_default = false;
+	private static $theme_edit = false;
+	private static $themes = array();
+
+	public static function create()
+	{
+		return new self();
+	}
+
+	public function define_columns($context = null)
+	{
+		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("Please specify the theme name.");
+		$this->define_column('code', 'Code')->validation()->fn('trim')->fn('strtolower')->required("Please specify the theme code.")
+			->regexp(',^[a-z0-9_\.-]*$,i', "Theme code should contain only latin characters, numbers and signs _, -, /, and .")
+			->unique('Theme with code %s already exists.')
+			->method('validate_code');
+
+		$this->define_column('description', 'Description')->validation()->fn('trim');
+		$this->define_column('author_name', 'Author')->validation()->fn('trim');
+		$this->define_column('author_website', 'Author website')->validation()->fn('trim');
+		$this->define_column('default_theme', 'Default');
+		$this->define_column('enabled', 'Enabled')->validation()->method('validate_enabled');
+	}
+
+	public function define_form_fields($context = null)
+	{
+		$this->add_form_field('enabled')->tab('Theme');
+		$this->add_form_field('name', 'left')->tab('Theme');
+		$this->add_form_field('code', 'right')->comment('Theme code defines the theme directory name')->tab('Theme');
+		$this->add_form_field('description')->size('small')->tab('Theme');
+		$this->add_form_field('author_name', 'left')->tab('Theme');
+		$this->add_form_field('author_website', 'right')->tab('Theme');
+	}
+
+	// Events
+	//
+    
+    public function before_save($session_key = null)
+    {
+        if (Phpr::$config->get('DEMO_MODE'))
+            throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
+	}
+
+	public function before_delete($id=null)
+	{
+        if (Phpr::$config->get('DEMO_MODE'))
+            throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
+
+		if ($this->default_theme)
+			throw new Phpr_ApplicationException(sprintf('Theme "%s" is set as default. Set a different default theme before trying again', $this->name));
+	}
+
+	public function after_create()
+	{
+		$required_dirs = array('/', '/pages', '/partials', '/templates', '/content', '/assets', '/meta');
+
+		foreach ($required_dirs as $dir)
+		{
+			$check_dir = self::get_theme_dir($this->code).$dir;
+			if (!file_exists($check_dir))
+				@mkdir($check_dir);
+		}
+	}
+
+	public function before_create($session_key = null)
+	{
+		if (!is_writable(trim(self::get_theme_dir(''))))
+			throw new Phpr_ApplicationException('Cannot create theme: Directory is not writable ' . self::get_theme_dir(''));
+	}
+
+	public function before_update($session_key = null)
+	{
+		if ($this->code != $this->fetched['code'])
+		{
+			if (!is_writable(trim(self::get_theme_dir(''))))
+				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_dir(''));
+
+			if (!is_writable(trim(self::get_theme_dir($this->fetched['code']))))
+				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_dir($this->fetched['code']));
+		}
+	}
+
+	public function after_update()
+	{
+		if ($this->code != $this->fetched['code'])
+		{
+			rename(self::get_theme_dir($this->fetched['code']), self::get_theme_dir($this->code));
+
+			/**
+			 * Update strings, content blocks, pages, partials and layouts
+			 */
+
+			$bind = array('code'=>$this->code, 'old_code'=>$this->fetched['code']);
+			Db_DbHelper::query('update cms_strings set theme_id=:code where theme_id=:old_code', $bind);
+			Db_DbHelper::query('update cms_content set theme_id=:code where theme_id=:old_code', $bind);
+			Db_DbHelper::query('update cms_pages set theme_id=:code where theme_id=:old_code', $bind);
+			Db_DbHelper::query('update cms_partials set theme_id=:code where theme_id=:old_code', $bind);
+			Db_DbHelper::query('update cms_templates set theme_id=:code where theme_id=:old_code', $bind);
+		}
+	}
+
+	public function after_delete()
+	{
+		if (strlen($this->code))
+		{
+			/**
+			 * Delete assets
+			 */
+
+			$theme_path = self::get_theme_dir($this->code);
+			if (file_exists($theme_path))
+				Phpr_Files::remove_dir_recursive($theme_path);
+
+			/**
+			 * Delete strings, content blocks, pages, partials and layouts
+			 */
+
+			$bind = array('code'=>$this->code);
+			Db_DbHelper::query('delete from cms_strings where theme_id=:code', $bind);
+			Db_DbHelper::query('delete from cms_content where theme_id=:code', $bind);
+			Db_DbHelper::query('delete from cms_pages where theme_id=:code', $bind);
+			Db_DbHelper::query('delete from cms_partials where theme_id=:code', $bind);
+			Db_DbHelper::query('delete from cms_templates where theme_id=:code', $bind);
+		}
+	}
+
+	// Validation
+	//
+
+	public function validate_code($name, $value)
+	{
+		if (in_array($value, array('content', 'strings', 'pages', 'partials', 'templates', 'meta')))
+			$this->validation->setError('Theme code cannot be "content", "strings", "pages", "partials", "templates" or "meta".', $name, true);
+
+		return true;
+	}
+
+	public function validate_enabled($name, $value)
+	{
+		if (!$value && $this->default_theme)
+			$this->validation->setError('Default theme cannot be disabled.', $name, true);
+
+		return $value;
+	}
+
+	public function make_default()
+	{
+		if (!$this->enabled)
+			throw new Phpr_ApplicationException(sprintf('Theme "%s" is disabled and cannot be default_theme.', $this->name));
+
+		Db_DbHelper::query('update cms_themes set default_theme=1 where id=:id', array('id'=>$this->id));
+		Db_DbHelper::query('update cms_themes set default_theme=null where id!=:id', array('id'=>$this->id));
+	}
+
+	public function enable_theme()
+	{
+		$this->enabled = true;
+		Db_DbHelper::query('update cms_themes set enabled=1 where id=:id', array('id'=>$this->id));
+	}
+
+	public function disable_theme()
+	{
+		if ($this->default_theme)
+			throw new Phpr_ApplicationException(sprintf('Theme "%s" is default_theme and cannot be disabled.', $this->name));
+
+		$this->enabled = false;
+		Db_DbHelper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
+	}
+
+	// General
+	//
+
+	public static function auto_create_all_from_files()
+	{
+		Cms_Template::auto_create_from_files();
+		Cms_Page::auto_create_from_files();
+		Cms_Content_Block::auto_create_from_files();
+		Cms_Partial::auto_create_from_files();
+	}
+
+	// Getters
+	//
+
+	public static function get_theme_by_id($id)
+	{
+		if (!strlen($id))
+			return null;
+
+		if (array_key_exists($id, self::$themes))
+			return self::$themes[$id];
+
+		return self::$themes[$id] = self::create()->find($id);
+	}
+
+	public static function get_active_theme()
+	{
+		$theme = self::get_default_theme();
+
+		if (!$theme)
+			throw new Phpr_ApplicationException('No theme found please reinstall');
+
+		return $theme;
+	}
+
+	public static function get_default_theme()
+	{
+		if (self::$theme_default === false)
+			self::$theme_default = self::create()->where('default_theme=1')->find();
+
+		return self::$theme_default;
+	}
+
+	public static function get_edit_theme()
+	{
+		if (self::$theme_edit !== false)
+			return self::$theme_edit;
+
+		if ($theme_id = Db_UserParameters::get('admin_edit_theme'))
+		{
+			$theme = self::get_theme_by_id($theme_id);
+			if ($theme)
+				return self::$theme_edit = $theme;
+		}
+
+		return self::$theme_edit = self::get_default_theme();
+	}
+
+	public static function set_edit_theme($id)
+	{
+		if (!strlen($id))
+			throw new Phpr_ApplicationException('Please select a theme.');
+
+		$theme = self::get_theme_by_id($id);
+		if (!$theme)
+			throw new Phpr_ApplicationException('Could not find that theme.');
+
+		self::$theme_edit = $theme;
+		Db_UserParameters::set('admin_edit_theme', $id);
+	}
+
+	/**
+	 * Smart method to find theme name
+	 * @param1 (Boolean) Front end?
+	 * @param1 (String)  Define theme code
+	 */
+
+    public static function get_theme_dir($param=true, $absolute=true)
+    {
+    	if (is_string($param))
+        	$result = "/themes/".$param;
+    	else if (is_bool($param) && $param === false)
+        	$result = "/themes/".self::get_edit_theme()->code;
+    	else
+        	$result = "/themes/".self::get_active_theme()->code;
+
+        return ($absolute) ? PATH_APP . $result : $result;
+    }
+
+    public static function theme_dir_is_writable($param1=true)
+    {
+        return is_writable(self::get_theme_dir($param1));
+    }
+
+	public function get_asset_path($absolute=true)
+	{
+		return self::get_theme_dir($this->code, $absolute).'/assets';
+	}
+    
+    // Duplicate
+    //
+
+	public function init_copy($obj)
+	{
+		$obj->name = $this->name;
+		$obj->code = $this->code;
+		$obj->description = $this->description;
+		$obj->author_name = $this->author_name;
+		$obj->author_website = $this->author_website;
+	}
+
+	public function duplicate_theme($data)
+	{
+		$new_theme = self::create();
+		$new_theme->init_columns_info();
+		$new_theme->define_form_fields();
+		$new_theme->save($data);
+
+		Phpr_Files::copy_dir(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
+
+		return $new_theme;
+	}
+
+}

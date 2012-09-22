@@ -1,0 +1,53 @@
+#file_manager { font-size:150%; border-radius:0 !important; }
+#file_manager > * { border-radius:0 !important; }
+
+/* dialogs */
+.std42-dialog, .std42-dialog .ui-widget-content { background-color:#ededed; background-image:none; background-clip: content-box; }
+
+.elfinder { border:none; }
+
+/* toolbar */
+.elfinder-toolbar { background:#FFF; background-image:url('../images/shade-alt-bg.png'); background-repeat: repeat-x; border-color:#e0e0e0;  }
+.elfinder .elfinder-button { background:#f0f0f0; background-image:url('../images/highlight-bg.png');  }
+.elfinder .elfinder-button-search { background:transparent; }
+
+.elfinder-button-search input { border-color:#d2d4d4; border-top-color:#a5a6a6; border-radius:3px; }
+.elfinder-button-search input:hover { border-color:#94c2e3; border-top-color:#7498b3; }
+
+.elfinder-buttonset { border-color:#d2d4d4; border-top-color:#a5a6a6; }
+.elfinder-button:hover { background:transparent; }
+.elfinder-button.ui-state-disabled:hover { background-image:url('../images/highlight-bg.png');  }
+
+/* navbar */
+.elfinder .elfinder-navbar { background:#fff; background-image:url('../images/shade-bg.png'); background-position:bottom; background-repeat: repeat-x; border-color:#e0e0e0; }
+.elfinder-navbar .ui-state-hover  { background:transparent; border-color:transparent; }
+.elfinder-navbar .ui-state-active { background: #3980bd; border-color:#3980bd; color:#fff; background-image:url('../images/highlight-alt-bg.png'); }
+/* disabled elfinder */
+.elfinder-disabled .elfinder-navbar .ui-state-active { background: #dadada; border-color:#aaa; color:#fff; }
+
+
+/* current directory */
+/* selected file in "icons" view */
+.elfinder-cwd { background-image:url('../images/shade-bg.png'); background-position:bottom; background-repeat: repeat-x; }
+.elfinder-cwd-view-icons .elfinder-cwd-file .ui-state-hover { background:#f0f0f0; }
+/* list view*/
+.elfinder-cwd table tr:nth-child(odd) { background-color:#edf3fe; }
+.elfinder-cwd table tr { border-top:1px solid #fff; }
+
+/* common selected background/color */
+.elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-filename.ui-state-hover,
+.elfinder-cwd table td.ui-state-hover,
+.elfinder-button-menu .ui-state-hover { background: #3980bd; color:#fff; background-image:url('../images/highlight-alt-bg.png'); }
+/* disabled elfinder */
+.elfinder-disabled .elfinder-cwd-view-icons .elfinder-cwd-file .elfinder-cwd-filename.ui-state-hover,
+.elfinder-disabled .elfinder-cwd table td.ui-state-hover { background:#dadada;}
+
+/* statusbar */
+.elfinder .elfinder-statusbar { color:#555; background-image:url('../images/shade-alt-bg.png'); border-color:#e0e0e0; }
+.elfinder .elfinder-statusbar a { text-decoration:none; color:#555;}
+
+
+.std42-dialog .elfinder-help, .std42-dialog .elfinder-help .ui-widget-content { background:#fff; }
+
+/* contextmenu */
+.elfinder-contextmenu { font-size:150%; }

@@ -1,0 +1,34 @@
+<div>
+    <h2>Update String</h2>
+    <div class="content">
+        <div class="form-400">
+            <?=Phpr_Form::openTag() ?>
+
+                <? if (!isset($fatalError)): ?>
+                    <? $this->formRender($model) ?>
+                    <?=form_hidden('string_id', $model->id)?>
+
+                    <?=admin_ajax_button('Save', 'index_onsave_string', array('class'=>'positive'), "
+                            loadIndicator: {injectInElement: true},
+                            onComplete: listReload,
+                            onSuccess: cancelPopup") ?>
+                    
+                    <?=admin_button('Cancel', array('onclick'=>"cancelPopup(); return false")) ?>
+
+                    <?=(!$new_record_flag) 
+                        ? admin_ajax_button('Delete', 'index_ondelete_string', array('class'=>"right negative"), "
+                            confirm: 'Do you really want to delete this string?',
+                            onComplete: listReload,
+                            loadIndicator: {injectInElement: true},
+                            onSuccess: cancelPopup") 
+                        : '' ?>
+                <? else: ?>
+                    <div class="formFlash"><?=flash() ?></div>
+                    <?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+                <? endif ?>
+            
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<? Admin_Breadcrumb::add('Settings', 'admin/settings')->add($this->app_page_title);?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?=flash() ?>
+	<? if (!isset($fatalError)): ?>
+		<div class="form-400">
+			<?=form_open(array('id'=>'settings_form'))?>
+				<? $this->formRender($form_model) ?>
+
+				<div class="form_toolbar">
+					<?=admin_ajax_button('Save', 'index_onSave', array('class'=>'positive')) ?>
+					<?=backend_button('Cancel', array('href'=>url('admin/settings'))) ?>
+					<div class="clear"></div>
+				</div>
+			<?=form_close()?>
+		</div>
+	<? else: ?>
+		<p><a href="<?=url('/admin/settings') ?>">Return to the settings page</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

@@ -1,0 +1,23 @@
+<? Admin_Breadcrumb::add('Partials', 'cms/partials')->add($this->app_page_title);?>
+<? Phpr_View::beginBlock("view") ?>
+	<? if (!isset($fatalError)): ?>
+	<? $dbName = $this->viewData['form_model']; ?>
+		<div class="form-750">
+			<?=form_open(array('id'=>'form_element')) ?>
+
+				<? $this->formRender() ?>
+
+				<div class="form_toolbar">
+					<?=admin_ajax_button('Save', 'edit_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
+					<?=admin_ajax_button('Save and Close', 'edit_onSave', array(), "prepareFunction: function(){phprTriggerSave();}") ?>
+					<?=admin_ajax_button('Cancel', 'edit_onCancel') ?>
+					<?=admin_ajax_button('Delete', 'edit_onDelete', array('class'=>"right negative"), "confirm: 'Do you really want to delete this partial?'") ?>
+					<div class="clear"></div>
+				</div>
+			<?=form_close()?>
+		</div>
+	<? else: ?>
+		<?=flash()?>
+		<p><a href="<?=url('/cms/partials') ?>">Return to the list</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>
