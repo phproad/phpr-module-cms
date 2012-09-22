@@ -1,0 +1,18 @@
+
+<div class="toolbar">
+	<?= cp_button('Add Items', 'doc_add', array('href'=>'#', 'onclick'=>"$('item_id').value = ''; new PopupForm('onLoadItemForm', {ajaxFields: $('item_list').getForm()}); return false;")) ?>
+	<div class="clear"></div>
+</div>
+
+<div class="infoBlock">
+	<p class="description">Drag and drop the menu items below to sort or nest them.</p>
+</div>
+
+<div id="item_list" class="clear relative">
+	<? $this->renderPartial('item_list', array(
+		'session_key'=>$this->formGetEditSessionKey(),
+		'menu'=>$form_model,
+	)) ?>
+</div>
+
+<input type="hidden" name="item_id" id="item_id" value=""/>

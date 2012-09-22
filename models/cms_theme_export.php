@@ -21,7 +21,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 		$this->add_form_field('components')->renderAs(frm_checkboxlist)->comment('Please select the theme components you would like to export', 'above');
 	}
 
-	public function get_theme_id_options($key_value=-1)
+	public function get_theme_id_options($key_value = -1)
 	{
 		$result = array();
 		
@@ -32,7 +32,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 		return $result;
 	}
 	
-	public function get_components_options($key_value=-1)
+	public function get_components_options($key_value = -1)
 	{
 		return array(
 			'assets'=>'Assets',

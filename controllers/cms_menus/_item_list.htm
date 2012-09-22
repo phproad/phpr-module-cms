@@ -1,0 +1,47 @@
+<?
+	$root_dir = !isset($parent_item);
+	if ($root_dir)
+	{
+		//Get only top level menu items
+		$items = $menu->list_root_items($session_key);
+
+		$level = 1;
+	}
+	else
+		$items = $parent_item->list_children('sort_order');
+?>
+
+<? if ($items->count): ?>
+	<? if ($root_dir): ?><div class="folderList"><? endif ?>
+	<ol class="<?=$root_dir ? 'root nestedsortable' : '' ?>">
+		<? foreach ($items as $item): ?>
+		<?
+			$url = "$('item_id').value = '". $item->id ."'; new PopupForm('onLoadItemForm', {ajaxFields: $('item_list').getForm()}); return false;";
+		?>
+		<li item_id="item_<?=$item->id ?>" class="content-fill <?=Phpr_Html::zebra('menu_items')?> level<?=$level?>">
+			<div class="item">
+				<span class="title <?=$item->master_object_class?>">
+					<a href="javascript:;" onclick="<?=$url?>"><?=$item->label, ' (', $item->get_url(), ')' ?></a>
+				</span>
+				<div class="float-right">
+					<a href="javascript:;" onclick="return delete_item(<?=$item->id ?>);" title="Delete item" class="icon delete">Delete</a>
+					<a href="javascript:;" onclick="<?=$url ?>"><?=$item->get_master_type_name() ?></a>
+				</div>
+			</div>
+
+			<? $this->render_partial('item_list', array('session_key'=>$session_key, 'menu'=>$menu, 'parent_item'=>$item, 'level'=>$level+1)) ?>
+		</li>
+		<? endforeach ?>
+	</ol>
+	<? if ($root_dir): ?></div><? endif ?>
+<? else: ?>
+	<? if ($root_dir): ?>
+		<table class="simpleList">
+			<tr class="noData">
+				<td>
+					You haven't added any menu items yet.
+				</td>
+			</tr>
+		</table>
+	<? endif ?>
+<? endif ?>

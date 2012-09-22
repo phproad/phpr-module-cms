@@ -77,6 +77,10 @@ class Cms_Page extends Cms_Base
 
     public function define_form_fields($context = null)
     {
+
+        $user = Phpr::$security->getUser();
+        $can_edit_pages = $user->get_permission('cms', 'manage_pages');
+
         $this->add_form_field('published', 'left')->tab('Page')->collapsible();
         $this->add_form_field('name','left')->tab('Page')->collapsible();
         $this->add_form_field('url', 'right')->tab('Page')->collapsible();
@@ -97,10 +101,17 @@ class Cms_Page extends Cms_Base
                 $content_field->htmlFullWidth = true;
             }
 
-            $content_field->tab('Content')->noLabel();
+            if ($can_edit_pages)
+                $content_field->tab('Content');
+            else
+                $content_field->tab('Page');
+
+            $content_field->noLabel();
         }
 
-        $this->add_form_field('content')->tab('Page')->size('giant')->cssClasses('code')->language('php')->renderAs(frm_code_editor)->saveCallback('save_code');
+        if ($can_edit_pages)
+            $this->add_form_field('content')->tab('Page')->size('giant')->cssClasses('code')->language('php')->renderAs(frm_code_editor)->saveCallback('save_code');
+
         $this->add_form_field('title')->tab('Meta');
         $this->add_form_field('description')->tab('Meta')->size('small');
         $this->add_form_field('keywords')->tab('Meta')->size('small');
@@ -111,10 +122,13 @@ class Cms_Page extends Cms_Base
         $this->add_form_field('security_redirect', 'right')->referenceSort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->emptyOption('<select>')->tab('Access');
         $this->add_form_field('sitemap_visible', 'right')->tab('Access')->comment('Display this page in the public XML sitemap');
 
-        $this->add_form_field('action_code')->tab('Advanced')->renderAs(frm_dropdown);
-        $this->add_form_field('code_pre')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
-        $this->add_form_field('code_post')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
-        $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->cssClasses('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+        if ($can_edit_pages)
+        {
+            $this->add_form_field('action_code')->tab('Advanced')->renderAs(frm_dropdown);
+            $this->add_form_field('code_pre')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+            $this->add_form_field('code_post')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+            $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->cssClasses('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+        }
     }
 
     // Events

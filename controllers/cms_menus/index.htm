@@ -1,0 +1,9 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/cms/assets/javascript/menus.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<div id="templates_page_content">
+		<? $this->renderPartial('templates_page_content') ?>
+	</div>
+<? Phpr_View::endBlock() ?>

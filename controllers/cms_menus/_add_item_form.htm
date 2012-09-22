@@ -1,0 +1,29 @@
+<div id="add_item_form" class='item_form'>
+	<h2>Add Menu Item</h2>
+	<div class="content">
+		<div class="form-600">
+			<?= Phpr_Form::openTag() ?>
+				<? if (!isset($fatalError)): ?>
+					<p>You may select from multiple tabs to add menu items from the respective item type lists simultaneously.</p>
+
+					<? $this->formRender($item) ?>
+
+					<?= backend_ajax_button('Add', 'onAddItem', array('class'=>'default'), "
+						loadIndicator: {injectInElement: true},
+						onSuccess: updateItemList
+					") ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+
+					<div class="clear"></div>
+					<input type="hidden" name="menu_session_key" value="<?= h($session_key) ?>"/>
+				<? else: ?>
+					<?= flash() ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+					<div class="clear"></div>
+				<? endif ?>
+
+				<input type="text" id="current_tab_dbName" name="current_tab_dbName" value="" />
+			</form>
+		</div>
+	</div>
+</div>

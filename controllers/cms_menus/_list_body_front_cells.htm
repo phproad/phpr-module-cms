@@ -1,0 +1,4 @@
+<? if (!isset($list_checked_records)) $list_checked_records = array(); ?>
+<td class="checkbox">
+	<input name="list_ids[]" <?= Phpr_Form::checkboxState(in_array($model->get_primary_key_value(), $list_checked_records)) ?> class="list_cb" type="checkbox" value="<?= $model->get_primary_key_value() ?>" onclick="if (!this.checked) $(this).findParent('table').getElement('thead input.list_head_cb').cb_uncheck()"/>
+</td>

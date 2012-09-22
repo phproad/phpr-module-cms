@@ -1,0 +1,14 @@
+<? if ($form_model->updated_at): ?>
+	<div class="scoreboardReport">
+		<ul>
+			<li class="last">
+				<h3>Last update by</h3>
+				<p><?= h($form_model->updated_user_name) ?></p>
+				<p class="description">
+					at: <?= $form_model->displayField('updated_at') ?>
+				</p>
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+<? endif ?>

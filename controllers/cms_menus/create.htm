@@ -1,0 +1,30 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/cms/assets/javascript/menu_form.js"></script>
+	<link rel="stylesheet" type="text/css" href="modules/cms/assets/css/menu_form.css">
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): ?>
+
+		<div class="form-750">
+			<?=form_open(array('id'=>'form_element')) ?>
+				<input type="hidden" value="1" id="new_object_flag"/>
+
+				<? $this->formRender() ?>
+
+				<div class="form_toolbar">
+					<?=admin_ajax_button('Create', 'create_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}") ?>
+					<?=admin_ajax_button('Create and Close', 'create_onSave', array('class'=>'default'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {create_close: 1}") ?>
+					<?=admin_ajax_button('Cancel', 'create_onCancel') ?>
+					<div class="clear"></div>
+				</div>
+
+			<?=form_close()?>
+		</div>
+
+	<? else: ?>
+		<p><a href="<?= url('/cms/menus') ?>">Return to the menu list</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

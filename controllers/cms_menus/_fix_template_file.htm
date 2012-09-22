@@ -1,0 +1,41 @@
+<div class="warning_fix_form form400" id="fix_object_file">
+	<h2>Template file not found</h2>
+	<p>The template file <strong><?= h($form_model->file_name.'.htm') ?>
+	</strong> cannot be found. Please select action from the list below:</p>
+
+	<?= Phpr_Form::openTag() ?>
+		<div class="form">
+			<div class="formFlash"></div>
+			<ul class="formElements">
+				<li class="field radio full ">
+					<div class="fieldContainer radio">
+						<div class="option">
+							<input type="radio" id="delete_object" name="action" value="delete" autocomplete="off" class="radio"/>
+							<label class="choice" for="delete_object">Delete template</label>
+						</div>
+						<div class="option">
+							<input type="radio" id="create_new_file" name="action" value="create_new" autocomplete="off" class="radio"/>
+							<label class="choice" for="create_new_file">Create new template file</label>
+						</div>
+					</div>
+				</li>
+			
+				<li class="field text full checkbox_align hidden" id="new_file_name_field">
+					<label for="new_file_name">
+						File name
+						<span class="comment">Please specify the template file name without extension.</span>
+					</label>
+					<div class="fieldContainer">
+						<input type="text" name="new_file_name" id="new_file_name" class="varchar" value="<?= h($form_model->create_file_name(false)) ?>" maxlength="255" autocomplete="off"/>
+					</div>
+					<div class="clear"></div>
+				</li>
+			</ul>
+		
+			<?= backend_ajax_button('Apply', 'edit_onFixTemplateFile', array(), "preCheckFunction: check_file_fix_submit.pass('Do you really want to delete this template?')") ?>
+			<?= backend_button('Cancel', url('cms/templates')) ?>
+
+			<div class="clear"></div>
+		</div>
+	</form>
+</div>

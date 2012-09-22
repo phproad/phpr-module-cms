@@ -1,0 +1,26 @@
+<div id="edit_item_form" class='item_form'>
+	<h2><?= $item->new_record ? 'Add' : 'Edit' ?> Menu Item (<?= $item->get_master_type_name() ?>)</h2>
+	<div class="content">
+		<div class="form-600">
+			<?= Phpr_Form::openTag() ?>
+				<? if (!isset($fatalError)): ?>
+					<? $this->formRender($item) ?>
+
+					<?= backend_ajax_button('Save', 'onEditItem', array('class'=>'default'), "
+						loadIndicator: {injectInElement: true},
+						onSuccess: updateItemList
+					") ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+
+					<div class="clear"></div>
+					<input type="hidden" name="menu_session_key" value="<?= h($session_key) ?>"/>
+					<input type="hidden" name="item_id" value="<?= $item_id ?>"/>
+				<? else: ?>
+					<?= flash() ?>
+					<?= backend_button('Cancel', array('onclick'=>'return cancelPopup()')) ?>
+					<div class="clear"></div>
+				<? endif ?>
+			</form>
+		</div>
+	</div>
+</div>

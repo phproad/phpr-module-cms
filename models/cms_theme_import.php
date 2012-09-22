@@ -32,7 +32,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 		$this->add_form_field('components')->renderAs(frm_checkboxlist)->comment('Please select the theme components you would like to import', 'above');
 	}
 
-	public function get_theme_id_options($key_value=-1)
+	public function get_theme_id_options($key_value = -1)
 	{
 		$result = array(
 			-1 => '<create new theme>'
@@ -45,7 +45,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 		return $result;
 	}
 	
-	public function get_components_options($key_value=-1)
+	public function get_components_options($key_value = -1)
 	{
 		return array(
 			'assets'=>'Assets',
