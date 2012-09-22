@@ -30,7 +30,8 @@ class Cms_Controller extends Cms_Parser
 
     public function __construct()
     {
-        $this->user = Phpr::$frontend_security->authorize_user();
+        if (Phpr_ModuleManager::module_exists('user'))
+            $this->user = Phpr::$frontend_security->authorize_user();
     }
 
     public function request_param($index, $default = null)

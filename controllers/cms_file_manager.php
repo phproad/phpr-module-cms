@@ -44,7 +44,12 @@ class Cms_File_Manager extends Admin_Controller
         include_once PATH_APP.'/modules/cms/vendor/elfinder/php/elFinderVolumeLocalFileSystem.class.php';
 
         $disabled = array('mkdir', 'mkfile', 'rename', 'resize', 'duplicate', 'upload', 'rm', 'paste', 'archive', 'extract', 'put', 'get', 'edit');
-        $theme_id = Cms_Theme::get_edit_theme()->code;
+        $theme = Cms_Theme::get_edit_theme();
+
+        if (!$theme)
+            die(json_encode(array('error'=>'Nothing to browse yet. Please set up a theme first.')));
+
+        $theme_id = $theme->code;
 
         $opts = array(
             'roots' => array(

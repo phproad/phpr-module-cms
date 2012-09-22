@@ -85,6 +85,9 @@ class Cms_Theme extends Cms_Base
 
 			if (!is_writable(trim(self::get_theme_dir($this->fetched['code']))))
 				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_dir($this->fetched['code']));
+
+			if (file_exists(self::get_theme_dir($this->code)))
+				throw new Phpr_ApplicationException('Cannot rename theme: Directory '.$this->code.' already exists');
 		}
 	}
 
