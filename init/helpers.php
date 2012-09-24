@@ -1,9 +1,5 @@
 <?php
 
-// Add menu types to class loader
-Phpr::$class_loader->add_module_directory('menu_types');
-
-// Helpers
 function theme_url($path = '/', $root_url = true, $public = false)
 {
 	return Cms_Html::theme_url($path, $root_url, $public);

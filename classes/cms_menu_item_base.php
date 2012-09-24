@@ -24,7 +24,6 @@ class Cms_Menu_Item_Base
 
     public static function find_items()
     {
-        
         if (!self::$item_classes)
         {            
             $modules = Core_Module_Manager::find_modules();
