@@ -23,6 +23,7 @@ class Cms_Module extends Core_Module_Base
         $top->add_child('partials', 'Partials', 'cms/partials', 400)->permission('manage_partials');
         $top->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
         $top->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
+        $top->add_child('menus', 'Menus', 'cms/menus', 600)->permission('manage_content');
     }
 
     public function build_admin_settings($settings)

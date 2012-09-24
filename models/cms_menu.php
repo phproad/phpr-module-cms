@@ -43,7 +43,7 @@ class Cms_Menu extends Db_ActiveRecord
 		
 		foreach ($all_items->objectArray as $item)
 		{
-			if ($item->menu_item_id == null)
+			if ($item->parent_id == null)
 				$items[] = $item;
 		}
 
