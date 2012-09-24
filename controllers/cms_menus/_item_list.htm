@@ -16,7 +16,7 @@
 	<ol class="<?=$root_dir ? 'root nestedsortable' : '' ?>">
 		<? foreach ($items as $item): ?>
 		<?
-			$url = "$('item_id').value = '". $item->id ."'; new PopupForm('onLoadItemForm', {ajaxFields: $('item_list').getForm()}); return false;";
+			$url = "new PopupForm('onLoadItemForm', {ajaxFields: {item_id:'".$item->id."'} }); return false;";
 		?>
 		<li item_id="item_<?=$item->id ?>" class="content-fill <?=Phpr_Html::zebra('menu_items')?> level<?=$level?>">
 			<div class="item">
@@ -25,7 +25,7 @@
 				</span>
 				<div class="float-right">
 					<a href="javascript:;" onclick="return delete_item(<?=$item->id ?>);" title="Delete item" class="icon delete">Delete</a>
-					<a href="javascript:;" onclick="<?=$url ?>"><?=$item->get_master_type_name() ?></a>
+					<a href="javascript:;" onclick="<?=$url ?>"><?=$item->get_type_name() ?></a>
 				</div>
 			</div>
 

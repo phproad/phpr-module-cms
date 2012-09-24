@@ -1,6 +1,8 @@
 
 <div class="toolbar">
-	<?= cp_button('Add Items', 'doc_add', array('href'=>'#', 'onclick'=>"$('item_id').value = ''; new PopupForm('onLoadItemForm', {ajaxFields: $('item_list').getForm()}); return false;")) ?>
+	<? foreach ($this->get_item_types() as $info): ?>
+		<?= cp_button('Add ' . h($info['name']), 'doc_add', array('href'=>'#', 'onclick'=>"new PopupForm('onLoadItemForm', {ajaxFields: { 'class_name': '".$info['class_name']."' }  }); return false;")) ?>
+	<? endforeach ?>
 	<div class="clear"></div>
 </div>
 
@@ -14,5 +16,3 @@
 		'menu'=>$form_model,
 	)) ?>
 </div>
-
-<input type="hidden" name="item_id" id="item_id" value=""/>

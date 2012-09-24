@@ -12,7 +12,13 @@ class Cms_Menu_Item_Base
         );
     }
 
+    // Used to build the menu item form
     public function build_config_form($host)
+    {
+    }
+
+    // Used to populate the menu item, eg. required fields URL and Label from a Blog Post
+    public function populate_menu_item($host)
     {
     }
 

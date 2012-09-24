@@ -31,9 +31,10 @@ class Cms_Menu extends Db_ActiveRecord
 
 	public function define_form_fields($context = null)
 	{
-		$this->add_form_field('name', 'full')->tab('Details')->validation()->required();
-		$this->add_form_field('short_description', 'full')->tab('Details');
-		$this->add_form_field('items')->tab('Items')->renderAs('items')->comment('Drag and drop the menu items below to sort or nest them.', 'above')->noLabel();
+		$this->add_form_field('name', 'full')->tab('Menu')->validation()->required();
+		$this->add_form_field('short_description', 'full')->tab('Menu');
+        $this->add_form_section('Select which items you would like to appear in the menu', 'Menu Items')->tab('Menu');
+		$this->add_form_field('items')->tab('Menu')->renderAs('items')->comment('Drag and drop the menu items below to sort or nest them.', 'above')->noLabel();
 	}
 
 	public function list_root_items($session_key=null)

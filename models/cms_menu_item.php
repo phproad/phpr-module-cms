@@ -13,7 +13,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
     protected $added_fields = array();
     protected $menu_type_obj = null;
-    public $class_name = 'Blog_Category_Menu_Item';
+    public $class_name = 'Cms_Page_Menu_Item';
 
 	protected static $item_list = null;
 
@@ -30,7 +30,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
 		$this->define_column('element_id', 'ID');
 		$this->define_column('element_class', 'Class');
-
 		// if (Phpr_ModuleManager::module_exists('blog'))
 		// {
 		//	$this->define_custom_column('blog_category_page_id', 'Blog Category', db_number);
@@ -39,6 +38,8 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
 	public function define_form_fields($context = null)
 	{
+        $this->get_menu_type_object()->build_config_form($this, $context);
+        
 		//$this->add_form_field('label', 'left')->tab('Links');
 		//$this->add_form_field('url', 'full')->tab('Links');
 		// These properties are underlying
@@ -47,7 +48,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
 		$this->add_form_field('element_id', 'left')->tab('Properties');
 		$this->add_form_field('element_class', 'right')->tab('Properties');
 
-        $this->get_menu_type_object()->build_config_form($this, $context);
 
 		// if (Phpr_ModuleManager::module_exists('blog'))
 		// {
@@ -79,6 +79,12 @@ class Cms_Menu_Item extends Db_ActiveRecord
 			Db_DbHelper::query('update cms_menu_items set parent_id=:parent_id where menu_id =:menu_id and id in (:child_ids)', $bind);
 		}
 	}
+
+
+    public function before_validation($session_key=null)
+    {
+     	$this->get_menu_type_object()->build_menu_item($this);
+    }
 
 	// Getters
 	//
@@ -151,9 +157,10 @@ class Cms_Menu_Item extends Db_ActiveRecord
 		return $this->url;
 	}
 
-	public function get_master_type_name()
+	public function get_type_name()
 	{
-		return 'Link';
+		$info = $this->get_menu_type_object()->get_info();
+		return $info['name'];
 	}
 
 	// Relations

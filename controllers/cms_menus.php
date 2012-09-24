@@ -36,9 +36,9 @@ class Cms_Menus extends Admin_Controller
 
 	protected $globalHandlers = array(
 		'onLoadItemForm',
+		// 'onLoadAddItemForm',
 		'onUpdateItemList',
-		'onEditItem',
-		'onAddItem',
+		'onManageItem',
 		'onDeleteItem',
 		'onSetItemOrders',
 		'onSave',
@@ -88,6 +88,32 @@ class Cms_Menus extends Admin_Controller
 	{
 		$this->app_page_title = 'Menus';
 	}
+
+	public function get_item_types()
+	{
+        $item_types = Cms_Menu_Item_Base::find_items();
+
+        $type_list = array();
+        foreach ($item_types as $class_name)
+        {
+            $obj = new $class_name();
+            $info = $obj->get_info();
+            if (array_key_exists('name', $info))
+            {
+                $info['class_name'] = $class_name;
+                $type_list[] = $info;
+            }
+        }
+
+        usort($type_list, array('Cms_Menus', 'item_type_cmp'));
+
+        return $type_list;
+	}
+
+    public static function item_type_cmp($a, $b)
+    {
+        return strcasecmp($a['name'], $b['name']);
+    }
 
 	protected function index_onDeleteSelected()
 	{
@@ -160,21 +186,57 @@ class Cms_Menus extends Admin_Controller
 	 * Menu Items
 	 */
 
+	// protected function onLoadAddItemForm()
+	// {
+ //        try
+ //        {
+ //            $item_types = Cms_Menu_Item_Base::find_items();
+
+ //            $type_list = array();
+ //            foreach ($item_types as $class_name)
+ //            {
+ //                $obj = new $class_name();
+ //                $info = $obj->get_info();
+ //                if (array_key_exists('name', $info))
+ //                {
+ //                    $info['class_name'] = $class_name;
+ //                    $type_list[] = $info;
+ //                }
+ //            }
+
+ //            usort($type_list, array('Cms_Menus', 'item_type_cmp'));
+
+ //            $this->viewData['type_list'] = $type_list;
+ //        }
+ //        catch (Exception $ex)
+ //        {
+ //            $this->handlePageError($ex);
+ //        }
+
+ //        $this->renderPartial('add_item_form');
+	// }
+
+
 	protected function onLoadItemForm()
 	{
 		try
 		{
 			$id = post('item_id');
 			$item = $id ? Cms_Menu_Item::create()->find($id) : Cms_Menu_Item::create();
+			
 			if (!$item)
 				throw new Phpr_ApplicationException('Menu item not found');
 
-			if ( $item->new_record )
-				$item->define_form_fields('add');
+			if ($item->is_new_record())
+			{
+				$item->init_columns_info();
+				$item->class_name = post('class_name', 'Cms_Link_Menu_Item');
+				$item->define_form_fields('create');
+			}
 			else
 			{
+				$item->init_columns_info();
 				$item->define_form_fields();
-				$item->define_columns();
 			}
 
 			$this->viewData['item'] = $item;
@@ -188,76 +250,36 @@ class Cms_Menus extends Admin_Controller
 			$this->handlePageError($ex);
 		}
 
-		if ( $item->new_record )
-			$this->renderPartial('add_item_form');
-		else
-			$this->renderPartial('edit_item_form');
+		$this->renderPartial('item_form');
 	}
 
-	protected function onAddItem($parent_id = null)
+	protected function onManageItem($parent_id = null)
 	{
 		try
-		{
-			
+		{			
 			$menu = $this->getModelObj($parent_id);
-			$added_count = 0;
 
-			// Add link
-			$link_id = post_array('Cms_Menu_Item', 'link_id');
-			$link_class = post_array('Cms_Menu_Item', 'link_class');
-			$link_label = post_array('Cms_Menu_Item', 'label');
-			$link_title = post_array('Cms_Menu_Item', 'title');
-			$link_url = post_array('Cms_Menu_Item', 'url');
+			$is_new_record = post('new_object_flag', false);
 
-			if ($link_id || $link_class || $link_label || $link_title || $link_url)
-			{
-				$model = Cms_Menu_Item::create();
-				$model->init_columns_info();
-				$model->save(array(
-					'label' => $link_label,
-					'title' => $link_title,
-					'url' => $link_url,
-					'item_id' => $link_id,
-					'item_class' => $link_class,
-				), post('menu_session_key'));
-				$menu->items->add($model, post('menu_session_key'));
-				$added_count++;
-			}
+			$model = Cms_Menu_Item::create();
 
-			if (!$added_count)
-				throw new Phpr_ApplicationException("You must enter one or more links to add.");
+			if (!$is_new_record)
+				$model = $model->find(post('item_id'));
 
-			Phpr::$session->flash['success'] = sprintf("%d items added successfully.", $added_count);
+			$model->class_name = post('menu_item_class_name');
+			$model->menu_id = $parent_id;
+			$model->init_columns_info();
+			$model->define_form_fields();
+
+			$model->save(post('Cms_Menu_Item'), post('menu_session_key'));
+			$menu->items->add($model, post('menu_session_key'));
+
+			Phpr::$session->flash['success'] = "Menu item added successfully.";
 
 			$this->renderPartial('item_list', array(
 				'session_key'=>$this->formGetEditSessionKey(),
 				'menu' => $menu,
 			));
-		}
-		catch (Exception $ex)
-		{
-			Phpr::$response->ajaxReportException($ex, true, true);
-		}
-	}
-
-	protected function onEditItem($parent_id = null)
-	{
-		try
-		{
-			$id = post('item_id');
-			$item = $id ? Cms_Menu_Item::create()->find($id) : Cms_Menu_Item::create();
-			if (!$item)
-				throw new Phpr_ApplicationException('Menu item not found');
-
-			$item->define_form_fields();
-			$item->define_columns();
-			$item->save(post('Cms_Menu_Item'), $this->formGetEditSessionKey());
-
-			if (!$id)
-			{
-				$menu = $this->getModelObj($parent_id);
-				$menu->items->add($item, post('menu_session_key'));
-			}
 		}
 		catch (Exception $ex)
 		{
@@ -313,14 +335,9 @@ class Cms_Menus extends Admin_Controller
 		parse_str(post('nesting_order'), $parent_ids);
 		$parent_ids = isset($parent_ids['item']) ? $parent_ids['item'] : array();
 
-		//Nesting & Sorting
-		Cms_Menu_Item::set_order_and_nesting( post('sort_order'), $parent_ids );
+		// Nesting & Sorting
+		Cms_Menu_Item::set_order_and_nesting(post('sort_order'), $parent_ids);
 	}
-
-
-
-
-
 
 	private function getModelObj($id)
 	{

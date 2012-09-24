@@ -94,12 +94,13 @@ function make_items_sortable(session_key)
 
 function delete_item(item_id)
 {
-	$('item_id').value = item_id;
-
-	return $('item_id').getForm().sendPhpr('onDeleteItem', {
+		return $('item_list').getForm().sendPhpr('onDeleteItem', {
 		confirm: 'Do you really want to delete this menu item? Any child items will be kept.',
 		onFailure: popupAjaxError,
 		update: 'item_list',
+		extraFields: {
+			item_id: item_id
+		},
 		loadIndicator: {
 			show: true,
 			element: 'item_list',
