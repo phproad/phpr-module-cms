@@ -73,6 +73,11 @@ class Cms_Page extends Cms_Base
         {
             $this->define_custom_column('content_block_'.$block->code, 'Content Block: '.$block->name, db_text);
         }
+
+        // Extensibility
+        $this->defined_column_list = array();
+        Phpr::$events->fire_event('cms:on_extend_page_model', $this, $context);
+        $this->api_added_columns = array_keys($this->defined_column_list);        
     }
 
     public function define_form_fields($context = null)
@@ -129,6 +134,30 @@ class Cms_Page extends Cms_Base
             $this->add_form_field('code_post')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
             $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->cssClasses('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
         }
+
+        // Extensibility
+        Phpr::$events->fire_event('cms:on_extend_page_form', $this, $context);
+        foreach ($this->api_added_columns as $column_name)
+        {
+            $form_field = $this->find_form_field($column_name);
+            if ($form_field)
+                $form_field->optionsMethod('get_added_field_options');
+        }        
+    }
+
+    // Extensibility
+    // 
+    
+    public function get_added_field_options($db_name, $current_key_value = -1)
+    {
+        $result = Phpr::$events->fire_event('cms:on_get_page_field_options', $db_name, $current_key_value);
+        foreach ($result as $options)
+        {
+            if (is_array($options) || (strlen($options && $current_key_value != -1)))
+                return $options;
+        }
+        
+        return false;
     }
 
     // Events
