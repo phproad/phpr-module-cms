@@ -71,13 +71,4 @@ class Cms_Menu extends Db_ActiveRecord
 
         return $str;
     }
-
-	public function render_frontend222($options = array())
-	{
-		if ( is_array($options) && sizeof($options) )
-			extract($options, EXTR_SKIP);
-
-		$form_model = $this;
-		require dirname(__FILE__)."/../partials/frontend/_menu.php";
-	}
 }

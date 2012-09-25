@@ -172,13 +172,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
         return $str;
     }
 
-	public function render_frontend2222($options = array())
-	{
-		// Default rendering
-		$form_model = $this;
-		require dirname(__FILE__).'/../partials/frontend/_link.php';
-	}
-
 	public function get_url($recache=false)
 	{
 		if (!$recache && $this->url)
