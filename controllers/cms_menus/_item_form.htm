@@ -14,8 +14,8 @@
 
 					<div class="clear"></div>
 					<input type="hidden" name="item_id" value="<?= $item_id ?>"/>
-					<input type="hidden" name="menu_session_key" value="<?= h($session_key) ?>"/>
 					<input type="hidden" name="menu_item_class_name" value="<?= $item->class_name ?>"/>
+					<input type="hidden" name="phpr_uploader_model_class" value="<?= get_class($item) ?>"/>
 					<? if ($item->is_new_record()): ?><?=form_hidden('new_object_flag', 1, 'id="new_object_flag"')?><? endif ?>
 				<? else: ?>
 					<?= flash() ?>

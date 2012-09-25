@@ -13,7 +13,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
     protected $added_fields = array();
     protected $menu_type_obj = null;
-    public $class_name = 'Cms_Page_Menu_Item';
+    public $class_name = null;
 
 	protected static $item_list = null;
 
@@ -82,6 +82,9 @@ class Cms_Menu_Item extends Db_ActiveRecord
     {
         if ($this->menu_type_obj !== null)
             return $this->menu_type_obj;
+
+        if (!$this->class_name)
+        	$this->class_name = post('menu_item_class_name', 'Cms_Link_Menu_Item');
 
         if (!Phpr::$class_loader->load($this->class_name))
             throw new Phpr_ApplicationException("Class {$this->class_name} not found.");

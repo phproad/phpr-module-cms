@@ -184,7 +184,7 @@ class Cms_Menus extends Admin_Controller
 			if ($item->is_new_record())
 			{
 				$item->init_columns_info();
-				$item->class_name = post('class_name', 'Cms_Link_Menu_Item');
+				$item->class_name = post('menu_item_class_name', 'Cms_Link_Menu_Item');
 				$item->define_form_fields('create');
 			}
 			else
@@ -225,8 +225,8 @@ class Cms_Menus extends Admin_Controller
 			$model->init_columns_info();
 			$model->define_form_fields();
 
-			$model->save(post('Cms_Menu_Item'), post('menu_session_key'));
-			$menu->items->add($model, post('menu_session_key'));
+			$model->save(post('Cms_Menu_Item'), post('edit_session_key'));
+			$menu->items->add($model, post('edit_session_key'));
 
 			Phpr::$session->flash['success'] = "Menu item added successfully.";
 
@@ -267,6 +267,8 @@ class Cms_Menus extends Admin_Controller
 			if ($item)
 			{
 				$menu->items->delete($item, $this->formGetEditSessionKey());
+				$item->init_columns_info();
+				$item->define_form_fields();
 				$item->delete();
 			}
 
