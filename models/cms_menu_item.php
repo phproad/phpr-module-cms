@@ -30,29 +30,19 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
 		$this->define_column('element_id', 'ID');
 		$this->define_column('element_class', 'Class');
-		// if (Phpr_ModuleManager::module_exists('blog'))
-		// {
-		//	$this->define_custom_column('blog_category_page_id', 'Blog Category', db_number);
-		// }
 	}
 
 	public function define_form_fields($context = null)
 	{
         $this->get_menu_type_object()->build_config_form($this, $context);
         
+		// These properties are underlying
 		//$this->add_form_field('label', 'left')->tab('Links');
 		//$this->add_form_field('url', 'full')->tab('Links');
-		// These properties are underlying
 
 		$this->add_form_field('title', 'full')->tab('Properties');
 		$this->add_form_field('element_id', 'left')->tab('Properties');
 		$this->add_form_field('element_class', 'right')->tab('Properties');
-
-
-		// if (Phpr_ModuleManager::module_exists('blog'))
-		// {
-		// 	$this->add_form_field('blog_category_page_id')->renderAs(frm_checkboxlist)->tab('Blog');
-		// }
 	}
 
 	// Events
@@ -80,7 +70,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
 		}
 	}
 
-
     public function before_validation($session_key=null)
     {
      	$this->get_menu_type_object()->build_menu_item($this);
@@ -101,7 +90,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
         return $this->menu_type_obj = new $class_name();
     }
-
 
     // Custom fields
     //
@@ -142,7 +130,49 @@ class Cms_Menu_Item extends Db_ActiveRecord
 	// Service methods
 	//
 
-	public function render_frontend($options = array())
+    public function render_frontend($options = array(), &$str = null)
+    {
+        if (!$str)
+            $str = "";
+
+        $controller = Cms_Controller::get_instance();
+    	$page = ($controller) ? $controller->page : null;
+
+    	if ($page && $page->url == $this->url)
+    		$this->element_class .= " active";
+
+        $str .= '<li class="'.$this->element_class.'">'.PHP_EOL;
+        $str .= '<a href="'.root_url($this->url).'">';
+        $str .= $this->label;
+        $str .= '</a>'.PHP_EOL;        
+
+        $children = $this->list_children('sort_order');
+
+        if ($children->count)
+        {
+            $str .= "<ul>".PHP_EOL;
+            foreach ($children as $child)
+            {
+
+		    	if ($page && $page->url == $child->url)
+		    		$child->element_class .= " active";
+
+                $str .= '<li class="'.$child->element_class.'">'.PHP_EOL;
+                $str .= '<a href="'.root_url($child->url).'">';
+                $str .= $child->label;
+                $str .= '</a>'.PHP_EOL;
+
+                $child->render_frontend($options, $str);
+                $str .= "</li>".PHP_EOL;
+            }
+            $str .= "</ul>".PHP_EOL;
+        }
+
+        $str .= "</li>".PHP_EOL;
+        return $str;
+    }
+
+	public function render_frontend2222($options = array())
 	{
 		// Default rendering
 		$form_model = $this;

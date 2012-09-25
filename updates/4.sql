@@ -1,6 +1,7 @@
 CREATE TABLE cms_menus (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
+  `code` varchar(100) DEFAULT NULL,
   `short_description` varchar(255) DEFAULT NULL,
   `created_user_id` int(11) DEFAULT NULL,
   `updated_user_id` int(11) DEFAULT NULL,

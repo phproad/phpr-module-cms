@@ -22,7 +22,8 @@ class Cms_Menu extends Db_ActiveRecord
 
 	public function define_columns($context = null)
 	{
-		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("Please specify the menu name.")->unique();
+		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required('Please specify the menu name.');
+		$this->define_column('code', 'Code')->validation()->fn('trim')->required('Please specify a unique code')->unique('Code must be unique');
 		$this->define_column('short_description', 'Short Description')->validation()->fn('trim');
 
 		$this->define_multi_relation_column('items', 'items', 'Items', '@title')->invisible();
@@ -31,7 +32,8 @@ class Cms_Menu extends Db_ActiveRecord
 
 	public function define_form_fields($context = null)
 	{
-		$this->add_form_field('name', 'full')->tab('Menu')->validation()->required();
+		$this->add_form_field('name', 'left')->tab('Menu')->validation()->required();
+		$this->add_form_field('code', 'right')->tab('Menu')->validation()->required();
 		$this->add_form_field('short_description', 'full')->tab('Menu');
         $this->add_form_section('Select which items you would like to appear in the menu', 'Menu Items')->tab('Menu');
 		$this->add_form_field('items')->tab('Menu')->renderAs('items')->comment('Drag and drop the menu items below to sort or nest them.', 'above')->noLabel();
@@ -51,7 +53,26 @@ class Cms_Menu extends Db_ActiveRecord
 		return new Db_DataCollection($items);
 	}
 
-	public function render_frontend($options = array())
+
+    public function render_frontend($options = array(), &$str = null)
+    {
+        if (!$str)
+            $str = "";
+
+        $children = $this->list_root_items();
+
+        if (!$children->count)
+        	return $str;
+        
+        foreach ($children as $child)
+        {
+            $child->render_frontend($options, $str);
+        }
+
+        return $str;
+    }
+
+	public function render_frontend222($options = array())
 	{
 		if ( is_array($options) && sizeof($options) )
 			extract($options, EXTR_SKIP);

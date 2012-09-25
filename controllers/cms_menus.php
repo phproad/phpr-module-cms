@@ -36,7 +36,6 @@ class Cms_Menus extends Admin_Controller
 
 	protected $globalHandlers = array(
 		'onLoadItemForm',
-		// 'onLoadAddItemForm',
 		'onUpdateItemList',
 		'onManageItem',
 		'onDeleteItem',
@@ -58,20 +57,6 @@ class Cms_Menus extends Admin_Controller
 		$this->app_page = 'menus';
 	}
 
-
-	//public function listPrepareData()
-	//{
-	//	$updated_data = Phpr::$events->fireEvent('cms:onPrepareListData', $this);
-	//	foreach ($updated_data as $updated)
-	//	{
-	//		if ($updated)
-	//			return $updated;
-	//	}
-	//
-	//	$obj = Cms_Menu::create();
-	//
-	//	return $obj;
-	//}
 	public function listCustomPrepare($model, $options)
 	{
 		$updated_data = Phpr::$events->fireEvent('cms:onPrepareListCustomData', $model, $options);
@@ -185,37 +170,6 @@ class Cms_Menus extends Admin_Controller
 	/*
 	 * Menu Items
 	 */
-
-	// protected function onLoadAddItemForm()
-	// {
- //        try
- //        {
- //            $item_types = Cms_Menu_Item_Base::find_items();
-
- //            $type_list = array();
- //            foreach ($item_types as $class_name)
- //            {
- //                $obj = new $class_name();
- //                $info = $obj->get_info();
- //                if (array_key_exists('name', $info))
- //                {
- //                    $info['class_name'] = $class_name;
- //                    $type_list[] = $info;
- //                }
- //            }
-
- //            usort($type_list, array('Cms_Menus', 'item_type_cmp'));
-
- //            $this->viewData['type_list'] = $type_list;
- //        }
- //        catch (Exception $ex)
- //        {
- //            $this->handlePageError($ex);
- //        }
-
- //        $this->renderPartial('add_item_form');
-	// }
-
 
 	protected function onLoadItemForm()
 	{
