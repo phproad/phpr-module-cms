@@ -123,9 +123,13 @@ class Cms_Page extends Cms_Base
         $this->add_form_field('head')->tab('Meta')->size('large')->cssClasses('code')->comment('Extra HTML code to be included in the HEAD section of the page', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
 
         $this->add_form_field('parent')->tab('Menu')->emptyOption('<none>')->optionsHtmlEncode(false)->comment('Select a parent page for this page. The parent page information will be used for the navigation menus generating only', 'above');
-        $this->add_form_field('security_mode', 'left')->referenceDescriptionField('@description')->comment('Select access level for this page', 'above')->tab('Access')->renderAs(frm_radio);
-        $this->add_form_field('security_redirect', 'right')->referenceSort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->emptyOption('<select>')->tab('Access');
-        $this->add_form_field('sitemap_visible', 'right')->tab('Access')->comment('Display this page in the public XML sitemap');
+        $this->add_form_field('sitemap_visible', 'left')->tab('Menu')->comment('Display this page in the public XML sitemap');
+        
+        if (Phpr_ModuleManager::module_exists('user'))
+        {
+            $this->add_form_field('security_mode', 'left')->referenceDescriptionField('@description')->comment('Select access level for this page', 'above')->tab('Access')->renderAs(frm_radio);
+            $this->add_form_field('security_redirect', 'right')->referenceSort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->emptyOption('<select>')->tab('Access');
+        }
 
         if ($can_edit_pages)
         {
