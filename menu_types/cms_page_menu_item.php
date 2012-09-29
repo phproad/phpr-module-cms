@@ -5,7 +5,7 @@ class Cms_Page_Menu_Item extends Cms_Menu_Item_Base
     public function get_info()
     {
         return array(
-            'name'=>'Link to Page',
+            'name'=>'Page Link',
             'description'=>'Select a Website Page link'
         );
     }
@@ -20,13 +20,27 @@ class Cms_Page_Menu_Item extends Cms_Menu_Item_Base
 
     public function build_menu_item($host)
     {
+
+        // Page has not changed, leave it alone
+        if (isset($host->fetched['page_id']) && $host->page_id == $host->fetched['page_id'])
+            return;
+
         $category = Cms_Page::create()->find($host->page_id);
         
         if (!$category)
             throw new Phpr_ApplicationException('Page not found: '. $host->page_id);
 
-        $host->label = $category->name;
         $host->url = $category->url;
+
+        // Navigation label has changed, leave it alone
+        if (isset($host->fetched['label']) && $host->label != $host->fetched['label'])
+            return;
+
+        // Navigation label has been set manually, no touchy
+        if (strlen($host->label))
+            return;
+
+        $host->label = $category->name;
     }
 
     public function get_page_id_options($key_value= -1)

@@ -24,7 +24,7 @@
 					<a href="javascript:;" onclick="<?=$url?>"><?=$item->label, ' (', $item->get_url(), ')' ?></a>
 				</span>
 				<div class="float-right">
-					<a href="javascript:;" onclick="return delete_item(<?=$item->id ?>);" title="Delete item" class="icon delete">Delete</a>
+					<a href="javascript:;" onclick="return delete_item(<?=$item->id ?>);" title="Delete this link" class="tooltip icon delete">Delete</a>
 					<a href="javascript:;" onclick="<?=$url ?>"><?=$item->get_type_name() ?></a>
 				</div>
 			</div>

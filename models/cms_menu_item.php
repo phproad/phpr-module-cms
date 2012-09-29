@@ -27,7 +27,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 		$this->define_column('label', 'Navigation Label')->validation()->required()->fn('trim');
 		$this->define_column('title', 'Title Attribute');
 		$this->define_column('url', 'URL')->invisible()->validation()->fn('trim');
-
+		$this->define_column('url_suffix', 'URL Suffix')->invisible()->validation()->fn('trim');
 		$this->define_column('element_id', 'ID');
 		$this->define_column('element_class', 'Class');
 	}
@@ -36,13 +36,11 @@ class Cms_Menu_Item extends Db_ActiveRecord
 	{
         $this->get_menu_type_object()->build_config_form($this, $context);
         
-		// These properties are underlying
-		//$this->add_form_field('label', 'left')->tab('Links');
-		//$this->add_form_field('url', 'full')->tab('Links');
-
-		$this->add_form_field('title', 'full')->tab('Properties');
-		$this->add_form_field('element_id', 'left')->tab('Properties');
-		$this->add_form_field('element_class', 'right')->tab('Properties');
+		$this->add_form_field('label', 'left')->tab('Properties');
+		$this->add_form_field('title', 'right')->tab('Properties');
+		$this->add_form_field('element_id', 'left')->tab('Properties')->comment('This ID will be bound to the list item (LI) tag', 'above');
+		$this->add_form_field('element_class', 'right')->tab('Properties')->comment('This class will be added to the list item (LI) tag', 'above');
+		$this->add_form_field('url_suffix', 'left')->tab('Properties')->comment('Example: #hash_anchor', 'above');
 	}
 
 	// Events
@@ -140,31 +138,31 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
         $controller = Cms_Controller::get_instance();
     	$page = ($controller) ? $controller->page : null;
-
-    	if ($page && $page->url == $this->url)
-    		$this->element_class .= " active";
-
-        $str .= '<li class="'.$this->element_class.'">'.PHP_EOL;
-        $str .= '<a href="'.root_url($this->url).'">';
-        $str .= $this->label;
-        $str .= '</a>'.PHP_EOL;        
-
         $children = $this->list_children('sort_order');
+
+        $a_href = root_url($this->url) . $this->url_suffix;
+        $li_class = $this->element_class;
+        
+        $is_active = ($page && $page->url == $a_href);
+
+    	if ($children->count)
+    		$li_class .= " ".$options['class_has_dropdown'];
+
+    	if ($is_active)
+    		$li_class .= " active";
+
+        $str .= '<li class="'.$li_class.'">'.PHP_EOL;
+        $str .= '<a href="'.$a_href.'">';
+        $str .= $this->label;
+        $str .= '</a>'.PHP_EOL;
 
         if ($children->count)
         {
-            $str .= "<ul>".PHP_EOL;
+        	$ul_class = $options['class_dropdown'];
+
+            $str .= '<ul class="'.$ul_class.'">'.PHP_EOL;
             foreach ($children as $child)
             {
-
-		    	if ($page && $page->url == $child->url)
-		    		$child->element_class .= " active";
-
-                $str .= '<li class="'.$child->element_class.'">'.PHP_EOL;
-                $str .= '<a href="'.root_url($child->url).'">';
-                $str .= $child->label;
-                $str .= '</a>'.PHP_EOL;
-
                 $child->render_frontend($options, $str);
                 $str .= "</li>".PHP_EOL;
             }

@@ -56,6 +56,12 @@ class Cms_Menu extends Db_ActiveRecord
 
     public function render_frontend($options = array(), &$str = null)
     {
+    	$options = array_merge(array(
+    			'class_has_dropdown' => 'has-dropdown',
+    			'class_dropdown' => 'dropdown'
+    		), 
+    		$options);
+
         if (!$str)
             $str = "";
 
