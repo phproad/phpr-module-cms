@@ -140,7 +140,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
     	$page = ($controller) ? $controller->page : null;
         $children = $this->list_children('sort_order');
 
-        $a_href = root_url($this->url) . $this->url_suffix;
+        $a_href = root_url($this->url) .'/'. $this->url_suffix;
         $li_class = $this->element_class;
         
         $is_active = ($page && $page->url == $a_href);
@@ -164,7 +164,6 @@ class Cms_Menu_Item extends Db_ActiveRecord
             foreach ($children as $child)
             {
                 $child->render_frontend($options, $str);
-                $str .= "</li>".PHP_EOL;
             }
             $str .= "</ul>".PHP_EOL;
         }
