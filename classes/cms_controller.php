@@ -74,6 +74,18 @@ class Cms_Controller extends Cms_Parser
         echo $this->display_page();
     }
 
+    public function action()
+    {
+        if ($this->page->get_code('pre'))
+            eval($this->page->get_code('pre'));
+        
+        if ($this->page->action_code != Cms_Page::action_custom)
+            Cms_Action_Manager::exec_action($this->page->action_code, $this);
+
+        if ($this->page->get_code('post'))
+            eval($this->page->get_code('post'));
+    }
+
     public function handle_ajax_request($page, $handler_name, $update_elements, &$params)
     {
         $this->page = $page;

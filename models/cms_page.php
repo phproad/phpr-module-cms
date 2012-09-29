@@ -4,7 +4,7 @@ class Cms_Page extends Cms_Base
 {
     const action_custom = 'Custom';
 
-    public $implement = 'Db_AutoFootprints,Db_Act_As_Tree';
+    public $implement = 'Db_AutoFootprints, Db_Act_As_Tree';
 
     public $cms_folder_name = "pages";
     public $cms_fields_to_save = array('name', 'url', 'title', 'description', 'keywords', 'sort_order', 'published', 'action_code', 'security_id', 'unique_id');
