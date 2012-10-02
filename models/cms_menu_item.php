@@ -140,7 +140,10 @@ class Cms_Menu_Item extends Db_ActiveRecord
     	$page = ($controller) ? $controller->page : null;
         $children = $this->list_children('sort_order');
 
-        $a_href = root_url($this->url) .'/'. $this->url_suffix;
+        $a_href = root_url($this->url);
+        if ($this->url != '/' && $this->url_suffix) $a_href .= '/';
+        if ($this->url_suffix) $a_href .= $this->url_suffix;
+
         $li_class = $this->element_class;
         
         $is_active = ($page && $page->url == $a_href);
