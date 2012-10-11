@@ -45,7 +45,7 @@ class Cms_Menus extends Admin_Controller
 
 	public function __construct()
 	{
-		Phpr::$events->fireEvent('cms:onConfigureMenusPage', $this);
+		Phpr::$events->fire_event('cms:onConfigureMenusPage', $this);
 
 		parent::__construct();
 		$this->app_menu = 'cms';
@@ -59,7 +59,7 @@ class Cms_Menus extends Admin_Controller
 
 	public function listCustomPrepare($model, $options)
 	{
-		$updated_data = Phpr::$events->fireEvent('cms:onPrepareListCustomData', $model, $options);
+		$updated_data = Phpr::$events->fire_event('cms:onPrepareListCustomData', $model, $options);
 		foreach ($updated_data as $updated)
 		{
 			if ($updated)
