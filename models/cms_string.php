@@ -46,9 +46,15 @@ class Cms_String extends Db_ActiveRecord
 	// Getters
 	//
 
+	private static function cap_code($code)
+	{
+		// Cannot be greater than 100 chars
+		return substr($code, 0, 90);
+	}
+
 	public static function get_string($default, $code, $page_id=null, $count=null)
 	{
-		$new_code = ($count) ? $code . "_" . $count : $code;
+		$new_code = ($count) ? $code . "_" . $count : self::cap_code($code);
 		$count = ($count) ? $count + 1 : 1;
 
 		$string = self::get_string_content($new_code, $page_id);
