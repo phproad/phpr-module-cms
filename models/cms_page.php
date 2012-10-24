@@ -17,9 +17,10 @@ class Cms_Page extends Cms_Base
     public $ignore_file_copy = false;
     public $url = null;
     public $published = 1;
-    protected static $cache = null;
-    protected static $simple_object_list = null;
-    protected static $simple_name_list = null;
+    protected static $cache_by_action_code = null;
+    protected static $cache_by_url = null;
+    protected static $cache_by_id = null;
+    protected static $cache_by_name = null;
     protected $content_blocks = null;
 
     public $belongs_to = array(
@@ -271,59 +272,58 @@ class Cms_Page extends Cms_Base
 
     public static function get_object_list($default = -1)
     {
-        if (self::$simple_object_list && !$default)
-            return self::$simple_object_list;
+        if (self::$cache_by_id && !$default)
+            return self::$cache_by_id;
 
         $theme = Cms_Theme::get_active_theme();
-        $records = Db_DbHelper::objectArray('select id,name,title,url from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
+        $records = Db_DbHelper::objectArray('select id,name,title,url,action_code from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
         $result = array();
         foreach ($records as $page)
             $result[$page->id] = $page;
 
         if (!$default)
-            return self::$simple_object_list = $result;
+            return self::$cache_by_id = $result;
         else 
             return $result;
     }
 
     public static function get_name_list()
     {
-        if (self::$simple_name_list)
-            return self::$simple_name_list;
+        if (self::$cache_by_name)
+            return self::$cache_by_name;
         
         $pages = self::get_object_list();
         $result = array();
         foreach ($pages as $id=>$page)
             $result[$id] = $page->name.' ['.$page->url.']';
             
-        return self::$simple_name_list = $result;
+        return self::$cache_by_name = $result;
     }
 
     // Returns a page based on supplied url
-    //
     public static function get_url($url, &$params)
     {
-        if (!self::$cache)
+        if (!self::$cache_by_url)
         {
             // Build a cache of page urls and ids
-            self::$cache = array();
+            self::$cache_by_url = array();
 
             $theme = Cms_Theme::get_active_theme();
             $all_pages = Db_DbHelper::objectArray('select id,url from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
             foreach ($all_pages as $page)
             {
-                self::$cache[$page->url] = $page;
+                self::$cache_by_url[$page->url] = $page;
             }
 
             // Sort cache
-            uasort(self::$cache, array('Cms_Page', 'sort_page_urls'));
+            uasort(self::$cache_by_url, array('Cms_Page', 'sort_page_urls'));
         }
 
         // Parse request
         $segments_request = self::split_url($url);
         $segments_request_total = count($segments_request);
 
-        foreach (self::$cache as $page)
+        foreach (self::$cache_by_url as $page)
         {
             // Parse page
             $segments_page = self::split_url($page->url);
@@ -340,6 +340,26 @@ class Cms_Page extends Cms_Base
         }
 
         return null;
+    }
+
+    // Returns a page based on it's action
+    public static function get_url_from_action($action_code)
+    {
+        if (!self::$cache_by_action_code)
+        {
+            $pages = self::get_object_list();
+            $result = array();
+            foreach ($pages as $page)
+            {
+                $result[$page->action_code] = $page->url;
+            }
+            self::$cache_by_action_code = $result;
+        }
+
+        if (array_key_exists($action_code, self::$cache_by_action_code))
+            return self::$cache_by_action_code[$action_code];
+
+        return false;
     }
 
     // Breaks open supplied url into an array
