@@ -115,7 +115,7 @@ class Cms_Menus extends Admin_Controller
 			{
 				$item = Cms_Menu::create()->find($item_id);
 				if (!$item)
-					throw new Phpr_ApplicationException('Menu with identifier '.$item_id.' not found.');
+					throw new Phpr_ApplicationException('Menu with identifier '.$item_id.' not found');
 
 				$item->delete();
 				$items_deleted++;

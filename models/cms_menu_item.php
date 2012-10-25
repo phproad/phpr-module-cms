@@ -85,7 +85,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
         	$this->class_name = post('menu_item_class_name', 'Cms_Link_Menu_Item');
 
         if (!Phpr::$class_loader->load($this->class_name))
-            throw new Phpr_ApplicationException("Class {$this->class_name} not found.");
+            throw new Phpr_ApplicationException("Class {$this->class_name} not found");
 
         $class_name = $this->class_name;
 

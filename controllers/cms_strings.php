@@ -121,7 +121,7 @@ class Cms_Strings extends Admin_Controller
                 
             $model = Cms_String::create()->find($string_id);
             if (!$model)
-                throw new Phpr_ApplicationException("String not found.");
+                throw new Phpr_ApplicationException("String not found");
 
             $model->save(post('Cms_String'));
 
@@ -144,7 +144,7 @@ class Cms_Strings extends Admin_Controller
                 
             $model = Cms_String::create()->find($string_id);
             if (!$model)
-                throw new Phpr_ApplicationException("String not found.");
+                throw new Phpr_ApplicationException("String not found");
 
             $model->delete();
 

@@ -76,14 +76,14 @@ class Cms_Themes extends Admin_Controller
 			$theme_id = post('theme_id');
 			
 			if (!$theme_id)
-				throw new Phpr_ApplicationException("Please select a default theme.");
+				throw new Phpr_ApplicationException("Please select a default theme");
 				
 			$theme = Cms_Theme::create()->find($theme_id);
 			if (!$theme)
-				throw new Phpr_ApplicationException("Theme not found.");
+				throw new Phpr_ApplicationException("Theme not found");
 
 			$theme->make_default();
-			Phpr::$session->flash['success'] = sprintf('Theme "%s" is now the default theme.', h($theme->name));
+			Phpr::$session->flash['success'] = sprintf('Theme "%s" is now the default theme', h($theme->name));
 			$this->renderPartial('themes_page_content');
 		}
 		catch (Exception $ex)
@@ -107,7 +107,7 @@ class Cms_Themes extends Admin_Controller
 			{
 				$item = Cms_Theme::create()->find($item_id);
 				if (!$item)
-					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found.');
+					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found');
 
 				$item->delete();
 				$items_deleted++;
@@ -152,7 +152,7 @@ class Cms_Themes extends Admin_Controller
 			{
 				$item = Cms_Theme::create()->find($item_id);
 				if (!$item)
-					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found.');
+					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found');
 
 				$item->enable_theme();
 				$items_enabled++;
@@ -197,7 +197,7 @@ class Cms_Themes extends Admin_Controller
 			{
 				$item = Cms_Theme::create()->find($item_id);
 				if (!$item)
-					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found.');
+					throw new Phpr_ApplicationException('Theme with identifier '.$item_id.' not found');
 
 				$item->disable_theme();
 				$items_disabled++;
@@ -308,7 +308,7 @@ class Cms_Themes extends Admin_Controller
 			
 			$theme = Cms_Theme::create()->find($model->theme_id);
 			if (!$theme)
-				throw new Phpr_ApplicationException("Theme not found.");
+				throw new Phpr_ApplicationException("Theme not found");
 			
 			Phpr::$response->redirect(url('/cms/themes/get/'.$file.'/'.$theme->code.'.zip'));
 		}
