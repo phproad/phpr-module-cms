@@ -21,8 +21,8 @@ class Cms_Content extends Admin_Controller
 	public $form_edit_save_auto_timestamp = true;
 
 	public $list_search_enabled = true;
-	public $list_search_fields = array('@name');
-	public $list_search_prompt = 'find content by title or URL';
+	public $list_search_fields = array('@name', '@code', '@content');
+	public $list_search_prompt = 'find content by name, code or content';
 
 	//public $enable_concurrency_locking = true;
 

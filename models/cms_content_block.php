@@ -41,7 +41,7 @@ class Cms_Content_Block extends Cms_Base
 	{
 		$this->define_relation_column('page', 'page', 'Page', db_varchar, '@name')->validation();
 		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("You must specify a content block name.");
-		$this->define_column('type', 'Render Type');
+		$this->define_column('type', 'Render Type')->invisible();
 		$this->define_column('code', 'Code')->validation()->fn('trim')->fn('strtolower')->required("Please specify the block code.")
 		->regexp(',^[/a-z0-9_\.:-]*$,i', "File name can only contain letters, numbers, underscore (_), dash (-), forward slash (/) and dot (.)")
 		->unique('Content block with code %s already exists.', array($this, 'config_unique_validator'));
