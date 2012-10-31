@@ -675,11 +675,16 @@ abstract class elFinderVolumeDriver {
 		$type = preg_match('/^(finfo|mime_content_type|internal|auto)$/i', $type) ? $type : 'auto';
 		$regexp = '/text\/x\-(php|c\+\+)/';
 		
-		// Fixes Compatability issue in PHP 5.3.2 (Ahoy!)
+		// Fixes Compatability issue in PHP 5.3.2 (Scripts Ahoy!)
 		if (($type == 'finfo' || $type == 'auto') && class_exists('finfo'))
+		{
 			$tmp = explode(';', @finfo_file(finfo_open(FILEINFO_MIME), __FILE__));
+		}
 		elseif (($type == 'mime_content_type' || $type == 'auto') && function_exists('mime_content_type'))
-			$tmp = array_shift(explode(';', mime_content_type(__FILE__)));
+		{
+			$tmp_explode = explode(';', mime_content_type(__FILE__));
+			$tmp = array_shift($tmp_explode);
+		}
 
 		if (($type == 'finfo' || $type == 'auto') 
 		&& class_exists('finfo')
