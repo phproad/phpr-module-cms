@@ -85,6 +85,8 @@ class Cms_Themes extends Admin_Controller
 			$theme->make_default();
 			Phpr::$session->flash['success'] = sprintf('Theme "%s" is now the default theme', h($theme->name));
 			$this->renderPartial('themes_page_content');
+
+			Cms_Theme::auto_create_all_from_files();
 		}
 		catch (Exception $ex)
 		{
