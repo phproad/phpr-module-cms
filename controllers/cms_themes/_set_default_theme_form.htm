@@ -2,7 +2,7 @@
 	<h2>Set default theme</h2>
 	<div class="content">
 		<div class="form-400">
-			<?=Phpr_Form::openTag() ?>
+			<?=Phpr_Form::open_tag() ?>
 
 				<? if (!isset($fatalError)): ?>
 					<div class="form">
@@ -19,7 +19,7 @@
 									<select name="theme_id" id="theme_id">
 										<option value="">&lt;please select&gt;</option>
 										<? foreach ($themes as $theme): ?>
-											<option <?=Phpr_Form::optionState($theme_id, $theme->id) ?> value="<?=h($theme->id) ?>"><?=h($theme->name).' ('.$theme->code.')' ?></option>
+											<option <?=Phpr_Form::option_state($theme_id, $theme->id) ?> value="<?=h($theme->id) ?>"><?=h($theme->name).' ('.$theme->code.')' ?></option>
 										<? endforeach ?>
 									</select>
 								</div>

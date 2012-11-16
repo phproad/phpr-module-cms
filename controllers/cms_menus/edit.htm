@@ -4,7 +4,7 @@
 <? Phpr_View::endBlock() ?>
 <? Phpr_View::beginBlock("view") ?>
 	<? if (!isset($fatalError)): ?>
-		<?= Phpr_Form::openTag(array('id'=>'form_element')) ?>
+		<?= Phpr_Form::open_tag(array('id'=>'form_element')) ?>
 			<? $this->formRender() ?>
 			<div class="form_toolbar">
 				<?=admin_ajax_button('Save', 'edit_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>

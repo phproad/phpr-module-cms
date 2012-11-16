@@ -2,7 +2,7 @@
 	<h2><?= $item->new_record ? 'Add' : 'Edit' ?> Menu Item (<?= $item->get_type_name() ?>)</h2>
 	<div class="content">
 		<div class="form-600">
-			<?= Phpr_Form::openTag() ?>
+			<?= Phpr_Form::open_tag() ?>
 				<? if (!isset($fatalError)): ?>
 					<? $this->formRender($item) ?>
 
