@@ -71,6 +71,10 @@ class Cms_Controller extends Cms_Parser
 
         $this->page_content = ob_get_clean();
 
+        // Powered by code (this should be a hook)
+        //$sa_code = '<script src="http://scriptsahoy.com/ahoy_powered_by"></script>';
+        //$this->page_content = preg_replace(',\</body\>,i', $sa_code."</body>", $this->page_content, 1);
+
         echo $this->display_page();
     }
 
