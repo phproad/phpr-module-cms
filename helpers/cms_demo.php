@@ -10,6 +10,13 @@ class Cms_Demo
             return;
 
         self::$module_name = $module_name;
+
+        // Init script     
+        $init_path =  PATH_APP.'/modules/'.$module_name.'/demo/init.php';
+        if (file_exists($init_path))
+            include $init_path;
+
+        // Execute sql
         self::load_sql();
     }
 
