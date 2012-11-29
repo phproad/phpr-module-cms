@@ -22,10 +22,15 @@ class Cms_Security extends Phpr_Security
         $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookieName);
         $ticket = Phpr::$request->cookie($cookie_name);
 
+        $frontend_ticket_param = Phpr::$config->get('TICKET_PARAM_NAME', 'frontend_ticket');
+
         if ($ticket === null)
         {
-            $frontend_ticket_param = Phpr::$config->get('TICKET_PARAM_NAME', 'frontend_ticket');
             $ticket = $this->restoreTicket(Phpr::$request->get_field($frontend_ticket_param));
+        }
+        else
+        {
+            $this->removeTicket(Phpr::$request->get_field($frontend_ticket_param));
         }
 
         if (!$ticket)
