@@ -126,7 +126,7 @@ class Cms_Page extends Cms_Base
         $this->add_form_field('parent')->tab('Menu')->emptyOption('<none>')->optionsHtmlEncode(false)->comment('Select a parent page for this page. The parent page information will be used for the navigation menus generating only', 'above');
         $this->add_form_field('sitemap_visible', 'left')->tab('Menu')->comment('Display this page in the public XML sitemap');
         
-        if (Phpr_ModuleManager::module_exists('user'))
+        if (Phpr_Module_Manager::module_exists('user'))
         {
             $this->add_form_field('security_mode', 'left')->referenceDescriptionField('@description')->comment('Select access level for this page', 'above')->tab('Access')->renderAs(frm_radio);
             $this->add_form_field('security_redirect', 'right')->referenceSort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->emptyOption('<select>')->tab('Access');
@@ -287,7 +287,8 @@ class Cms_Page extends Cms_Base
             return $result;
     }
 
-    public static function get_name_list()
+    // Use $action_code as a filter. Eg: $action_code = 'payment:pay'
+    public static function get_name_list($action_code = null)
     {
         if (self::$cache_by_name)
             return self::$cache_by_name;
@@ -295,7 +296,12 @@ class Cms_Page extends Cms_Base
         $pages = self::get_object_list();
         $result = array();
         foreach ($pages as $id=>$page)
+        {
+            if ($action_code && $page->action_code != $action_code)
+                continue;
+            
             $result[$id] = $page->name.' ['.$page->url.']';
+        }
             
         return self::$cache_by_name = $result;
     }

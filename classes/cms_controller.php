@@ -30,7 +30,7 @@ class Cms_Controller extends Cms_Parser
 
     public function __construct()
     {
-        if (Phpr_ModuleManager::module_exists('user'))
+        if (Phpr_Module_Manager::module_exists('user'))
             $this->user = Phpr::$frontend_security->authorize_user();
     }
 
@@ -422,7 +422,7 @@ class Cms_Controller extends Cms_Parser
             {
                 if (Phpr::$config->get('DISPLAY_ERROR_LOG_ID') || Phpr::$config->get('DISPLAY_ERROR_LOG_STRING'))
                 {
-                    $controller->viewData['error'] = Phpr_ErrorLog::get_exception_details($exception);
+                    $controller->viewData['error'] = Phpr_Error_Log::get_exception_details($exception);
                     $controller->loadView('exception_friendly');
                 }
                 else
@@ -454,7 +454,7 @@ class Cms_Controller extends Cms_Parser
 
             if (!Phpr::$request->is_remote_event())
             {
-                $controller->viewData['error'] = Phpr_ErrorLog::get_exception_details($exception);
+                $controller->viewData['error'] = Phpr_Error_Log::get_exception_details($exception);
                 $controller->loadView('exception', false, true);
             }
             else

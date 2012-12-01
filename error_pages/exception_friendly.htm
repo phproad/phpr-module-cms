@@ -9,7 +9,7 @@
 		<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
 			Include this information:
 			<br /><br />
-			<?=implode("<br />", str_split(Phpr_ErrorLog::encode_error_details($error), 64)) ?>
+			<?=implode("<br />", str_split(Phpr_Error_Log::encode_error_details($error), 64)) ?>
 			<br /><br />
 		<? endif ?>
 	</p>
