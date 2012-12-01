@@ -1,13 +1,13 @@
 <? Admin_Breadcrumb::add('Pages', 'cms/pages')->add($this->app_page_title);?>
-<? Phpr_View::beginBlock("head") ?>
+<? Phpr_View::begin_block("head") ?>
     <script src="modules/cms/assets/javascript/page.js"></script>
     <script src="modules/cms/assets/javascript/base.js"></script>
     <script>
         cms_name_field = '#Cms_Page_name';
         cms_file_name_field = '#Cms_Page_file_name';
     </script>
-<? Phpr_View::endBlock() ?>
-<? Phpr_View::beginBlock("view") ?>
+<? Phpr_View::end_block() ?>
+<? Phpr_View::begin_block("view") ?>
     <? if (!isset($fatalError)): ?>
     <? $dbName = $this->viewData['form_model']; ?>
         <div class="form-750">
@@ -28,4 +28,4 @@
         <?=flash()?>
         <p><a href="<?=url('/cms/pages') ?>">Return to the list</a></p>
     <? endif ?>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>

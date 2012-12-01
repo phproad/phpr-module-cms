@@ -1,5 +1,5 @@
 <? Admin_Breadcrumb::add('Partials', 'cms/partials')->add($this->app_page_title);?>
-<? Phpr_View::beginBlock("view") ?>
+<? Phpr_View::begin_block("view") ?>
 	<? if (!isset($fatalError)): ?>
 	<? $dbName = $this->viewData['form_model']; ?>
 		<div class="form-750">
@@ -20,4 +20,4 @@
 		<?=flash()?>
 		<p><a href="<?=url('/cms/partials') ?>">Return to the list</a></p>
 	<? endif ?>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>

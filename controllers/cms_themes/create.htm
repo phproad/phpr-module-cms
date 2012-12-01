@@ -1,9 +1,9 @@
 <? Admin_Breadcrumb::add('Themes', 'cms/themes')->add($this->app_page_title);?>
-<? Phpr_View::beginBlock("head") ?>
+<? Phpr_View::begin_block("head") ?>
 	<script type="text/javascript" src="modules/cms/resources/javascript/theme.js"></script>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>
 
-<? Phpr_View::beginBlock("view") ?>
+<? Phpr_View::begin_block("view") ?>
 
 	<?=flash() ?>
 
@@ -24,4 +24,4 @@
 	<? else: ?>
 		<p><a href="<?=url('/cms/themes') ?>">Return to the theme list</a></p>
 	<? endif ?>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>

@@ -1,6 +1,6 @@
 <? Admin_Breadcrumb::add('Settings', 'admin/settings')->add($this->app_page_title);?>
 
-<? Phpr_View::beginBlock("view") ?>
+<? Phpr_View::begin_block("view") ?>
 	<?=flash() ?>
 	<? if (!isset($fatalError)): ?>
 
@@ -28,4 +28,4 @@
 	<? else: ?>
 		<p><a href="<?=url('/admin/settings') ?>">Return to the settings page</a></p>
 	<? endif ?>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>

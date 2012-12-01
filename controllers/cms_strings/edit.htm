@@ -1,5 +1,5 @@
 <? Admin_Breadcrumb::add('Strings', 'cms/strings')->add($this->app_page_title);?>
-<? Phpr_View::beginBlock("view") ?>
+<? Phpr_View::begin_block("view") ?>
 
 	<? if (!isset($fatalError)): ?>
 	<? $dbName = $this->viewData['form_model']; ?>
@@ -22,4 +22,4 @@
 		<?=flash()?>
 		<p><a href="<?=url('/cms/strings') ?>">Return to the list</a></p>
 	<? endif ?>
-<? Phpr_View::endBlock() ?>
+<? Phpr_View::end_block() ?>
