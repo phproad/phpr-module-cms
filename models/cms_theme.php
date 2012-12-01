@@ -55,7 +55,7 @@ class Cms_Theme extends Cms_Base
             throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 
 		if ($this->default_theme)
-			throw new Phpr_ApplicationException(sprintf('Theme "%s" is set as default. Set a different default theme before trying again', $this->name));
+			throw new Phpr_ApplicationException('Theme '.$this->name.' is set as default. Set a different default theme and try again.');
 	}
 
 	public function after_create()
@@ -97,10 +97,8 @@ class Cms_Theme extends Cms_Base
 		{
 			rename(self::get_theme_dir($this->fetched['code']), self::get_theme_dir($this->code));
 
-			/**
-			 * Update strings, content blocks, pages, partials and layouts
-			 */
-
+			// Update strings, content blocks, pages, partials and layouts
+			//
 			$bind = array('code'=>$this->code, 'old_code'=>$this->fetched['code']);
 			Db_DbHelper::query('update cms_strings set theme_id=:code where theme_id=:old_code', $bind);
 			Db_DbHelper::query('update cms_content set theme_id=:code where theme_id=:old_code', $bind);
@@ -114,18 +112,14 @@ class Cms_Theme extends Cms_Base
 	{
 		if (strlen($this->code))
 		{
-			/**
-			 * Delete assets
-			 */
-
+			// Delete assets
+			// 
 			$theme_path = self::get_theme_dir($this->code);
 			if (file_exists($theme_path))
 				Phpr_Files::remove_dir_recursive($theme_path);
 
-			/**
-			 * Delete strings, content blocks, pages, partials and layouts
-			 */
-
+			// Delete strings, content blocks, pages, partials and layouts
+			//
 			$bind = array('code'=>$this->code);
 			Db_DbHelper::query('delete from cms_strings where theme_id=:code', $bind);
 			Db_DbHelper::query('delete from cms_content where theme_id=:code', $bind);
@@ -154,13 +148,17 @@ class Cms_Theme extends Cms_Base
 		return $value;
 	}
 
+	// Service methods
+	// 
+
 	public function make_default()
 	{
 		if (!$this->enabled)
-			throw new Phpr_ApplicationException(sprintf('Theme "%s" is disabled and cannot be default_theme.', $this->name));
+			throw new Phpr_ApplicationException('Theme '.$this->name.' is disabled and cannot be set as default.');
 
-		Db_DbHelper::query('update cms_themes set default_theme=1 where id=:id', array('id'=>$this->id));
-		Db_DbHelper::query('update cms_themes set default_theme=null where id!=:id', array('id'=>$this->id));
+		$bind = array('id' => $this->id);
+		Db_DbHelper::query('update cms_themes set default_theme=1 where id=:id', $bind);
+		Db_DbHelper::query('update cms_themes set default_theme=null where id!=:id', $bind);
 	}
 
 	public function enable_theme()
@@ -226,7 +224,7 @@ class Cms_Theme extends Cms_Base
 		if (self::$theme_edit !== false)
 			return self::$theme_edit;
 
-		if ($theme_id = Db_UserParameters::get('admin_edit_theme'))
+		if ($theme_id = Db_User_Parameters::get('admin_edit_theme'))
 		{
 			$theme = self::get_theme_by_id($theme_id);
 			if ($theme)
@@ -246,15 +244,13 @@ class Cms_Theme extends Cms_Base
 			throw new Phpr_ApplicationException('Could not find that theme.');
 
 		self::$theme_edit = $theme;
-		Db_UserParameters::set('admin_edit_theme', $id);
+		Db_User_Parameters::set('admin_edit_theme', $id);
 	}
 
-	/**
-	 * Smart method to find theme name
-	 * @param1 (Boolean) Front end?
-	 * @param1 (String)  Define theme code
-	 */
-
+	// Smart method to find theme name
+	//   @param1 can be boolean/string
+	//     bool - front end?
+	//     string - define theme code
     public static function get_theme_dir($param=true, $absolute=true)
     {
     	if (is_string($param))
