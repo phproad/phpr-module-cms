@@ -82,10 +82,13 @@ class Cms_Partial extends Cms_Base
 	 * Getters
 	 */
 
-	public static function get_content($name=null)
+	// This is designed to take a stdObject or itself
+	public static function get_content($partial=null)
 	{
 		try
 		{
+			$name = $partial->name;
+
 			if (!$name)
 				throw new Phpr_ApplicationException('Partial file is not specified');
 
@@ -94,11 +97,13 @@ class Cms_Partial extends Cms_Base
 			$file_name = self::name_to_file($name);
 			$path = Cms_Theme::get_theme_dir($theme->code).'/partials/'.$file_name.'.php';
 
-			if (!file_exists($path))
-				throw new Phpr_ApplicationException('Partial file not found: '.$path);
+			if (file_exists($path))
+				return file_get_contents($path);
 
-			return file_get_contents($path);
+			if (isset($partial->content))
+				return $partial->content;
 
+			throw new Phpr_ApplicationException('Partial file not found: '.$path);
 		}
 		catch (exception $ex)
 		{
@@ -106,7 +111,7 @@ class Cms_Partial extends Cms_Base
 		}
 	}
 
-	public static function find_by_name($name)
+	public static function get_by_name($name)
 	{
 		$theme = Cms_Theme::get_active_theme();
 		if (self::$cache == null)

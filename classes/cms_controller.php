@@ -233,7 +233,7 @@ class Cms_Controller extends Cms_Parser
         if ($partial)
         {
             $this->partial = $partial;
-            $result = $this->parse('?>'.Cms_Partial::get_content($partial->file_name), 'CMS partial', $partial->name, $params);
+            $result = $this->parse('?>'.Cms_Partial::get_content($partial), 'CMS partial', $partial->name, $params);
             $this->partial = null;
         }
         else if ($this->call_stack)
