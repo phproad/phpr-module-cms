@@ -228,7 +228,7 @@ class Cms_Controller extends Cms_Parser
         if ($return_output)
             ob_start();
 
-        $partial = Cms_Partial::create()->find_by_name($name);
+        $partial = Cms_Partial::create()->get_by_name($name);
 
         if ($partial)
         {
@@ -237,7 +237,7 @@ class Cms_Controller extends Cms_Parser
             $this->partial = null;
         }
         else if ($this->call_stack)
-            throw new Cms_ExecutionException("Partial \"$name\" not found", $this->call_stack, null, true);
+            throw new Cms_ExecutionException("Partial " . $name . " not found", $this->call_stack, null, true);
         else
             throw new Phpr_ApplicationException("Partial " . $name . " not found");
 
