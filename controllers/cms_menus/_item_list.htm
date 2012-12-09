@@ -29,7 +29,7 @@
 				</div>
 			</div>
 
-			<? $this->render_partial('item_list', array('session_key'=>$session_key, 'menu'=>$menu, 'parent_item'=>$item, 'level'=>$level+1)) ?>
+			<? $this->renderPartial('item_list', array('session_key'=>$session_key, 'menu'=>$menu, 'parent_item'=>$item, 'level'=>$level+1)) ?>
 		</li>
 		<? endforeach ?>
 	</ol>

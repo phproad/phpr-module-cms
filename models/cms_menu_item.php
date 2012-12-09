@@ -149,7 +149,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
         $is_active = ($page && $page->url == $a_href);
 
     	if ($children->count)
-    		$li_class .= " ".$options['class_has_dropdown'];
+    		$li_class .= " ".$options['class_dropdown_container'];
 
     	if ($is_active)
     		$li_class .= " active";
