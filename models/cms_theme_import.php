@@ -105,7 +105,8 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			foreach ($this->components as $object)
 			{
 				$options = array('overwrite' => $this->overwrite_files);
-				if ($object != "assets")
+				
+				if ($object != "assets" && file_exists($temp_path.'/meta/'.$object))
 					Phpr_Files::copy_dir($temp_path.'/meta/'.$object, $theme_path.'/meta/'.$object, $options);
 				
 				Phpr_Files::copy_dir($temp_path.'/'.$object, $theme_path.'/'.$object, $options);

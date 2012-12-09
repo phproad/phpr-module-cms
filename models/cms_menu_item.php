@@ -146,7 +146,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
         $li_class = $this->element_class;
         
-        $is_active = ($page && $page->url == $a_href);
+        $is_active = ($page && $page->url == $this->url);
 
     	if ($children->count)
     		$li_class .= " ".$options['class_dropdown_container'];
@@ -154,7 +154,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
     	if ($is_active)
     		$li_class .= " active";
 
-        $str .= '<li class="'.$li_class.'">'.PHP_EOL;
+        $str .= '<li class="'.trim($li_class).'">'.PHP_EOL;
         $str .= '<a href="'.$a_href.'">';
         $str .= $this->label;
         $str .= '</a>'.PHP_EOL;
