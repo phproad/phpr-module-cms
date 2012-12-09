@@ -76,7 +76,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 			{
 				Phpr_Files::copy_dir($theme_path.'/'.$object, $temp_path.'/'.$object, $options);
 
-				if ($object != "assets")
+				if ($object != "assets" && file_exists($theme_path.'/meta/'.$object))
 					Phpr_Files::copy_dir($theme_path.'/meta/'.$object, $temp_path.'/meta/'.$object, $options);
 			}
 
