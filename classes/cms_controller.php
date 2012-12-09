@@ -464,4 +464,14 @@ class Cms_Controller extends Cms_Parser
         }
     }
 
+    public function exec_action($name)
+    {
+        Cms_Action_Manager::exec_action($name, $this);
+    }
+    
+    public function exec_ajax_handler($name)
+    {
+        return Cms_Action_Manager::exec_ajax_handler($name, $this);
+    }
+
 }
