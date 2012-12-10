@@ -191,12 +191,12 @@ class Cms_Page extends Cms_Base
         if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
             throw new Phpr_ApplicationException('Sorry you cannot modify pages while site is in demonstration mode.');
 
-        $in_use = Db_DbHelper::scalar('select count(*) from cms_pages where security_page_id=:id', array('id'=>$this->id));
+        $in_use = Db_Helper::scalar('select count(*) from cms_pages where security_page_id=:id', array('id'=>$this->id));
 
         if ($in_use)
             throw new Phpr_ApplicationException("Unable to delete the page: it is used as a security redirect page for another page.");
 
-        $in_use = Db_DbHelper::scalar('select count(*) from cms_pages where parent_id=:id', array('id'=>$this->id));
+        $in_use = Db_Helper::scalar('select count(*) from cms_pages where parent_id=:id', array('id'=>$this->id));
 
         if ($in_use)
             throw new Phpr_ApplicationException("Unable to delete the page because it has child pages.");
@@ -276,7 +276,7 @@ class Cms_Page extends Cms_Base
             return self::$cache_by_id;
 
         $theme = Cms_Theme::get_active_theme();
-        $records = Db_DbHelper::objectArray('select id,name,title,url,action_code from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
+        $records = Db_Helper::object_array('select id,name,title,url,action_code from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
         $result = array();
         foreach ($records as $page)
             $result[$page->id] = $page;
@@ -315,7 +315,7 @@ class Cms_Page extends Cms_Base
             self::$cache_by_url = array();
 
             $theme = Cms_Theme::get_active_theme();
-            $all_pages = Db_DbHelper::objectArray('select id,url from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
+            $all_pages = Db_Helper::object_array('select id,url from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
             foreach ($all_pages as $page)
             {
                 self::$cache_by_url[$page->url] = $page;
@@ -788,7 +788,7 @@ class Cms_Page extends Cms_Base
         $result = array();
 
         $edit_theme = Cms_Theme::get_edit_theme()->code;
-        $existing_files = Db_DbHelper::scalarArray("select file_name from cms_pages where theme_id='".$edit_theme."'");
+        $existing_files = Db_Helper::scalar_array("select file_name from cms_pages where theme_id='".$edit_theme."'");
         $files = scandir($path);
 
         foreach ($files as $file)
