@@ -9,13 +9,13 @@ class Cms_Statistics
         if  ($numberToKeep === null)
             $numberToKeep = Cms_Stats_Settings::get()->keep_pageviews;
 
-        $cnt = Db_DbHelper::scalar("select count(*) from cms_page_visits");
+        $cnt = Db_Helper::scalar("select count(*) from cms_page_visits");
         $offset = $cnt - $numberToKeep;
 
         if ($offset <= 0)
             return;
         
-        Db_DbHelper::query("delete from cms_page_visits order by id limit $offset");
+        Db_Helper::query("delete from cms_page_visits order by id limit $offset");
     }
     
     public static function log_visit($page, $url)
@@ -28,7 +28,7 @@ class Cms_Statistics
         $bind['visit_date'] = Phpr_Date::userDate(Phpr_DateTime::now())->getDate();
         $bind['url'] = $url;
         
-        Db_DbHelper::query("insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)", $bind);
+        Db_Helper::query("insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)", $bind);
     }
 
     public static function get_visitor_stats($start, $end)
@@ -46,7 +46,7 @@ class Cms_Statistics
         $prev_end = $start->addDays(-1);
         $prev_start = $prev_end->substractInterval($interval);
 
-        $data = Db_DbHelper::object('select
+        $data = Db_Helper::object('select
             (select count(distinct ip) from cms_page_visits where visit_date >= :current_start and visit_date <= :current_end) as visitors_current,
             (select count(distinct ip) from cms_page_visits where visit_date >= :prev_start and visit_date <= :prev_end) as visitors_previous,
             
@@ -113,14 +113,14 @@ class Cms_Statistics
             date(visit_date) between :start and :end
         group by 1";
 
-        return Db_DbHelper::objectArray($query, array('start'=>$start, 'end'=>$end));
+        return Db_Helper::object_array($query, array('start'=>$start, 'end'=>$end));
     }
 
     public static function get_top_pages($start, $end)
     {
         $count = 5;
         
-        return Db_DbHelper::objectArray("select url, count(*) as cnt from cms_page_visits
+        return Db_Helper::object_array("select url, count(*) as cnt from cms_page_visits
             where visit_date >= :start and visit_date <= :end
             group by url
             order by 2 desc

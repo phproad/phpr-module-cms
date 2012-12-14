@@ -100,11 +100,11 @@ class Cms_Theme extends Cms_Base
 			// Update strings, content blocks, pages, partials and layouts
 			//
 			$bind = array('code'=>$this->code, 'old_code'=>$this->fetched['code']);
-			Db_DbHelper::query('update cms_strings set theme_id=:code where theme_id=:old_code', $bind);
-			Db_DbHelper::query('update cms_content set theme_id=:code where theme_id=:old_code', $bind);
-			Db_DbHelper::query('update cms_pages set theme_id=:code where theme_id=:old_code', $bind);
-			Db_DbHelper::query('update cms_partials set theme_id=:code where theme_id=:old_code', $bind);
-			Db_DbHelper::query('update cms_templates set theme_id=:code where theme_id=:old_code', $bind);
+			Db_Helper::query('update cms_strings set theme_id=:code where theme_id=:old_code', $bind);
+			Db_Helper::query('update cms_content set theme_id=:code where theme_id=:old_code', $bind);
+			Db_Helper::query('update cms_pages set theme_id=:code where theme_id=:old_code', $bind);
+			Db_Helper::query('update cms_partials set theme_id=:code where theme_id=:old_code', $bind);
+			Db_Helper::query('update cms_templates set theme_id=:code where theme_id=:old_code', $bind);
 		}
 	}
 
@@ -121,11 +121,11 @@ class Cms_Theme extends Cms_Base
 			// Delete strings, content blocks, pages, partials and layouts
 			//
 			$bind = array('code'=>$this->code);
-			Db_DbHelper::query('delete from cms_strings where theme_id=:code', $bind);
-			Db_DbHelper::query('delete from cms_content where theme_id=:code', $bind);
-			Db_DbHelper::query('delete from cms_pages where theme_id=:code', $bind);
-			Db_DbHelper::query('delete from cms_partials where theme_id=:code', $bind);
-			Db_DbHelper::query('delete from cms_templates where theme_id=:code', $bind);
+			Db_Helper::query('delete from cms_strings where theme_id=:code', $bind);
+			Db_Helper::query('delete from cms_content where theme_id=:code', $bind);
+			Db_Helper::query('delete from cms_pages where theme_id=:code', $bind);
+			Db_Helper::query('delete from cms_partials where theme_id=:code', $bind);
+			Db_Helper::query('delete from cms_templates where theme_id=:code', $bind);
 		}
 	}
 
@@ -157,14 +157,14 @@ class Cms_Theme extends Cms_Base
 			throw new Phpr_ApplicationException('Theme '.$this->name.' is disabled and cannot be set as default.');
 
 		$bind = array('id' => $this->id);
-		Db_DbHelper::query('update cms_themes set default_theme=1 where id=:id', $bind);
-		Db_DbHelper::query('update cms_themes set default_theme=null where id!=:id', $bind);
+		Db_Helper::query('update cms_themes set default_theme=1 where id=:id', $bind);
+		Db_Helper::query('update cms_themes set default_theme=null where id!=:id', $bind);
 	}
 
 	public function enable_theme()
 	{
 		$this->enabled = true;
-		Db_DbHelper::query('update cms_themes set enabled=1 where id=:id', array('id'=>$this->id));
+		Db_Helper::query('update cms_themes set enabled=1 where id=:id', array('id'=>$this->id));
 	}
 
 	public function disable_theme()
@@ -173,7 +173,7 @@ class Cms_Theme extends Cms_Base
 			throw new Phpr_ApplicationException(sprintf('Theme "%s" is default_theme and cannot be disabled.', $this->name));
 
 		$this->enabled = false;
-		Db_DbHelper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
+		Db_Helper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
 	}
 
 	// General

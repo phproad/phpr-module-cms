@@ -49,7 +49,7 @@ class Cms_Template extends Cms_Base
         if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
             throw new Phpr_ApplicationException('Sorry you cannot modify templates while site is in demonstration mode.');
 
-		$in_use = Db_DbHelper::scalar('select count(*) from cms_pages where template_id=:id', array('id'=>$this->id));
+		$in_use = Db_Helper::scalar('select count(*) from cms_pages where template_id=:id', array('id'=>$this->id));
 		
 		if ($in_use)
 			throw new Phpr_ApplicationException("Unable to delete template: there are pages (".$in_use.") which use it.");
@@ -143,7 +143,7 @@ class Cms_Template extends Cms_Base
 		{
 
 			$edit_theme = Cms_Theme::get_edit_theme()->code;
-			$existing_templates = Db_DbHelper::objectArray("select file_name from cms_templates where theme_id = '".$edit_theme."'");
+			$existing_templates = Db_Helper::object_array("select file_name from cms_templates where theme_id = '".$edit_theme."'");
 			$existing_files = array();
 			foreach ($existing_templates as $template)
 				$existing_files[] = $template->file_name.'.php';

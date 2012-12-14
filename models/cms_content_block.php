@@ -219,7 +219,7 @@ class Cms_Content_Block extends Cms_Base
 		{
 
 			$edit_theme = Cms_Theme::get_edit_theme()->code;
-			$existing_content = Db_DbHelper::objectArray("select code as file_name from cms_content where theme_id = '".$edit_theme."'");
+			$existing_content = Db_Helper::object_array("select code as file_name from cms_content where theme_id = '".$edit_theme."'");
 			$existing_files = array();
 			foreach ($existing_content as $content)
 				$existing_files[] = $content->file_name.'.php';

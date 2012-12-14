@@ -64,7 +64,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 				'child_ids' => array($child_ids)
 			);
 
-			Db_DbHelper::query('update cms_menu_items set parent_id=:parent_id where menu_id =:menu_id and id in (:child_ids)', $bind);
+			Db_Helper::query('update cms_menu_items set parent_id=:parent_id where menu_id =:menu_id and id in (:child_ids)', $bind);
 		}
 	}
 
@@ -194,7 +194,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 
 	public function set_parent($parent_id)
 	{
-		Db_DbHelper::query('update cms_menu_items set parent_id=:parent_id where id=:id', array(
+		Db_Helper::query('update cms_menu_items set parent_id=:parent_id where id=:id', array(
 			'parent_id'=> intval($parent_id) ? intval($parent_id) : NULL,
 			'id'=>$this->id
 		));
@@ -214,7 +214,7 @@ class Cms_Menu_Item extends Db_ActiveRecord
 			//For some reason 'NULL' doesn't work with arguments, so do it manually (with sanitation)
 			$parent_id = isset($parent_ids[$id]) && intval($parent_ids[$id]) ? intval($parent_ids[$id]) : 'NULL';
 
-			Db_DbHelper::query("update cms_menu_items set sort_order=:sort_order, parent_id=$parent_id where id=:id", array(
+			Db_Helper::query("update cms_menu_items set sort_order=:sort_order, parent_id=$parent_id where id=:id", array(
 				'sort_order'=>$index+1,
 				'id'=>$id
 			));

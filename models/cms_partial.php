@@ -118,7 +118,7 @@ class Cms_Partial extends Cms_Base
 		{
 			self::$cache = array();
 
-			$partials = Db_DbHelper::objectArray("select * from cms_partials where theme_id=:theme_id", array('theme_id'=>$theme->code));
+			$partials = Db_Helper::object_array("select * from cms_partials where theme_id=:theme_id", array('theme_id'=>$theme->code));
 			//$partials = self::create()->where('theme_id=?', $theme->code)->find_all();
 
 			foreach ($partials as $partial)
@@ -167,7 +167,7 @@ class Cms_Partial extends Cms_Base
 		if (file_exists($dir) && is_dir($dir))
 		{
 			$edit_theme = Cms_Theme::get_edit_theme()->code;
-			$existing_partials = Db_DbHelper::objectArray("select file_name from cms_partials where theme_id = '".$edit_theme."'");
+			$existing_partials = Db_Helper::object_array("select file_name from cms_partials where theme_id = '".$edit_theme."'");
 			$existing_files = array();
 			foreach ($existing_partials as $partial)
 				$existing_files[] = $partial->file_name.'.php';

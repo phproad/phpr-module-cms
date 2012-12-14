@@ -150,7 +150,7 @@ class Cms_Controller extends Cms_Parser
         }
         catch (Exception $ex)
         {
-            Phpr::$response->ajaxReportException($ex, true, true);
+            Phpr::$response->ajax_report_exception($ex, true, true);
         }
     }
 
@@ -208,7 +208,7 @@ class Cms_Controller extends Cms_Parser
         $head_extras = array();
         $head_extras[] = "<script>";
         $head_extras[] = "<!--";
-        $head_extras[] = "root_dir = '".Phpr::$request->getSubdirectory()."';";
+        $head_extras[] = "root_dir = '".Phpr::$request->get_subdirectory()."';";
         $head_extras[] = "asset_dir = '".Cms_Theme::get_theme_dir(true,false)."/assets/';";
         $head_extras[] = "// -->";
         $head_extras[] = "</script>";
@@ -435,7 +435,7 @@ class Cms_Controller extends Cms_Parser
                 try
                 {
                     $new_exception = new Phpr_ApplicationException('A general error occurred');
-                    Phpr::$response->ajaxReportException($new_exception, true);
+                    Phpr::$response->ajax_report_exception($new_exception, true);
                 }
                 catch (exception $ex)
                 {
@@ -459,7 +459,7 @@ class Cms_Controller extends Cms_Parser
             }
             else
             {
-                Phpr::$response->ajaxReportException($exception, true);
+                Phpr::$response->ajax_report_exception($exception, true);
             }
         }
     }

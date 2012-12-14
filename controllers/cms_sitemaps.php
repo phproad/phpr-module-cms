@@ -50,7 +50,7 @@ class Cms_Sitemaps extends Admin_Settings_Controller
             {
                 $visible = post_array('pages', $page->id) ? 1 : 0;
                 $bind = array('visible'=>$visible, 'id'=>$page->id);
-                Db_DbHelper::query('update cms_pages set sitemap_visible=:visible where id=:id', $bind);
+                Db_Helper::query('update cms_pages set sitemap_visible=:visible where id=:id', $bind);
             }
 
             // Redirect
@@ -59,7 +59,7 @@ class Cms_Sitemaps extends Admin_Settings_Controller
         }
         catch (Exception $ex)
         {
-            Phpr::$response->ajaxReportException($ex, true, true);
+            Phpr::$response->ajax_report_exception($ex, true, true);
         }
     }
 

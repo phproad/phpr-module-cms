@@ -57,7 +57,7 @@ class Cms_File_Manager extends Admin_Controller
                     'disabled'      => Phpr::$config->get('DEMO_MODE') ? $disabled : array(),
                     'driver'        => 'LocalFileSystem',
                     'quarantine'    => '../../../temp/.cms_quarantine',
-                    'tmbURL'        => 'index.php?q='.Phpr::$config->get('BACKEND_URL', 'backend').'/cms/file_manager/access_cache/',
+                    'tmbURL'        => 'index.php?q='.Phpr::$config->get('BACKEND_URL', 'admin').'/cms/file_manager/access_cache/',
                     'tmbPath'       => (DIRECTORY_SEPARATOR == '\\') ? '../../../temp/.cms_thumbs' : PATH_APP.'/temp/.cms_thumbs',
                     'path'          => PATH_APP.'/themes/'.$theme_id.'/assets/',
                     'URL'           => root_url('/themes/'.$theme_id.'/assets/')

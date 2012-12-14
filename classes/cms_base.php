@@ -116,7 +116,7 @@ class Cms_Base extends Db_ActiveRecord
 	protected function save_file_name_to_db($table, $file_name)
 	{
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
-		Db_DbHelper::query('update '.$table.' set file_name=:file_name where id=:id', array('file_name'=>$file_name, 'id'=>$this->id));
+		Db_Helper::query('update '.$table.' set file_name=:file_name where id=:id', array('file_name'=>$file_name, 'id'=>$this->id));
 	}
 
 	/**

@@ -3,11 +3,11 @@
   <head>
 		<title>Unhandled Exception</title>
     <meta charset="utf-8" />
-		<base href="<?=Phpr::$request->getRootUrl().Phpr::$request->getSubdirectory() ?>" />		
+		<base href="<?=Phpr::$request->get_root_url().Phpr::$request->get_subdirectory() ?>" />		
 		<link rel="stylesheet" type="text/css" href="modules/cms/assets/css/error_page.css" />
 		
 		<script type="text/javascript">
-			var application_root_dir = '<?=Phpr::$request->getSubdirectory() ?>';
+			var application_root_dir = '<?=Phpr::$request->get_subdirectory() ?>';
 		</script>
 
 		<?

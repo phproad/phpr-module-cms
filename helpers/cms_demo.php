@@ -32,7 +32,7 @@ class Cms_Demo
         foreach ($iterator as $file)
         { 
             if (!$file->isDir() && preg_match('/^_[^\.]*\.sql$/i', $file->getFilename()))
-                Db_DbHelper::executeSqlScript($sql_path.'/'.$file->getFilename());
+                Db_Helper::execute_sql_from_file($sql_path.'/'.$file->getFilename());
         }
     }
 }

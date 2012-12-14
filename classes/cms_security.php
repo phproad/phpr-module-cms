@@ -91,7 +91,7 @@ class Cms_Security extends Phpr_Security
         $cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookiePath);
         $cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookieDomain);
 
-        Phpr::$response->deleteCookie($cookie_name, $cookie_path, $cookie_domain);
+        Phpr::$response->delete_cookie($cookie_name, $cookie_path, $cookie_domain);
 
         $this->user = null;
 

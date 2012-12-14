@@ -90,7 +90,7 @@ class Cms_Themes extends Admin_Controller
 		}
 		catch (Exception $ex)
 		{
-			Phpr::$response->ajaxReportException($ex, true, true);
+			Phpr::$response->ajax_report_exception($ex, true, true);
 		}
 	}
 	
@@ -275,7 +275,7 @@ class Cms_Themes extends Admin_Controller
 		}
 		catch (Exception $ex)
 		{
-			Phpr::$response->ajaxReportException($ex, true, true);
+			Phpr::$response->ajax_report_exception($ex, true, true);
 		}
 	}
 	
@@ -316,7 +316,7 @@ class Cms_Themes extends Admin_Controller
 		}
 		catch (Exception $ex)
 		{
-			Phpr::$response->ajaxReportException($ex, true, true);
+			Phpr::$response->ajax_report_exception($ex, true, true);
 		}
 	}
 
@@ -377,7 +377,7 @@ class Cms_Themes extends Admin_Controller
 		}
 		catch (Exception $ex)
 		{
-			Phpr::$response->ajaxReportException($ex, true, true);
+			Phpr::$response->ajax_report_exception($ex, true, true);
 		}
 	}	
 }
