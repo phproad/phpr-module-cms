@@ -22,13 +22,13 @@ function asset_url(url) {
 	return root_url(asset_dir + url);
 }
 
-function var_dump(obj, alert) {
+function var_dump(obj, use_alert) {
     var out = '';
     for (var i in obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-    if (alert)
+    if (use_alert)
         alert(out);
     else 
         jQuery('<pre />').html(out).appendTo(jQuery('body'));
