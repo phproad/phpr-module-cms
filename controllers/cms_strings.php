@@ -30,7 +30,7 @@ class Cms_Strings extends Admin_Controller
 
     //public $enable_concurrency_locking = true;
 
-    protected $globalHandlers = array();
+    protected $global_handlers = array();
 
     protected $required_permissions = array('cms:manage_content');
 
@@ -80,7 +80,7 @@ class Cms_Strings extends Admin_Controller
         catch (Exception $ex)
         {
             $this->app_page_title = 'Export Strings';
-            $this->_suppressView = false;
+            $this->_suppress_view = false;
             $this->handlePageError($ex);
         }
     }

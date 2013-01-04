@@ -5,7 +5,7 @@
             <?=Phpr_Form::open_tag() ?>
 
                 <? if (!isset($fatalError)): ?>
-                    <? $this->formRender($model) ?>
+                    <? $this->form_render($model) ?>
                     <?=form_hidden('string_id', $model->id)?>
 
                     <?=admin_ajax_button('Save', 'index_onsave_string', array('class'=>'positive'), "

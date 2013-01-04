@@ -5,7 +5,7 @@
 			<?=Phpr_Form::open_tag() ?>
 
 				<? if (!isset($fatalError)): ?>
-					<? $this->formRender($model) ?>
+					<? $this->form_render($model) ?>
 
 					<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'positive'), "
 							loadIndicator: {injectInElement: true},

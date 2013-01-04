@@ -28,7 +28,7 @@ class Cms_Pages extends Admin_Controller
 
 	//public $enable_concurrency_locking = true;
 
-	protected $globalHandlers = array();
+	protected $global_handlers = array();
 
 	protected $required_permissions = array('cms:manage_pages', 'cms:manage_content');
 

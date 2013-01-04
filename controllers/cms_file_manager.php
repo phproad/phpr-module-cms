@@ -2,7 +2,7 @@
 
 class Cms_File_Manager extends Admin_Controller
 {
-    protected $globalHandlers = array();
+    protected $global_handlers = array();
 
     protected $required_permissions = array('cms:manage_files');
 

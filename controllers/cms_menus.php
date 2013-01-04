@@ -34,7 +34,7 @@ class Cms_Menus extends Admin_Controller
 	protected $required_permissions = array('cms:manage_menus');
 	public $enable_concurrency_locking = true;
 
-	protected $globalHandlers = array(
+	protected $global_handlers = array(
 		'onLoadItemForm',
 		'onUpdateItemList',
 		'onManageItem',

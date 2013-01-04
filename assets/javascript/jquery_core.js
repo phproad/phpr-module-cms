@@ -77,10 +77,10 @@
 		var params = {};
 
 		jQuery.each(this.serializeArray(), function(index, value) {
-			if(value.name.substr(value.name.length - 2, 2) === '[]') {
+			if (value.name.substr(value.name.length - 2, 2) === '[]') {
 				var name = value.name.substr(0, value.name.length - 2);
 				
-				if(!params[name]) {
+				if (!params[name]) {
 					params[name] = [];
 				}
 				
@@ -158,9 +158,9 @@
 			return '';
 		});
 
-		if(option === true)
+		if (option === true)
 			eval(scripts);
-		else if(typeof(option) == 'function')
+		else if (typeof(option) == 'function')
 			option(scripts, text);
 		
 		return text;
@@ -228,7 +228,7 @@
 		sendRequest: function(url, handler, context) {
 			var self = this;
 			
-			if(self.busy)
+			if (self.busy)
 				return;
 
 			context = $.extend(true, {}, self.options, {
@@ -241,7 +241,7 @@
 				}
 			}, context);
 			
-			if(context['update'])
+			if (context['update'])
 				context.ajax.data['cms_update_elements'] = context['update'];
 
 			$.extend(context.ajax.data, context.extraFields);
@@ -267,10 +267,10 @@
 
 					self.parent.busy = false;
 					
-					if(typeof(self.text) !== 'string')
+					if (typeof(self.text) !== 'string')
 						self.text = '';
 					
-					if(context.loadIndicator.show)
+					if (context.loadIndicator.show)
 						self.parent.hideLoadingIndicator();
 					
 					self.html = stripScripts(self.text, function(javascript) {
@@ -296,15 +296,15 @@
 	
 						var id = patches[i].slice(2, patches[i].length-2);
 
-						if(id) {
+						if (id) {
 							var element;
 						
-							if(context.selectorMode)
+							if (context.selectorMode)
 								element = $(id);
 							else
 								element = $('#' + id);
 								
-							if(!context.animation(element, html))
+							if (!context.animation(element, html))
 								element.html(html);
 								
 							update_elements.push(id);
@@ -314,7 +314,7 @@
 					// if update element is a string, set update element to self.text
 					context.update && typeof(context.update) === 'string' && $('#' + context.update).html(self.text);
 					
-					if(context.evalScripts && !context.evalScriptsAfterUpdate) 
+					if (context.evalScripts && !context.evalScriptsAfterUpdate) 
 						eval(self.javascript);
 					
 					$.each(update_elements, function(k, v) {
@@ -339,7 +339,7 @@
 					if (message)
 						this.popupError(message);
 					
-					if(context.execScriptsOnFailure)
+					if (context.execScriptsOnFailure)
 						eval(self.javascript);
 					
 					context.onAfterError && context.onAfterError();
@@ -355,16 +355,16 @@
 				}
 			}, Phpr.response);
 			
-			if(context.preCheckFunction && !context.preCheckFunction())
+			if (context.preCheckFunction && !context.preCheckFunction())
 				return;
 				
-			if(context.alert)
+			if (context.alert)
 				return alert(context.alert);
 			
-			if(context.confirm && !confirm(context.confirm))
+			if (context.confirm && !confirm(context.confirm))
 				return;
 				
-			if(context.postCheckFunction && !context.postCheckFunction())
+			if (context.postCheckFunction && !context.postCheckFunction())
 				return;
 			
 			var request = $.extend({
@@ -389,13 +389,13 @@
 				}
 			}, context.ajax);
 
-			if(context.loadIndicator.show)
+			if (context.loadIndicator.show)
 				self.showLoadingIndicator();
 
 			context.prepareFunction && context.prepareFunction();
 			context.onBeforePost && context.onBeforePost();
 			
-			if(context.lock)
+			if (context.lock)
 				self.busy = true;
 			
 			$.ajax(request);
@@ -415,7 +415,7 @@
 			var position = options.absolutePosition ? 'absolute' : 'fixed';
 			var visibility = options.hideElement ? 'hidden' : 'visible';
 			
-			if(self.loadingIndicator === null) {
+			if (self.loadingIndicator === null) {
 				var element = options.element ? $('#' + options.element) : $('<p />');
 				
 				self.loadingIndicator = element

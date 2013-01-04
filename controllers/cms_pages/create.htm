@@ -14,7 +14,7 @@
             <?=form_open(array('id'=>'form_element')) ?>
                 <?=form_hidden('new_flag', 1, 'id="new_flag"')?>
 
-                <? $this->formRender() ?>
+                <? $this->form_render() ?>
 
                 <div class="form_toolbar">
                     <?=admin_ajax_button('Save', 'create_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>

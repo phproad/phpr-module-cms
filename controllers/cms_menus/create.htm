@@ -12,7 +12,7 @@
 			<?=form_open(array('id'=>'form_element')) ?>
 				<input type="hidden" value="1" id="new_object_flag" />
 
-				<? $this->formRender() ?>
+				<? $this->form_render() ?>
 
 				<div class="form_toolbar">
 					<?=admin_ajax_button('Create', 'create_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}") ?>

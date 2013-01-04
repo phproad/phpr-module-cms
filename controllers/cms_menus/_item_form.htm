@@ -4,7 +4,7 @@
 		<div class="form-600">
 			<?= Phpr_Form::open_tag() ?>
 				<? if (!isset($fatalError)): ?>
-					<? $this->formRender($item) ?>
+					<? $this->form_render($item) ?>
 
 					<?= backend_ajax_button('Save', 'onManageItem', array('class'=>'default'), "
 						loadIndicator: {injectInElement: true},

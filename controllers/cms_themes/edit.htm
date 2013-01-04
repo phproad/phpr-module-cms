@@ -11,7 +11,7 @@
 		<div class="form-600">
 			<?=Phpr_Form::open_tag() ?>
 
-				<? $this->formRender() ?>
+				<? $this->form_render() ?>
 
 				<div class="form_toolbar">
 					<?=admin_ajax_button('Save', 'edit_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}") ?>
