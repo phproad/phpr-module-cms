@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Page_Menu_Item extends Cms_Menu_Item_Base
+class Cms_Page_Menu_Item extends Builder_Menu_Item_Base
 {
     public function get_info()
     {

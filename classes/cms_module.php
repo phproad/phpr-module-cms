@@ -23,7 +23,6 @@ class Cms_Module extends Core_Module_Base
         $top->add_child('partials', 'Partials', 'cms/partials', 400)->permission('manage_partials');
         $top->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
         $top->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
-        $top->add_child('menus', 'Menus', 'cms/menus', 600)->permission('manage_menus');
     }
 
     public function build_admin_settings($settings)
@@ -40,7 +39,6 @@ class Cms_Module extends Core_Module_Base
         $host->add_permission_field($this, 'manage_templates', 'Manage Templates', 'left')->renderAs(frm_checkbox)->comment('Modify page template code');
         $host->add_permission_field($this, 'manage_pages', 'Manage Pages', 'right')->renderAs(frm_checkbox)->comment('Modify page code and content');
         $host->add_permission_field($this, 'manage_partials', 'Manage Partials', 'left')->renderAs(frm_checkbox)->comment('Modify page partial code');
-        $host->add_permission_field($this, 'manage_menus', 'Manage Menus', 'right')->renderAs(frm_checkbox)->comment('Modify and create site menus');
     }
 
     public function subscribe_access_points()
