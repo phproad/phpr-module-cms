@@ -371,7 +371,7 @@ class Cms_Themes extends Admin_Controller
 		try
 		{
 			$model = new Cms_Theme_Import();
-			$import_manager = $model->import(post('Cms_Theme_Import', array()), $this->formGetEditSessionKey());			
+			$import_manager = $model->import(post('Cms_Theme_Import', array()), $this->form_get_edit_session_key());			
 			Phpr::$session->flash['success'] = 'Theme has been successfully imported';
 			$this->renderPartial('themes_page_content');
 		}

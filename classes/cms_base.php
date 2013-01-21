@@ -28,7 +28,6 @@ class Cms_Base extends Db_ActiveRecord
 			$checker->where('theme_id=?', $obj->theme_id);
 		else
 			$checker->where('theme_id=?', Cms_Theme::get_edit_theme()->code);
-
 	}
 
 	public function load_file_content()
@@ -85,7 +84,7 @@ class Cms_Base extends Db_ActiveRecord
 		}
 		catch (exception $ex)
 		{
-			
+			// Do nothing	
 		}
 	}
 
@@ -135,13 +134,12 @@ class Cms_Base extends Db_ActiveRecord
 
 	protected function save_settings()
 	{
-
 		if ($this->ignore_file_copy)
 			return;
 
-		$object = $this->get_settings_xml();
+		$xml_obj = $this->get_settings_xml();
 
-        if ($node = $this->find_setting($object))
+        if ($node = $this->find_setting($xml_obj))
         {
         	$node->file_name = $this->file_name;   	
 	        foreach ($this->cms_fields_to_save as $field)
@@ -162,11 +160,10 @@ class Cms_Base extends Db_ActiveRecord
         		$link = $link['linked_key'];
         		$node->$value = $this->$relation->$link;
 	        }
-
         }
         else
         {
-        	$node = $object->addChild('object');
+        	$node = $xml_obj->addChild('object');
         	//$node->addChild('id', $this->id);
         	$node->addChild('class', get_class($this));
         	$node->addChild('file_name', $this->file_name);
@@ -188,8 +185,7 @@ class Cms_Base extends Db_ActiveRecord
 	        }
         }
      
-		$this->save_settings_xml($object);
-
+		$this->save_settings_xml($xml_obj);
 	}
 
 	protected function get_settings_xml()
@@ -205,13 +201,13 @@ class Cms_Base extends Db_ActiveRecord
 		else
 			$data = '<data></data>';
 
-        return new SimpleXMLElement($data);		
+        return new SimpleXMLElement($data);
 	}
 
-	protected function save_settings_xml($object)
+	protected function save_settings_xml($xml_obj)
 	{
 		$path = $this->get_settings_path($this->file_name);
-        $data = $this->beautify_xml($object);
+        $data = Phpr_Xml::beautify_xml($xml_obj);
 
         if (!Cms_Theme::theme_dir_is_writable($this->theme_id))
 			throw new Phpr_ApplicationException('Directory is not writable: ' . Cms_Theme::get_theme_dir($this->theme_id));
@@ -229,9 +225,9 @@ class Cms_Base extends Db_ActiveRecord
 			throw new Phpr_ApplicationException('Error writing file ' . $path);   		
 	}
 
-	protected function find_setting(&$object, $match_field='file_name')
+	protected function find_setting(&$xml_obj, $match_field='file_name')
 	{
-        foreach ($object->children() as $child)
+        foreach ($xml_obj->children() as $child)
         {
         	if ($child->class == get_class($this) && $child->$match_field == $this->$match_field)
         	{
@@ -253,8 +249,8 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->file_name)
 			return;
 
-        $object = $this->get_settings_xml();
-        $child = $this->find_setting($object);
+        $xml_obj = $this->get_settings_xml();
+        $child = $this->find_setting($xml_obj);
 
 		foreach ($this->cms_fields_to_save as $field)
 		{
@@ -277,8 +273,8 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->file_name)
 			return $this;
 
-        $object = $this->get_settings_xml();
-        $child = $this->find_setting($object);
+        $xml_obj = $this->get_settings_xml();
+        $child = $this->find_setting($xml_obj);
 
         foreach ($this->cms_relations_to_save as $relation=>$link)
         {        	
@@ -293,7 +289,6 @@ class Cms_Base extends Db_ActiveRecord
 
 	protected function load_relation_setting($relation, $linked_key, $value)
 	{
-
 		if (!isset($this->belongs_to[$relation]))
 			return;
 
@@ -306,40 +301,4 @@ class Cms_Base extends Db_ActiveRecord
 			return;
 		return $obj->id;
 	}
-
-
-	protected function beautify_xml($xml_obj) 
-	{  	    
-		$level = 4;  
-		$indent = 0;
-		$pretty = array();  
-
-		$xml = explode("\n", preg_replace('/>\s*</', ">\n<", $xml_obj->asXML()));  
-
-		if (count($xml) && preg_match('/^<\?\s*xml/', $xml[0])) 
-			$pretty[] = array_shift($xml);  
-
-		foreach ($xml as $el) 
-		{
-			if (preg_match('/^<([\w])+[^>\/]*>$/U', $el)) 
-			{  
-				$pretty[] = str_repeat(' ', $indent) . $el;  
-				$indent += $level;  
-			} 
-			else 
-			{  
-				if (preg_match('/^<\/.+>$/', $el)) 
-					$indent -= $level;
-
-				if ($indent < 0) 
-					$indent += $level;  
-
-				$pretty[] = str_repeat(' ', $indent) . $el;  
-			}  
-		}
-
-		$xml = implode("\n", $pretty);     
-		return $xml;  
-	}  	
-
 }

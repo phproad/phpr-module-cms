@@ -38,7 +38,7 @@ class Cms_Setup extends Admin_Settings_Controller
 		try
 		{
 			$config = Cms_Config::create();
-			$config->save(post($this->form_model_class, array()), $this->formGetEditSessionKey());
+			$config->save(post($this->form_model_class, array()), $this->form_get_edit_session_key());
 			Phpr::$session->flash['success'] = 'Website configuration has been successfully saved.';
 			Phpr::$response->redirect(url('admin/settings/'));
 		}

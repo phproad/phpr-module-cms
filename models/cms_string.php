@@ -2,7 +2,7 @@
 
 class Cms_String extends Db_ActiveRecord
 {
-	public $implement = 'Db_CsvModel';
+	public $implement = 'Db_Model_Csv';
 
 	public static $language_strings = array();
 	public static $default_strings = array();

@@ -4,18 +4,18 @@ class Cms_Statistics
 {
     private static $visitors_stats = null;
 
-    public static function delete_old_pageviews($numberToKeep = null)
+    public static function delete_old_pageviews($number_to_keep = null)
     {
-        if  ($numberToKeep === null)
-            $numberToKeep = Cms_Stats_Settings::get()->keep_pageviews;
+        if  ($number_to_keep === null)
+            $number_to_keep = Cms_Stats_Settings::get()->keep_pageviews;
 
-        $cnt = Db_Helper::scalar("select count(*) from cms_page_visits");
-        $offset = $cnt - $numberToKeep;
+        $count = Db_Helper::scalar('select count(*) from cms_page_visits');
+        $offset = $count - $number_to_keep;
 
         if ($offset <= 0)
             return;
         
-        Db_Helper::query("delete from cms_page_visits order by id limit $offset");
+        Db_Helper::query('delete from cms_page_visits order by id limit '.$offset);
     }
     
     public static function log_visit($page, $url)
@@ -28,7 +28,7 @@ class Cms_Statistics
         $bind['visit_date'] = Phpr_Date::userDate(Phpr_DateTime::now())->getDate();
         $bind['url'] = $url;
         
-        Db_Helper::query("insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)", $bind);
+        Db_Helper::query('insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)', $bind);
     }
 
     public static function get_visitor_stats($start, $end)
@@ -120,7 +120,7 @@ class Cms_Statistics
     {
         $count = 5;
         
-        return Db_Helper::object_array("select url, count(*) as cnt from cms_page_visits
+        return Db_Helper::object_array("select url, count(*) as count from cms_page_visits
             where visit_date >= :start and visit_date <= :end
             group by url
             order by 2 desc

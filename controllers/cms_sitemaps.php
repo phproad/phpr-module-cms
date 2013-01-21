@@ -42,7 +42,7 @@ class Cms_Sitemaps extends Admin_Settings_Controller
         {
             // Save config
             $config = Cms_Sitemap::create();
-            $config->save(post($this->form_model_class, array()), $this->formGetEditSessionKey());
+            $config->save(post($this->form_model_class, array()), $this->form_get_edit_session_key());
 
             // Save page selections
             $page_list = Cms_Page::create()->find_all();
