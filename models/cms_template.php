@@ -75,7 +75,7 @@ class Cms_Template extends Cms_Base
 		}
 	}
 
-	public function before_create($deferred_session_key = null) 
+	public function before_create($session_key = null) 
 	{
 		if (!strlen($this->unique_id))
 			$this->unique_id = uniqid("", true);
