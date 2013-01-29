@@ -415,7 +415,7 @@ class Cms_Controller extends Cms_Parser
     {
         $controller->layout = null;
 
-        $controller->setViewsDirPath('modules/cms/error_pages');
+        $controller->set_views_path('modules/cms/error_pages');
         if (Phpr::$config->get('SHOW_FRIENDLY_ERRORS'))
         {
             if (!Phpr::$request->is_remote_event())
