@@ -4,7 +4,7 @@
 <? Phpr_View::end_block() ?>
 
 <? Phpr_View::begin_block("view") ?>
-    <?=flash() ?>
+    <?=flash()?>
 
     <? if (isset($fatalError)): ?>
         <p><a href="<?=url('cms/themes') ?>">Return to themes list</a></p>

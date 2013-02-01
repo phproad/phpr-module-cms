@@ -292,7 +292,9 @@
 					for(var i = 0, l = patches.length; i < l; ++i) {
 						var index = self.html.indexOf(patches[i]) + patches[i].length;
 
-						var html = (i < patches.length-1) ? self.html.slice(index, self.html.indexOf(patches[i+1])) : self.html.slice(index);
+						var html = (i < patches.length-1) 
+							? self.html.slice(index, self.html.indexOf(patches[i+1])) 
+							: self.html.slice(index);
 	
 						var id = patches[i].slice(2, patches[i].length-2);
 
@@ -384,8 +386,9 @@
 					response.text = data;
 					
 					response.onComplete();
-					
-					response.isSuccess() ? response.onSuccess(data) : response.onFailure(data, 'error', response.html.replace('@AJAX-ERROR@', ''));
+					response.isSuccess() 
+						? response.onSuccess(data) 
+						: response.onFailure(data, 'error', response.html.replace('@AJAX-ERROR@', ''));
 				}
 			}, context.ajax);
 

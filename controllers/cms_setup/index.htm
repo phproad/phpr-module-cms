@@ -1,7 +1,7 @@
 <? Admin_Breadcrumb::add('Settings', 'admin/settings')->add($this->app_page_title);?>
 
 <? Phpr_View::begin_block("view") ?>
-	<?=flash() ?>
+	<?=flash()?>
 	<? if (!isset($fatalError)): ?>
 		<div class="form-400">
 			<?=form_open(array('id'=>'settings_form'))?>

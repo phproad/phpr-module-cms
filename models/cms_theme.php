@@ -49,7 +49,7 @@ class Cms_Theme extends Cms_Base
             throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 	}
 
-	public function before_delete($id=null)
+	public function before_delete($id = null)
 	{
         if (Phpr::$config->get('DEMO_MODE'))
             throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');

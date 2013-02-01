@@ -30,7 +30,7 @@
 						
 						<input type="hidden" name="theme_id" value="<?=$existing_theme->id ?>"/>
 					<? else: ?>
-						<div class="formFlash"><?=flash() ?></div>
+						<div class="formFlash"><?=flash()?></div>
 						<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
 					<? endif ?>
 				
