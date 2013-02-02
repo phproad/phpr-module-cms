@@ -39,6 +39,13 @@ class Cms_Config extends Core_Settings_Model
     protected function init_config_data()
     {
     	$this->site_name = Phpr::$config->get('APP_NAME');
+        $this->development_mode = true;
+    }
+
+    public static function is_dev_mode()
+    {
+        $obj = self::create();
+        return $obj->development_mode;
     }
 
     public function is_configured()
