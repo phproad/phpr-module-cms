@@ -10,7 +10,7 @@ class Cms_Action_Manager
 			return self::$action_list;
 
 		self::$action_list = array();
-		$modules = Core_Module_Manager::find_modules();
+		$modules = Core_Module_Manager::get_modules();
 
 		foreach ($modules as $module_id=>$module)
 		{
