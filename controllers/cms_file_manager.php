@@ -32,12 +32,12 @@ class Cms_File_Manager extends Admin_Controller
         if (file_exists($dest_path))
             @unlink($dest_path);
 
-        $this->suppressView();
+        $this->suppress_view();
     }
 
     public function connector()
     {
-        $this->suppressView();
+        $this->suppress_view();
         include_once PATH_APP.'/modules/cms/vendor/elfinder/php/elFinderConnector.class.php';
         include_once PATH_APP.'/modules/cms/vendor/elfinder/php/elFinder.class.php';
         include_once PATH_APP.'/modules/cms/vendor/elfinder/php/elFinderVolumeDriver.class.php';

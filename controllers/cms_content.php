@@ -47,7 +47,7 @@ class Cms_Content extends Admin_Controller
 		$this->app_page_title = 'Content';
 	}
 
-	public function listPrepareData()
+	public function list_prepare_data()
 	{
 		$obj = Cms_Content_Block::create();
 		$theme = Cms_Theme::get_edit_theme();

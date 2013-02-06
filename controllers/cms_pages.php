@@ -50,7 +50,7 @@ class Cms_Pages extends Admin_Controller
 		$this->app_page_title = 'Pages';
 	}
 
-	public function listPrepareData()
+	public function list_prepare_data()
 	{
 		$obj = Cms_Page::create();
 		$theme = Cms_Theme::get_edit_theme();

@@ -55,7 +55,7 @@ class Cms_Strings extends Admin_Controller
         $this->app_page_title = 'Strings';
     }
 
-    public function listPrepareData()
+    public function list_prepare_data()
     {
         $obj = Cms_String::create();
         $theme = Cms_Theme::get_edit_theme();
@@ -72,7 +72,7 @@ class Cms_Strings extends Admin_Controller
     
     public function export()
     {
-        $this->suppressView();
+        $this->suppress_view();
         try
         {
             Cms_String::create()->csv_export(true);

@@ -43,7 +43,7 @@ class Cms_Themes extends Admin_Controller
 		$this->renderPartial('themes_page_content');
 	}
 	
-	public function listGetRowClass($model)
+	public function list_get_row_class($model)
 	{
 		if ($model->default_theme)
 			return 'important';
@@ -339,7 +339,7 @@ class Cms_Themes extends Admin_Controller
 			$file->output();
 			@unlink($zip_path);
 		
-			$this->suppressView();
+			$this->suppress_view();
 		}
 		catch (Exception $ex)
 		{

@@ -49,7 +49,7 @@ class Cms_Templates extends Admin_Controller
 		$this->app_page_title = 'Templates';
 	}
 
-	public function listPrepareData()
+	public function list_prepare_data()
 	{
 		$obj = Cms_Template::create();
 

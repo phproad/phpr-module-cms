@@ -47,7 +47,7 @@ class Cms_Partials extends Admin_Controller
 		$this->app_page_title = 'Partials';
 	}
 
-	public function listPrepareData()
+	public function list_prepare_data()
 	{
 		$obj = Cms_Partial::create();
 		$theme = Cms_Theme::get_edit_theme();

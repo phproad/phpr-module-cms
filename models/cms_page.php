@@ -50,7 +50,7 @@ class Cms_Page extends Cms_Base
         $this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required('Please specify the page name.');
         $this->define_column('title', 'Title');
         $this->define_column('published', 'Published');
-        $this->define_column('sitemap_visible', 'Show on site map')->defaultInvisible()->listTitle('Sitemap Visible');
+        $this->define_column('sitemap_visible', 'Show on site map')->defaultInvisible()->list_title('Sitemap Visible');
         $this->define_column('url', 'Page URL')->validation()->fn('trim')->fn('mb_strtolower')->
                 required('Please provide the page URL.')->unique('Url "%s" already in use.', array($this, 'config_unique_validator'))->
                 regexp(',^[/a-z0-9_\.-]*$,i', "Page URL can only contain letters, numbers, underscore (_), dash (-), forward slash (/) and dot (.)")->
@@ -66,7 +66,7 @@ class Cms_Page extends Cms_Base
         $this->define_column('keywords', 'Keywords')->defaultInvisible()->validation()->fn('trim');
         $this->define_column('head', 'Head Extras')->defaultInvisible()->validation()->fn('trim');
 
-        $this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->defaultInvisible()->listTitle('Navigation Parent');
+        $this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->defaultInvisible()->list_title('Navigation Parent');
         $this->define_relation_column('template', 'template', 'Page Template', db_varchar, '@name')->validation();
         $this->define_relation_column('security_mode', 'security_mode', 'Security', db_varchar, '@name')->defaultInvisible();
         $this->define_relation_column('security_redirect', 'security_redirect', 'Redirect', db_varchar, '@name')->defaultInvisible()->validation()->method('validate_redirect');
