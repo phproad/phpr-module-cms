@@ -15,9 +15,9 @@ class Cms_Partials extends Admin_Controller
 	public $form_redirect = null;
 	public $form_create_save_redirect = null;
 
-	public $form_edit_save_flash = 'The template has been successfully saved';
-	public $form_create_save_flash = 'The template has been successfully added';
-	public $form_edit_delete_flash = 'The template has been successfully deleted';
+	public $form_edit_save_flash = 'The partial has been successfully saved';
+	public $form_create_save_flash = 'The partial has been successfully added';
+	public $form_edit_delete_flash = 'The partial has been successfully deleted';
 	public $form_edit_save_auto_timestamp = true;
 
 	public $list_search_enabled = true;
