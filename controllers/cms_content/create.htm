@@ -13,9 +13,9 @@
                 <? $this->form_render() ?>
 
                 <div class="form_toolbar">
-                    <?=admin_ajax_button('Save', 'create_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
-                    <?=admin_ajax_button('Save and Close', 'create_onSave', array(), "extraFields: {create_close: 1}, prepareFunction: function(){phprTriggerSave();}") ?>
-                    <?=admin_ajax_button('Cancel', 'create_onCancel') ?>
+                    <?=admin_ajax_button('Save', 'create_on_save', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
+                    <?=admin_ajax_button('Save and Close', 'create_on_save', array(), "extraFields: {create_close: 1}, prepareFunction: function(){phprTriggerSave();}") ?>
+                    <?=admin_ajax_button('Cancel', 'create_on_cancel') ?>
                     <div class="clear"></div>
                 </div>
             <?=form_close()?>

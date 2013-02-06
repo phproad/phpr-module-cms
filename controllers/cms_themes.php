@@ -63,7 +63,7 @@ class Cms_Themes extends Admin_Controller
 		} 
 		catch (Exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 
 		$this->renderPartial('set_default_theme_form');
@@ -249,7 +249,7 @@ class Cms_Themes extends Admin_Controller
 			$theme->define_form_fields('duplicate');
 		} catch (Exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 
 		$this->renderPartial('duplicate_theme_form');
@@ -295,7 +295,7 @@ class Cms_Themes extends Admin_Controller
 			$this->viewData['model'] = $model;
 		} catch (Exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 
 		$this->renderPartial('export_theme_form');
@@ -343,7 +343,7 @@ class Cms_Themes extends Admin_Controller
 		}
 		catch (Exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 	}
 
@@ -360,7 +360,7 @@ class Cms_Themes extends Admin_Controller
 		} 
 		catch (Exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 
 		$this->renderPartial('import_theme_form');

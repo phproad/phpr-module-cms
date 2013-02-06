@@ -65,14 +65,14 @@ class Cms_Templates extends Admin_Controller
 		$model->load_file_content();
 	}
 
-	public function formBeforeCreateSave($model, $session_key)
+	public function form_before_create_save($model, $session_key)
 	{
 		$theme = Cms_Theme::get_edit_theme()->code;
 		if ($theme)
 			$model->theme_id = $theme;
 	}
 
-	public function formAfterCreateSave($page, $session_key)
+	public function form_after_create_save($page, $session_key)
 	{
 		if (post('create_close'))
 			$this->form_create_save_redirect = url('/cms/templates');

@@ -81,7 +81,7 @@ class Cms_Strings extends Admin_Controller
         {
             $this->app_page_title = 'Export Strings';
             $this->_suppress_view = false;
-            $this->handlePageError($ex);
+            $this->handle_page_error($ex);
         }
     }
 
@@ -91,7 +91,7 @@ class Cms_Strings extends Admin_Controller
         {
             $model_id = post('string_id', null);
             
-            $this->resetFormEditSessionKey();
+            $this->reset_form_edit_session_key();
 
             $model = Cms_String::create();
             if ($model_id)
@@ -104,7 +104,7 @@ class Cms_Strings extends Admin_Controller
         } 
         catch (Exception $ex)
         {
-            $this->handlePageError($ex);
+            $this->handle_page_error($ex);
         }
 
         $this->renderPartial('manage_string_form');

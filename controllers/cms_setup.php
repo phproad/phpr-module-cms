@@ -29,7 +29,7 @@ class Cms_Setup extends Admin_Settings_Controller
 		}
 		catch (exception $ex)
 		{
-			$this->handlePageError($ex);
+			$this->handle_page_error($ex);
 		}
 	}
 

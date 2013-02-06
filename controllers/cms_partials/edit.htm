@@ -8,10 +8,10 @@
 				<? $this->form_render() ?>
 
 				<div class="form_toolbar">
-					<?=admin_ajax_button('Save', 'edit_onSave', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
-					<?=admin_ajax_button('Save and Close', 'edit_onSave', array(), "prepareFunction: function(){phprTriggerSave();}") ?>
-					<?=admin_ajax_button('Cancel', 'edit_onCancel') ?>
-					<?=admin_ajax_button('Delete', 'edit_onDelete', array('class'=>"right negative"), "confirm: 'Do you really want to delete this partial?'") ?>
+					<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
+					<?=admin_ajax_button('Save and Close', 'edit_on_save', array(), "prepareFunction: function(){phprTriggerSave();}") ?>
+					<?=admin_ajax_button('Cancel', 'edit_on_cancel') ?>
+					<?=admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"right negative"), "confirm: 'Do you really want to delete this partial?'") ?>
 					<div class="clear"></div>
 				</div>
 			<?=form_close()?>

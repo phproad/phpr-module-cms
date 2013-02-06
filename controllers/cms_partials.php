@@ -62,7 +62,7 @@ class Cms_Partials extends Admin_Controller
 		$model->load_file_content();
 	}
 
-	public function formAfterCreateSave($page, $session_key)
+	public function form_after_create_save($page, $session_key)
 	{
 		if (post('create_close'))
 			$this->form_create_save_redirect = url('/cms/partials');
