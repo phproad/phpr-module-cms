@@ -30,7 +30,14 @@ class Cms_Page extends Cms_Base
         'parent' => array('class_name'=>'Cms_Page', 'foreign_key'=>'parent_id')
     );
 
-    public $calculated_columns = array('title_name'=> array('sql'=>"IF(cms_pages.title is null,cms_pages.name,cms_pages.title)", 'type'=>db_varchar));
+    public $calculated_columns = array(
+        'title_name'=> array('sql'=>"IF(cms_pages.title is null,cms_pages.name,cms_pages.title)", 'type'=>db_varchar)
+    );
+
+    public $custom_columns = array(
+        'page_code' => db_varchar,
+        'template_code' => db_varchar
+    );
 
     public static function create()
     {
@@ -222,6 +229,22 @@ class Cms_Page extends Cms_Base
     {
         if (Cms_Theme::theme_dir_is_writable($this->theme_id) && $this->file_name)
             $this->delete_page_dir();
+    }
+
+    // Custom columns
+    // 
+
+    public function eval_page_code()
+    {
+        return $this->file_name.'-page';
+    }
+
+    public function eval_template_code()
+    {
+        if (!$this->template)
+            return '';
+
+        return $this->template->file_name.'-template';
     }
 
     // Getters
