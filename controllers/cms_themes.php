@@ -38,9 +38,9 @@ class Cms_Themes extends Admin_Controller
 		$this->app_page_title = 'Themes';
 	}
 	
-	protected function index_onRefresh()
+	protected function index_on_refresh()
 	{
-		$this->renderPartial('themes_page_content');
+		$this->display_partial('themes_page_content');
 	}
 	
 	public function list_get_row_class($model)
@@ -57,16 +57,16 @@ class Cms_Themes extends Admin_Controller
 		try
 		{
 			$ids = post('list_ids', array());
-			$this->viewData['theme_id'] = count($ids) ? $ids[0] : null;
+			$this->view_data['theme_id'] = count($ids) ? $ids[0] : null;
 
-			$this->viewData['themes'] = Cms_Theme::create()->where('default_theme is null')->order('name')->find_all();
+			$this->view_data['themes'] = Cms_Theme::create()->where('default_theme is null')->order('name')->find_all();
 		} 
 		catch (Exception $ex)
 		{
 			$this->handle_page_error($ex);
 		}
 
-		$this->renderPartial('set_default_theme_form');
+		$this->display_partial('set_default_theme_form');
 	}
 	
 	protected function index_onset_default_theme()
@@ -84,7 +84,7 @@ class Cms_Themes extends Admin_Controller
 
 			$theme->make_default();
 			Phpr::$session->flash['success'] = sprintf('Theme "%s" is now the default theme', h($theme->name));
-			$this->renderPartial('themes_page_content');
+			$this->display_partial('themes_page_content');
 
 			Cms_Theme::auto_create_all_from_files();
 		}
@@ -100,7 +100,7 @@ class Cms_Themes extends Admin_Controller
 		$items_deleted = 0;
 
 		$item_ids = post('list_ids', array());
-		$this->viewData['list_checked_records'] = $item_ids;
+		$this->view_data['list_checked_records'] = $item_ids;
 
 		foreach ($item_ids as $item_id)
 		{
@@ -136,7 +136,7 @@ class Cms_Themes extends Admin_Controller
 			Phpr::$session->flash['success'] = $message;
 		}
 
-		$this->renderPartial('themes_page_content');
+		$this->display_partial('themes_page_content');
 	}
 	
 	protected function index_onenable_selected()
@@ -145,7 +145,7 @@ class Cms_Themes extends Admin_Controller
 		$items_enabled = 0;
 
 		$item_ids = post('list_ids', array());
-		$this->viewData['list_checked_records'] = $item_ids;
+		$this->view_data['list_checked_records'] = $item_ids;
 
 		foreach ($item_ids as $item_id)
 		{
@@ -181,7 +181,7 @@ class Cms_Themes extends Admin_Controller
 			Phpr::$session->flash['success'] = $message;
 		}
 
-		$this->renderPartial('themes_page_content');
+		$this->display_partial('themes_page_content');
 	}
 	
 	protected function index_ondisable_selected()
@@ -190,7 +190,7 @@ class Cms_Themes extends Admin_Controller
 		$items_disabled = 0;
 
 		$item_ids = post('list_ids', array());
-		$this->viewData['list_checked_records'] = $item_ids;
+		$this->view_data['list_checked_records'] = $item_ids;
 
 		foreach ($item_ids as $item_id)
 		{
@@ -226,7 +226,7 @@ class Cms_Themes extends Admin_Controller
 			Phpr::$session->flash['success'] = $message;
 		}
 
-		$this->renderPartial('themes_page_content');
+		$this->display_partial('themes_page_content');
 	}
 
 	// Duplicate
@@ -240,11 +240,11 @@ class Cms_Themes extends Admin_Controller
 			if (count($ids) != 1)
 				throw new Phpr_ApplicationException('Please choose a theme to duplicate');
 
-			$existing_theme = $this->viewData['existing_theme'] = Cms_Theme::create()->where('id=?', $ids[0])->find();
+			$existing_theme = $this->view_data['existing_theme'] = Cms_Theme::create()->where('id=?', $ids[0])->find();
 			if (!$existing_theme)
 				throw new Phpr_ApplicationException('That theme was not found');
 				
-			$theme = $this->viewData['theme'] = Cms_Theme::create();
+			$theme = $this->view_data['theme'] = Cms_Theme::create();
 			$existing_theme->init_copy($theme);
 			$theme->define_form_fields('duplicate');
 		} catch (Exception $ex)
@@ -252,7 +252,7 @@ class Cms_Themes extends Admin_Controller
 			$this->handle_page_error($ex);
 		}
 
-		$this->renderPartial('duplicate_theme_form');
+		$this->display_partial('duplicate_theme_form');
 	}
 	
 	protected function index_onduplicate_theme()
@@ -271,7 +271,7 @@ class Cms_Themes extends Admin_Controller
 			$theme->duplicate_theme(post('Cms_Theme', array()));
 
 			Phpr::$session->flash['success'] = 'Theme has been successfully duplicated';
-			$this->renderPartial('themes_page_content');
+			$this->display_partial('themes_page_content');
 		}
 		catch (Exception $ex)
 		{
@@ -292,13 +292,13 @@ class Cms_Themes extends Admin_Controller
 			
 			$model->theme_id = count($ids) ? $ids[0] : null;
 			$model->define_form_fields();
-			$this->viewData['model'] = $model;
+			$this->view_data['model'] = $model;
 		} catch (Exception $ex)
 		{
 			$this->handle_page_error($ex);
 		}
 
-		$this->renderPartial('export_theme_form');
+		$this->display_partial('export_theme_form');
 	}
 
 	protected function index_onexport_theme()
@@ -356,14 +356,14 @@ class Cms_Themes extends Admin_Controller
 		{
 			$model = new Cms_Theme_Import();
 			$model->define_form_fields();
-			$this->viewData['model'] = $model;
+			$this->view_data['model'] = $model;
 		} 
 		catch (Exception $ex)
 		{
 			$this->handle_page_error($ex);
 		}
 
-		$this->renderPartial('import_theme_form');
+		$this->display_partial('import_theme_form');
 	}
 	
 	protected function index_onimport_theme()
@@ -373,7 +373,7 @@ class Cms_Themes extends Admin_Controller
 			$model = new Cms_Theme_Import();
 			$import_manager = $model->import(post('Cms_Theme_Import', array()), $this->form_get_edit_session_key());			
 			Phpr::$session->flash['success'] = 'Theme has been successfully imported';
-			$this->renderPartial('themes_page_content');
+			$this->display_partial('themes_page_content');
 		}
 		catch (Exception $ex)
 		{

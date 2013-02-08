@@ -25,7 +25,7 @@ class Cms_Setup extends Admin_Settings_Controller
 		try
 		{
 			$record = Cms_Config::create();
-			$this->viewData['form_model'] = $record;
+			$this->view_data['form_model'] = $record;
 		}
 		catch (exception $ex)
 		{
@@ -33,7 +33,7 @@ class Cms_Setup extends Admin_Settings_Controller
 		}
 	}
 
-	protected function index_onSave()
+	protected function index_on_save()
 	{		
 		try
 		{

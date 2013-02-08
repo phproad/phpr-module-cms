@@ -17,15 +17,15 @@ class Cms_Config extends Core_Settings_Model
         // Add logo to our model
         $this->add_relation('has_many', 'logo', array('class_name'=>'Db_File', 'foreign_key'=>'master_object_id', 'conditions'=>"master_object_class='Cms_Config' and field='logo'", 'order'=>'id', 'delete'=>true));
         $this->define_multi_relation_column('logo', 'logo', 'Logo', '@name')->invisible();
-        $this->add_form_field('logo', 'left')->renderAs(frm_file_attachments)
-            ->renderFilesAs('single_image')
-            ->addDocumentLabel('Upload logo')            
-            ->noAttachmentsLabel('Logo is not uploaded')
-            ->imageThumbSize(170)
-            ->noLabel()            
+        $this->add_form_field('logo', 'left')->render_as(frm_file_attachments)
+            ->render_files_as('single_image')
+            ->add_document_label('Upload logo')            
+            ->no_attachments_label('Logo is not uploaded')
+            ->image_thumb_size(170)
+            ->no_label()            
             ->tab('General');
 
-        $this->add_field('development_mode', 'Development Mode', 'full', db_bool)->renderAs(frm_onoffswitcher)->tab('General')->comment('Enable development mode if you are working on the site, this will disable caching of front end files.', 'above');
+        $this->add_field('development_mode', 'Development Mode', 'full', db_bool)->render_as(frm_onoffswitcher)->tab('General')->comment('Enable development mode if you are working on the site, this will disable caching of front end files.', 'above');
     }
     
     public function before_save($session_key = null)

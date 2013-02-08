@@ -5,7 +5,7 @@
 <? Phpr_View::begin_block("view") ?>
 
     <? if (!isset($fatalError)): ?>
-    <? $dbName = $this->viewData['form_model']; ?>
+    <? $dbName = $this->view_data['form_model']; ?>
         <div class="form-750">
             <?=form_open(array('id'=>'form_element')) ?>
                 <?=form_hidden('new_page_flag', 1, 'id="new_page_flag"')?>

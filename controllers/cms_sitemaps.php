@@ -27,8 +27,8 @@ class Cms_Sitemaps extends Admin_Settings_Controller
             $active_theme = Cms_Theme::get_active_theme();
             $record = Cms_Sitemap::create();
             $pages = Cms_Page::create()->where('theme_id=?', $active_theme->code)->order('theme_id asc')->order('sort_order asc')->find_all();
-            $this->viewData['pages'] = $pages;
-            $this->viewData['form_model'] = $record;
+            $this->view_data['pages'] = $pages;
+            $this->view_data['form_model'] = $record;
         }
         catch (exception $ex)
         {
@@ -36,7 +36,7 @@ class Cms_Sitemaps extends Admin_Settings_Controller
         }
     }
 
-    protected function index_onSave()
+    protected function index_on_save()
     {      
         try
         {

@@ -25,7 +25,7 @@ class Cms_Statistics
         $bind = array();
         $bind['ip'] = $ip;
         $bind['page_id'] = $page->id;
-        $bind['visit_date'] = Phpr_Date::userDate(Phpr_DateTime::now())->getDate();
+        $bind['visit_date'] = Phpr_Date::user_date(Phpr_DateTime::now())->getDate();
         $bind['url'] = $url;
         
         Db_Helper::query('insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)', $bind);

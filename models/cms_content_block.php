@@ -60,15 +60,15 @@ class Cms_Content_Block extends Cms_Base
 
 		if ($this->type == 'html')
 		{
-			$content_field->renderAs(frm_html)->size('huge');
-			$content_field->htmlPlugins .= ',save,fullscreen,inlinepopups';
-			$content_field->htmlButtons1 = 'save,separator,'.$content_field->htmlButtons1.',separator,fullscreen';
-			$content_field->saveCallback('save_code');
-			$content_field->htmlFullWidth = true;		
+			$content_field->render_as(frm_html)->size('huge');
+			$content_field->html_plugins .= ',save,fullscreen,inlinepopups';
+			$content_field->html_buttons1 = 'save,separator,'.$content_field->html_buttons1.',separator,fullscreen';
+			$content_field->save_callback('save_code');
+			$content_field->html_full_width = true;		
 		}
 		else
 		{
-			$content_field->renderAs(frm_textarea)->size('huge');
+			$content_field->render_as(frm_textarea)->size('huge');
 		}
 	}
 

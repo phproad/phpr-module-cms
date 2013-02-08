@@ -50,28 +50,28 @@ class Cms_Page extends Cms_Base
         $this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required('Please specify the page name.');
         $this->define_column('title', 'Title');
         $this->define_column('published', 'Published');
-        $this->define_column('sitemap_visible', 'Show on site map')->defaultInvisible()->list_title('Sitemap Visible');
+        $this->define_column('sitemap_visible', 'Show on site map')->default_invisible()->list_title('Sitemap Visible');
         $this->define_column('url', 'Page URL')->validation()->fn('trim')->fn('mb_strtolower')->
                 required('Please provide the page URL.')->unique('Url "%s" already in use.', array($this, 'config_unique_validator'))->
                 regexp(',^[/a-z0-9_\.-]*$,i', "Page URL can only contain letters, numbers, underscore (_), dash (-), forward slash (/) and dot (.)")->
                 regexp(',^/,i', "The first character in the URL must be the forward slash")->method('validate_url');
 
-        $this->define_column('file_name', 'File Name')->defaultInvisible()->validation()->fn('trim')->required("Please specify a file name.")
+        $this->define_column('file_name', 'File Name')->default_invisible()->validation()->fn('trim')->required("Please specify a file name.")
             ->regexp('/^[a-z_0-9-;]*$/i', 'File name can only contain letters, numbers, underscore (_), dash (-), forward slash (/), dot (.) and semi-colon (;)')
             ->fn('strtolower')->unique('File name (%s) is already in use', array($this, 'config_unique_validator'));
 
         $this->define_column('content', 'Content')->invisible()->validation()->required();
 
-        $this->define_column('description', 'Description')->defaultInvisible()->validation()->fn('trim');
-        $this->define_column('keywords', 'Keywords')->defaultInvisible()->validation()->fn('trim');
-        $this->define_column('head', 'Head Extras')->defaultInvisible()->validation()->fn('trim');
+        $this->define_column('description', 'Description')->default_invisible()->validation()->fn('trim');
+        $this->define_column('keywords', 'Keywords')->default_invisible()->validation()->fn('trim');
+        $this->define_column('head', 'Head Extras')->default_invisible()->validation()->fn('trim');
 
-        $this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->defaultInvisible()->list_title('Navigation Parent');
+        $this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->default_invisible()->list_title('Navigation Parent');
         $this->define_relation_column('template', 'template', 'Page Template', db_varchar, '@name')->validation();
-        $this->define_relation_column('security_mode', 'security_mode', 'Security', db_varchar, '@name')->defaultInvisible();
-        $this->define_relation_column('security_redirect', 'security_redirect', 'Redirect', db_varchar, '@name')->defaultInvisible()->validation()->method('validate_redirect');
+        $this->define_relation_column('security_mode', 'security_mode', 'Security', db_varchar, '@name')->default_invisible();
+        $this->define_relation_column('security_redirect', 'security_redirect', 'Redirect', db_varchar, '@name')->default_invisible()->validation()->method('validate_redirect');
 
-        $this->define_column('action_code', 'Page Function')->defaultInvisible();
+        $this->define_column('action_code', 'Page Function')->default_invisible();
         $this->define_column('code_pre', 'Pre Load Code')->invisible();
         $this->define_column('code_post', 'Post Load Code')->invisible();
         $this->define_column('code_ajax', 'Ajax Events')->invisible();
@@ -91,13 +91,13 @@ class Cms_Page extends Cms_Base
     public function define_form_fields($context = null)
     {
 
-        $user = Phpr::$security->getUser();
+        $user = Phpr::$security->get_user();
         $can_edit_pages = $user->get_permission('cms', 'manage_pages');
 
         $this->add_form_field('published', 'left')->tab('Page')->collapsible();
         $this->add_form_field('name','left')->tab('Page')->collapsible();
         $this->add_form_field('url', 'right')->tab('Page')->collapsible();
-        $this->add_form_field('template', 'left')->tab('Page')->emptyOption('<please select a template>')->collapsible();
+        $this->add_form_field('template', 'left')->tab('Page')->empty_option('<please select a template>')->collapsible();
         $this->add_form_field('file_name', 'right')->tab('Page')->collapsible();
 
         foreach ($this->content_blocks as $block)
@@ -107,11 +107,11 @@ class Cms_Page extends Cms_Base
 
             if ($block->type == 'html')
             {
-                $content_field->renderAs(frm_html);
-                $content_field->htmlPlugins .= ',save,fullscreen,inlinepopups';
-                $content_field->htmlButtons1 = 'save,separator,'.$content_field->htmlButtons1.',separator,fullscreen';
-                $content_field->saveCallback('save_code');
-                $content_field->htmlFullWidth = true;
+                $content_field->render_as(frm_html);
+                $content_field->html_plugins .= ',save,fullscreen,inlinepopups';
+                $content_field->html_buttons1 = 'save,separator,'.$content_field->html_buttons1.',separator,fullscreen';
+                $content_field->save_callback('save_code');
+                $content_field->html_full_width = true;
             }
 
             if ($can_edit_pages)
@@ -119,32 +119,32 @@ class Cms_Page extends Cms_Base
             else
                 $content_field->tab('Page');
 
-            $content_field->noLabel();
+            $content_field->no_label();
         }
 
         if ($can_edit_pages)
-            $this->add_form_field('content')->tab('Page')->size('giant')->cssClasses('code')->language('php')->renderAs(frm_code_editor)->saveCallback('save_code');
+            $this->add_form_field('content')->tab('Page')->size('giant')->css_classes('code')->language('php')->render_as(frm_code_editor)->save_callback('save_code');
 
         $this->add_form_field('title')->tab('Meta');
         $this->add_form_field('description')->tab('Meta')->size('small');
         $this->add_form_field('keywords')->tab('Meta')->size('small');
-        $this->add_form_field('head')->tab('Meta')->size('large')->cssClasses('code')->comment('Extra HTML code to be included in the HEAD section of the page', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+        $this->add_form_field('head')->tab('Meta')->size('large')->css_classes('code')->comment('Extra HTML code to be included in the HEAD section of the page', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
 
-        $this->add_form_field('parent')->tab('Menu')->emptyOption('<none>')->optionsHtmlEncode(false)->comment('Select a parent page for this page. The parent page information will be used for the navigation menus generating only', 'above');
+        $this->add_form_field('parent')->tab('Menu')->empty_option('<none>')->options_html_encode(false)->comment('Select a parent page for this page. The parent page information will be used for the navigation menus generating only', 'above');
         $this->add_form_field('sitemap_visible', 'left')->tab('Menu')->comment('Display this page in the public XML sitemap');
         
         if (Phpr_Module_Manager::module_exists('user'))
         {
-            $this->add_form_field('security_mode', 'left')->referenceDescriptionField('@description')->comment('Select access level for this page', 'above')->tab('Access')->renderAs(frm_radio);
-            $this->add_form_field('security_redirect', 'right')->referenceSort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->emptyOption('<select>')->tab('Access');
+            $this->add_form_field('security_mode', 'left')->reference_description_field('@description')->comment('Select access level for this page', 'above')->tab('Access')->render_as(frm_radio);
+            $this->add_form_field('security_redirect', 'right')->reference_sort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->empty_option('<select>')->tab('Access');
         }
 
         if ($can_edit_pages)
         {
-            $this->add_form_field('action_code')->tab('Advanced')->renderAs(frm_dropdown);
-            $this->add_form_field('code_pre')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
-            $this->add_form_field('code_post')->tab('Advanced')->size('large')->cssClasses('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
-            $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->cssClasses('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+            $this->add_form_field('action_code')->tab('Advanced')->render_as(frm_dropdown);
+            $this->add_form_field('code_pre')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
+            $this->add_form_field('code_post')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
+            $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->css_classes('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->render_as(frm_code_editor)->language('php')->save_callback('save_code');
         }
 
         // Extensibility
@@ -153,7 +153,7 @@ class Cms_Page extends Cms_Base
         {
             $form_field = $this->find_form_field($column_name);
             if ($form_field)
-                $form_field->optionsMethod('get_added_field_options');
+                $form_field->options_method('get_added_field_options');
         }        
     }
 
@@ -552,7 +552,7 @@ class Cms_Page extends Cms_Base
     public function validate_url($name, $value)
     {
         if (preg_match(',//,i', $value))
-            $this->validation->setError('Page URL cannot contain two forward slashes (//) in a row.', $name, true);
+            $this->validation->set_error('Page URL cannot contain two forward slashes (//) in a row.', $name, true);
 
         return true;
     }
@@ -560,7 +560,7 @@ class Cms_Page extends Cms_Base
     public function validate_redirect($name, $value)
     {
         if ($this->security_mode && $this->security_mode->id != Cms_Security_Group::everyone && !$value && !$this->ignore_file_copy)
-            $this->validation->setError('Please select security redirect page.', $name, true);
+            $this->validation->set_error('Please select security redirect page.', $name, true);
 
         return true;
     }

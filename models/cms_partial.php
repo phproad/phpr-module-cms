@@ -31,7 +31,7 @@ class Cms_Partial extends Cms_Base
 	{
 		$this->add_form_field('name','left')->collapsible();
 		$this->add_form_field('file_name','right')->collapsible();
-		$this->add_form_field('content')->size('giant')->cssClasses('code')->renderAs(frm_code_editor)->language('php')->saveCallback('save_code');
+		$this->add_form_field('content')->size('giant')->css_classes('code')->render_as(frm_code_editor)->language('php')->save_callback('save_code');
 	}
 
     // Events

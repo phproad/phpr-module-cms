@@ -99,15 +99,15 @@ class Cms_Strings extends Admin_Controller
 
             $model->define_form_fields();
             
-            $this->viewData['model'] = $model;
-            $this->viewData['new_record_flag'] = !($model_id);
+            $this->view_data['model'] = $model;
+            $this->view_data['new_record_flag'] = !($model_id);
         } 
         catch (Exception $ex)
         {
             $this->handle_page_error($ex);
         }
 
-        $this->renderPartial('manage_string_form');
+        $this->display_partial('manage_string_form');
     }
 
     protected function index_onsave_string()

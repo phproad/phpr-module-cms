@@ -60,7 +60,7 @@ class Cms_Pages extends Admin_Controller
 		return $obj;
 	}
 
-	public function edit_formBeforeRender($model)
+	public function edit_form_before_render($model)
 	{
 		$model->load_content_blocks();
 		$model->load_file_content();

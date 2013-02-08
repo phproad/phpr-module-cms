@@ -422,12 +422,12 @@ class Cms_Controller extends Cms_Parser
             {
                 if (Phpr::$config->get('DISPLAY_ERROR_LOG_ID') || Phpr::$config->get('DISPLAY_ERROR_LOG_STRING'))
                 {
-                    $controller->viewData['error'] = Phpr_Error_Log::get_exception_details($exception);
-                    $controller->loadView('exception_friendly');
+                    $controller->view_data['error'] = Phpr_Error_Log::get_exception_details($exception);
+                    $controller->load_view('exception_friendly');
                 }
                 else
                 {
-                    $controller->loadView('error', false, true);
+                    $controller->load_view('error', false, true);
                 }
             }
             else
@@ -454,8 +454,8 @@ class Cms_Controller extends Cms_Parser
 
             if (!Phpr::$request->is_remote_event())
             {
-                $controller->viewData['error'] = Phpr_Error_Log::get_exception_details($exception);
-                $controller->loadView('exception', false, true);
+                $controller->view_data['error'] = Phpr_Error_Log::get_exception_details($exception);
+                $controller->load_view('exception', false, true);
             }
             else
             {

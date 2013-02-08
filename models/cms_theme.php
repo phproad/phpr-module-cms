@@ -135,7 +135,7 @@ class Cms_Theme extends Cms_Base
 	public function validate_code($name, $value)
 	{
 		if (in_array($value, array('content', 'strings', 'pages', 'partials', 'templates', 'meta')))
-			$this->validation->setError('Theme code cannot be "content", "strings", "pages", "partials", "templates" or "meta".', $name, true);
+			$this->validation->set_error('Theme code cannot be "content", "strings", "pages", "partials", "templates" or "meta".', $name, true);
 
 		return true;
 	}
@@ -143,7 +143,7 @@ class Cms_Theme extends Cms_Base
 	public function validate_enabled($name, $value)
 	{
 		if (!$value && $this->default_theme)
-			$this->validation->setError('Default theme cannot be disabled.', $name, true);
+			$this->validation->set_error('Default theme cannot be disabled.', $name, true);
 
 		return $value;
 	}

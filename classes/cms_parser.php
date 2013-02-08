@@ -107,7 +107,7 @@ class Cms_Parser {
 
 	protected function parse_handler_exception($message, $ex)
 	{
-		$exception_text = $message . Phpr_Strings::finalize($ex->getMessage());
+		$exception_text = $message . Phpr_String::finalize($ex->getMessage());
 
 		if ($ex instanceof Phpr_PhpException)
 			$exception_text .= ' Line ' . $ex->getLine() . '.';

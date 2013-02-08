@@ -26,10 +26,10 @@ class Cms_Theme_Import extends Db_ActiveRecord
 
 	public function define_form_fields($context = null)
 	{
-		$this->add_form_field('file')->renderAs(frm_file_attachments)->renderFilesAs('single_file')->addDocumentLabel('Upload file')->fileDownloadBaseUrl(url('admin/files/get/'))->noAttachmentsLabel('')->comment('Please upload theme archive file', 'above');
-		$this->add_form_field('theme_id')->renderAs(frm_dropdown)->emptyOption('<please select>')->comment('Please select an exisiting theme to import the archive to', 'above');
+		$this->add_form_field('file')->render_as(frm_file_attachments)->render_files_as('single_file')->add_document_label('Upload file')->file_download_base_url(url('admin/files/get/'))->no_attachments_label('')->comment('Please upload theme archive file', 'above');
+		$this->add_form_field('theme_id')->render_as(frm_dropdown)->empty_option('<please select>')->comment('Please select an exisiting theme to import the archive to', 'above');
 		$this->add_form_field('overwrite_files')->comment('Untick this to only import new changes');
-		$this->add_form_field('components')->renderAs(frm_checkboxlist)->comment('Please select the theme components you would like to import', 'above');
+		$this->add_form_field('components')->render_as(frm_checkboxlist)->comment('Please select the theme components you would like to import', 'above');
 	}
 
 	public function get_theme_id_options($key_value = -1)
@@ -78,7 +78,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			$path_info = pathinfo($file->name);
 			$ext = strtolower($path_info['extension']);
 			if (!isset($path_info['extension']) || !($ext == 'zip'))
-				$this->validation->setError('Uploaded file is not a valid theme file', 'file', true);
+				$this->validation->set_error('Uploaded file is not a valid theme file', 'file', true);
 			
 			if ($this->theme_id == -1)
 			{

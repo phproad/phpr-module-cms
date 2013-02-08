@@ -33,12 +33,12 @@ class Cms_Module extends Core_Module_Base
 
     public function build_admin_permissions($host)
     {
-        $host->add_permission_field($this, 'manage_content', 'Manage Content', 'full')->renderAs(frm_checkbox)->comment('Modify dedicated content areas and language strings');
-        $host->add_permission_field($this, 'manage_themes', 'Manage Themes', 'left')->renderAs(frm_checkbox)->comment('Modify and install site themes');
-        $host->add_permission_field($this, 'manage_files', 'Access File Manager', 'right')->renderAs(frm_checkbox)->comment('Allowed to view and modify theme files');
-        $host->add_permission_field($this, 'manage_templates', 'Manage Templates', 'left')->renderAs(frm_checkbox)->comment('Modify page template code');
-        $host->add_permission_field($this, 'manage_pages', 'Manage Pages', 'right')->renderAs(frm_checkbox)->comment('Modify page code and content');
-        $host->add_permission_field($this, 'manage_partials', 'Manage Partials', 'left')->renderAs(frm_checkbox)->comment('Modify page partial code');
+        $host->add_permission_field($this, 'manage_content', 'Manage Content', 'full')->render_as(frm_checkbox)->comment('Modify dedicated content areas and language strings');
+        $host->add_permission_field($this, 'manage_themes', 'Manage Themes', 'left')->render_as(frm_checkbox)->comment('Modify and install site themes');
+        $host->add_permission_field($this, 'manage_files', 'Access File Manager', 'right')->render_as(frm_checkbox)->comment('Allowed to view and modify theme files');
+        $host->add_permission_field($this, 'manage_templates', 'Manage Templates', 'left')->render_as(frm_checkbox)->comment('Modify page template code');
+        $host->add_permission_field($this, 'manage_pages', 'Manage Pages', 'right')->render_as(frm_checkbox)->comment('Modify page code and content');
+        $host->add_permission_field($this, 'manage_partials', 'Manage Partials', 'left')->render_as(frm_checkbox)->comment('Modify page partial code');
     }
 
     public function subscribe_access_points()

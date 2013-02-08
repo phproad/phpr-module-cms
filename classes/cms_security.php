@@ -3,9 +3,9 @@
 class Cms_Security extends Phpr_Security
 {
 
-    public $userClassName = "User";
-    public $cookieName = "Website";
-    protected $cookieLifetimeVar = 'FRONTEND_AUTH_COOKIE_LIFETIME';
+    public $user_class_name = "User";
+    public $cookie_name = "Website";
+    protected $cookie_lifetime_name = 'FRONTEND_AUTH_COOKIE_LIFETIME';
     protected static $user_cache = array();
     protected $cookie_updated = false;
 
@@ -14,29 +14,29 @@ class Cms_Security extends Phpr_Security
         return parent::login($Validation, $redirect, $Login, $Password, $DefaultField);
     }
 
-    public function getUser()
+    public function get_user()
     {
         if ($this->user !== null)
             return $this->user;
 
-        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookieName);
+        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
         $ticket = Phpr::$request->cookie($cookie_name);
 
         $frontend_ticket_param = Phpr::$config->get('TICKET_PARAM_NAME', 'frontend_ticket');
 
         if ($ticket === null)
         {
-            $ticket = $this->restoreTicket(Phpr::$request->get_field($frontend_ticket_param));
+            $ticket = $this->restore_ticket(Phpr::$request->get_field($frontend_ticket_param));
         }
         else
         {
-            $this->removeTicket(Phpr::$request->get_field($frontend_ticket_param));
+            $this->remove_ticket(Phpr::$request->get_field($frontend_ticket_param));
         }
 
         if (!$ticket)
             return null;
 
-        $ticket = $this->validateTicket($ticket);
+        $ticket = $this->validate_ticket($ticket);
         if ($ticket === null)
             return null;
 
@@ -52,44 +52,44 @@ class Cms_Security extends Phpr_Security
         if (!$this->check_session_host())
             return null;
 
-        $user = $this->getUser();
+        $user = $this->get_user();
 
         if (!$user)
             return null;
 
         if (!$this->cookie_updated)
         {
-            $this->updateCookie($user->id);
+            $this->update_cookie($user->id);
             $this->cookie_updated = true;
         }
 
         return $user;
     }
 
-    protected function updateCookie($id)
+    protected function update_cookie($id)
     {
-        $ticket = $this->getTicket($id);
+        $ticket = $this->get_ticket($id);
 
-        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookieName);
-        $cookie_lifetime = Phpr::$config->get($this->cookieLifetimeVar, $this->cookieLifetime);
+        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
+        $cookie_lifetime = Phpr::$config->get($this->cookie_lifetime_name, $this->cookie_lifetime);
 
-        $cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookiePath);
-        $cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookieDomain);
+        $cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookie_path);
+        $cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
 
         Phpr::$response->cookie($cookie_name, $ticket, $cookie_lifetime, $cookie_path, $cookie_domain);
     }
 
     public function user_login($user_id)
     {
-        $this->updateCookie($user_id);
+        $this->update_cookie($user_id);
         Phpr::$events->fire_event('on_front_end_login');
     }
 
     public function logout($redirect = null)
     {
-        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookieName);
-        $cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookiePath);
-        $cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookieDomain);
+        $cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
+        $cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookie_path);
+        $cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
 
         Phpr::$response->delete_cookie($cookie_name, $cookie_path, $cookie_domain);
 
@@ -101,12 +101,12 @@ class Cms_Security extends Phpr_Security
             Phpr::$response->redirect($redirect);
     }
 
-    protected function beforeLoginSessionDestroy($user)
+    protected function before_login_session_destroy($user)
     {
         Phpr::$events->fire_event('on_front_end_login');
     }
 
-    protected function keepSessionData()
+    protected function keep_session_data()
     {
 		return false;
     }

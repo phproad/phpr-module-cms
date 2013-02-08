@@ -89,7 +89,7 @@ function disable_selected()
 
 function refresh_theme_list()
 {
-	$('listCms_Themes_index_list_body').getForm().sendPhpr('index_onRefresh', {
+	$('listCms_Themes_index_list_body').getForm().sendPhpr('index_on_refresh', {
 		loadIndicator: {show: false}, 
 		onBeforePost: LightLoadingIndicator.show.pass('Loading...'), 
 		onComplete: LightLoadingIndicator.hide,
