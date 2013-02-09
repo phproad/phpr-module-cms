@@ -25,7 +25,7 @@ class Cms_Statistics
         $bind = array();
         $bind['ip'] = $ip;
         $bind['page_id'] = $page->id;
-        $bind['visit_date'] = Phpr_Date::user_date(Phpr_DateTime::now())->getDate();
+        $bind['visit_date'] = Phpr_Date::user_date(Phpr_DateTime::now())->get_date();
         $bind['url'] = $url;
         
         Db_Helper::query('insert into cms_page_visits(url, visit_date, ip, page_id) values (:url, :visit_date, :ip, :page_id)', $bind);
@@ -33,8 +33,8 @@ class Cms_Statistics
 
     public static function get_visitor_stats($start, $end)
     {
-        $start_sql_date = $start->toSqlDate();
-        $end_sql_date = $end->toSqlDate();
+        $start_sql_date = $start->to_sql_date();
+        $end_sql_date = $end->to_sql_date();
         
         if (self::$visitors_stats !== null 
             && self::$visitors_stats[0] == $start_sql_date 
@@ -42,9 +42,9 @@ class Cms_Statistics
             return self::$visitors_stats[2];
 
         // Calculate the interval and use to get previous term
-        $interval = $end->substractDateTime($start);
-        $prev_end = $start->addDays(-1);
-        $prev_start = $prev_end->substractInterval($interval);
+        $interval = $end->substract_datetime($start);
+        $prev_end = $start->add_days(-1);
+        $prev_start = $prev_end->substract_interval($interval);
 
         $data = Db_Helper::object('select
             (select count(distinct ip) from cms_page_visits where visit_date >= :current_start and visit_date <= :current_end) as visitors_current,
@@ -53,10 +53,10 @@ class Cms_Statistics
             (select count(*) from cms_page_visits where visit_date >= :current_start and visit_date <= :current_end) as pageviews_current,
             (select count(*) from cms_page_visits where visit_date >= :prev_start and visit_date <= :prev_end) as pageviews_previous
         ', array(
-            'current_start'=>$start->toSqlDate(),
-            'current_end'=>$end->toSqlDate(),
-            'prev_start'=>$prev_start->toSqlDate(),
-            'prev_end'=>$prev_end->toSqlDate()
+            'current_start'=>$start->to_sql_date(),
+            'current_end'=>$end->to_sql_date(),
+            'prev_start'=>$prev_start->to_sql_date(),
+            'prev_end'=>$prev_end->to_sql_date()
         ));
         
         self::$visitors_stats = array($start_sql_date, $end_sql_date, $data);
@@ -66,18 +66,18 @@ class Cms_Statistics
 
     public static function get_chart_series($start, $end)
     {
-        $data = self::get_chart_data($start->toSqlDate(), $end->toSqlDate());
+        $data = self::get_chart_data($start->to_sql_date(), $end->to_sql_date());
 
         $chart_data = array();
 
         // Build array of last 30 days
         $now = Phpr_DateTime::now();
-        $now->setPHPDateTime(strtotime("00:00:00"));
+        $now->set_php_datetime(strtotime("00:00:00"));
         for ($i = 1; $i < 31; $i++)
         {
-            $now = $now->addDays(-1);
-            $key = $now->toSqlDate();
-            $int = $now->getPHPTime() * 1000;
+            $now = $now->add_days(-1);
+            $key = $now->to_sql_date();
+            $int = $now->get_php_time() * 1000;
             $chart_data[$key] = array($int, 0);
         }
 
@@ -126,8 +126,8 @@ class Cms_Statistics
             order by 2 desc
             limit 0, $count",
             array(
-                'start'=>$start->toSqlDate(),
-                'end'=>$end->toSqlDate()
+                'start'=>$start->to_sql_date(),
+                'end'=>$end->to_sql_date()
             )
         );
     }
