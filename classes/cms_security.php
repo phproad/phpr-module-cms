@@ -2,16 +2,15 @@
 
 class Cms_Security extends Phpr_Security
 {
-
     public $user_class_name = "User";
     public $cookie_name = "Website";
     protected $cookie_lifetime_name = 'FRONTEND_AUTH_COOKIE_LIFETIME';
     protected static $user_cache = array();
     protected $cookie_updated = false;
 
-    public function login(Phpr_Validation $Validation = null, $redirect = null, $Login = null, $Password = null, $DefaultField = 'login')
+    public function login(Phpr_Validation $Validation = null, $redirect = null, $login = null, $password = null, $default_field = 'login')
     {
-        return parent::login($Validation, $redirect, $Login, $Password, $DefaultField);
+        return parent::login($Validation, $redirect, $login, $password, $default_field);
     }
 
     public function get_user()
@@ -82,7 +81,7 @@ class Cms_Security extends Phpr_Security
     public function user_login($user_id)
     {
         $this->update_cookie($user_id);
-        Phpr::$events->fire_event('on_front_end_login');
+        Phpr::$events->fire_event('cms:on_front_end_login');
     }
 
     public function logout($redirect = null)
@@ -103,7 +102,7 @@ class Cms_Security extends Phpr_Security
 
     protected function before_login_session_destroy($user)
     {
-        Phpr::$events->fire_event('on_front_end_login');
+        Phpr::$events->fire_event('cms:on_front_end_login');
     }
 
     protected function keep_session_data()
@@ -116,8 +115,9 @@ class Cms_Security extends Phpr_Security
         if (isset(self::$user_cache[$user_id]))
             return self::$user_cache[$user_id];
 
-        return self::$user_cache[$user_id] = User::create()->where('deleted_at is null')->where('users.id=?', $user_id)->find();
+        $user_class = $this->user_class_name;
+        $user_obj = new $user_class();
+
+        return self::$user_cache[$user_id] = $user_obj->where('deleted_at is null')->where('users.id=?', $user_id)->find();
     }
-
 }
-
