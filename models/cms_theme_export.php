@@ -17,8 +17,8 @@ class Cms_Theme_Export extends Db_ActiveRecord
 
 	public function define_form_fields($context = null)
 	{
-		$this->add_form_field('theme_id')->render_as(frm_dropdown);
-		$this->add_form_field('components')->render_as(frm_checkboxlist)->comment('Please select the theme components you would like to export', 'above');
+		$this->add_form_field('theme_id')->display_as(frm_dropdown);
+		$this->add_form_field('components')->display_as(frm_checkboxlist)->comment('Please select the theme components you would like to export', 'above');
 	}
 
 	public function get_theme_id_options($key_value = -1)

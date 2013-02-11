@@ -19,9 +19,9 @@ class Cms_Sitemap extends Core_Settings_Model
         $this->add_form_section('Select which pages you would like to appear in the sitemap')->tab('Pages');
         $this->add_form_custom_area('pages')->tab('Pages');
 
-        $this->add_field('include_blog_posts', 'Generate individual blog post pages', 'full', db_varchar)->tab('Blog Posts')->render_as(frm_checkbox);
+        $this->add_field('include_blog_posts', 'Generate individual blog post pages', 'full', db_varchar)->tab('Blog Posts')->display_as(frm_checkbox);
         $this->add_field('blog_posts_path', 'Blog posts Root Path', 'full', db_varchar)->tab('Blog Posts');
-        $this->add_field('blog_posts_frequency', 'Change frequency', 'left', db_varchar)->tab('Blog Posts')->render_as(frm_dropdown);
+        $this->add_field('blog_posts_frequency', 'Change frequency', 'left', db_varchar)->tab('Blog Posts')->display_as(frm_dropdown);
         $this->add_field('blog_posts_priority', 'Priority', 'right', db_varchar)->tab('Blog Posts')->validation('The blog posts priority field should contain a number between 0 and 1')->method('priority_validation');
         
     }

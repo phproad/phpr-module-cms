@@ -107,7 +107,7 @@ class Cms_Page extends Cms_Base
 
             if ($block->type == 'html')
             {
-                $content_field->render_as(frm_html);
+                $content_field->display_as(frm_html);
                 $content_field->html_plugins .= ',save,fullscreen,inlinepopups';
                 $content_field->html_buttons1 = 'save,separator,'.$content_field->html_buttons1.',separator,fullscreen';
                 $content_field->save_callback('save_code');
@@ -123,28 +123,28 @@ class Cms_Page extends Cms_Base
         }
 
         if ($can_edit_pages)
-            $this->add_form_field('content')->tab('Page')->size('giant')->css_classes('code')->language('php')->render_as(frm_code_editor)->save_callback('save_code');
+            $this->add_form_field('content')->tab('Page')->size('giant')->css_classes('code')->language('php')->display_as(frm_code_editor)->save_callback('save_code');
 
         $this->add_form_field('title')->tab('Meta');
         $this->add_form_field('description')->tab('Meta')->size('small');
         $this->add_form_field('keywords')->tab('Meta')->size('small');
-        $this->add_form_field('head')->tab('Meta')->size('large')->css_classes('code')->comment('Extra HTML code to be included in the HEAD section of the page', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
+        $this->add_form_field('head')->tab('Meta')->size('large')->css_classes('code')->comment('Extra HTML code to be included in the HEAD section of the page', 'above', true)->display_as(frm_code_editor)->language('php')->save_callback('save_code');
 
         $this->add_form_field('parent')->tab('Menu')->empty_option('<none>')->options_html_encode(false)->comment('Select a parent page for this page. The parent page information will be used for the navigation menus generating only', 'above');
         $this->add_form_field('sitemap_visible', 'left')->tab('Menu')->comment('Display this page in the public XML sitemap');
         
         if (Phpr_Module_Manager::module_exists('user'))
         {
-            $this->add_form_field('security_mode', 'left')->reference_description_field('@description')->comment('Select access level for this page', 'above')->tab('Access')->render_as(frm_radio);
+            $this->add_form_field('security_mode', 'left')->reference_description_field('@description')->comment('Select access level for this page', 'above')->tab('Access')->display_as(frm_radio);
             $this->add_form_field('security_redirect', 'right')->reference_sort('title')->comment('Select a page to redirect from this page in case if a visitor has no rights to access this page', 'above')->empty_option('<select>')->tab('Access');
         }
 
         if ($can_edit_pages)
         {
-            $this->add_form_field('action_code')->tab('Advanced')->render_as(frm_dropdown);
-            $this->add_form_field('code_pre')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
-            $this->add_form_field('code_post')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->render_as(frm_code_editor)->language('php')->save_callback('save_code');
-            $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->css_classes('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->render_as(frm_code_editor)->language('php')->save_callback('save_code');
+            $this->add_form_field('action_code')->tab('Advanced')->display_as(frm_dropdown);
+            $this->add_form_field('code_pre')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>before</strong> the page function loads', 'above', true)->display_as(frm_code_editor)->language('php')->save_callback('save_code');
+            $this->add_form_field('code_post')->tab('Advanced')->size('large')->css_classes('code')->comment('PHP code to execute <strong>after</strong> the page function loads', 'above', true)->display_as(frm_code_editor)->language('php')->save_callback('save_code');
+            $this->add_form_field('code_ajax')->tab('Advanced')->size('large')->css_classes('code')->comment('Define Ajax event handlers accessible to this page only', 'above')->display_as(frm_code_editor)->language('php')->save_callback('save_code');
         }
 
         // Extensibility

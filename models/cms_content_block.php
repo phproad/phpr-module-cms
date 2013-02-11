@@ -60,7 +60,7 @@ class Cms_Content_Block extends Cms_Base
 
 		if ($this->type == 'html')
 		{
-			$content_field->render_as(frm_html)->size('huge');
+			$content_field->display_as(frm_html)->size('huge');
 			$content_field->html_plugins .= ',save,fullscreen,inlinepopups';
 			$content_field->html_buttons1 = 'save,separator,'.$content_field->html_buttons1.',separator,fullscreen';
 			$content_field->save_callback('save_code');
@@ -68,7 +68,7 @@ class Cms_Content_Block extends Cms_Base
 		}
 		else
 		{
-			$content_field->render_as(frm_textarea)->size('huge');
+			$content_field->display_as(frm_textarea)->size('huge');
 		}
 	}
 

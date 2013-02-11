@@ -30,8 +30,8 @@ class Cms_String extends Db_ActiveRecord
 	public function define_form_fields($context = null)
 	{
 		$this->add_form_field('code');
-		$this->add_form_field('content')->render_as(frm_text);
-		$this->add_form_field('original')->render_as(frm_text)->disabled();
+		$this->add_form_field('content')->display_as(frm_text);
+		$this->add_form_field('original')->display_as(frm_text)->disabled();
 	}
 
 	// Events
