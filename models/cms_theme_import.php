@@ -100,7 +100,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			if (!is_writable(PATH_APP.'/themes/') || !is_writable($theme_path))
 				throw new Phpr_SystemException('Insufficient writing permissions to '.PATH_APP.'/themes');
 
-			Core_Zip::unzip($temp_path, $file_path);
+			File_Zip::unzip($temp_path, $file_path);
 
 			foreach ($this->components as $object)
 			{

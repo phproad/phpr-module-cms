@@ -57,7 +57,7 @@ class Cms_Content extends Admin_Controller
 		return $obj;
 	}
 
-	public function edit_form_before_render($model)
+	public function edit_form_before_display($model)
 	{
 		$model->load_file_content();
 	}

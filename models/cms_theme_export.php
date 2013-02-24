@@ -80,7 +80,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 					Phpr_Files::copy_dir($theme_path.'/meta/'.$object, $temp_path.'/meta/'.$object, $options);
 			}
 
-			Core_Zip::zip_directory($temp_path, $zip_path);
+			File_Zip::zip_directory($temp_path, $zip_path);
 			Phpr_Files::remove_dir_recursive($temp_path);
 
 		}
