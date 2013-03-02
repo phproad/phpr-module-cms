@@ -236,7 +236,7 @@ class Cms_Page extends Cms_Base
 
     public function eval_page_code()
     {
-        return $this->file_name.'-page';
+        return str_replace('_', '-', $this->file_name).'-page';
     }
 
     public function eval_template_code()
@@ -244,7 +244,7 @@ class Cms_Page extends Cms_Base
         if (!$this->template)
             return '';
 
-        return $this->template->file_name.'-template';
+        return str_replace('_', '-', $this->template->file_name).'-template';
     }
 
     // Getters
