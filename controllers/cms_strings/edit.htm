@@ -8,12 +8,13 @@
 
 				<? $this->form_render() ?>
 
-				<div class="form_toolbar">
-					<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'positive'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
-					<?=admin_ajax_button('Save and Close', 'edit_on_save', array(), "prepareFunction: function(){phprTriggerSave();}") ?>
-					<?=admin_ajax_button('Cancel', 'edit_on_cancel') ?>
-					<?=admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"right negative"), "confirm: 'Do you really want to delete this language string?'") ?>
-					<div class="clear"></div>
+				<div id="fixed-toolbar" class="top">
+					<div class="form-toolbar">
+						<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "prepareFunction: function(){phprTriggerSave();}, extraFields: {redirect: 0}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
+						<?=admin_ajax_button('Save and Close', 'edit_on_save', array('class'=>'btn-primary'), "prepareFunction: function(){phprTriggerSave();}") ?>
+						<?=admin_ajax_button('Cancel', 'edit_on_cancel') ?>
+						<?=admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-danger pull-right"), "confirm: 'Do you really want to delete this language string?'") ?>
+					</div>
 				</div>
 
 			<?=form_close()?>

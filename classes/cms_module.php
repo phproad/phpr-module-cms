@@ -15,7 +15,7 @@ class Cms_Module extends Core_Module_Base
 
     public function build_admin_menu($menu)
     {
-        $top = $menu->add('cms', 'Website', 'cms/pages')->permission(array('manage_files', 'manage_themes', 'manage_templates', 'manage_pages', 'manage_partials', 'manage_content'));
+        $top = $menu->add('cms', 'Website', 'cms/pages')->icon('font')->permission(array('manage_files', 'manage_themes', 'manage_templates', 'manage_pages', 'manage_partials', 'manage_content'));
         $top->add_child('file_manager', 'File Manager', 'cms/file_manager', 50)->permission('manage_files');
         $top->add_child('themes', 'Themes', 'cms/themes', 100)->permission('manage_themes');
         $top->add_child('templates', 'Templates', 'cms/templates', 200)->permission('manage_templates');

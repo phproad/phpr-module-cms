@@ -1,15 +1,14 @@
-<div class="toolbar">
-	<?=cp_button('New theme', 'icon add', url('/cms/themes/create')) ?>
-	<?=cp_button('Duplicate theme', 'icon duplicate', array('href'=>'#', 'onclick'=>"duplicate_theme(); return false;")) ?>
-	<?=cp_button('Delete selected', 'icon delete', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?>
-	<div class="separator">&nbsp;</div>
-	<?=cp_button('Set default theme', 'icon default', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
-	<div class="separator">&nbsp;</div>
-	<?=cp_button('Export theme', 'icon export', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
-	<?=cp_button('Import theme', 'icon import', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?>
+<ul class="nav">
+	<li><?=cp_button('New theme', 'plus', url('/cms/themes/create')) ?></li>
+	<li><?=cp_button('Duplicate theme', 'copy', array('href'=>'#', 'onclick'=>"duplicate_theme(); return false;")) ?></li>
+	<li><?=cp_button('Delete selected', 'remove', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?></li>
+	<li class="divider-vertical"></li>
+	<li><?=cp_button('Set default theme', 'star', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
+	<li class="divider-vertical"></li>
+	<li><?=cp_button('Export theme', 'download-alt', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
+	<li><?=cp_button('Import theme', 'upload-alt', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
 	<? /*
-	<?=cp_button('Enable selected', 'icon enable', array('href'=>'#', 'onclick'=>"return enable_selected()")) ?>
-	<?=cp_button('Disable selected', 'icon disable', array('href'=>'#', 'onclick'=>"return disable_selected()")) ?>
+	<li><?=cp_button('Enable selected', 'enable', array('href'=>'#', 'onclick'=>"return enable_selected()")) ?></li>
+	<li><?=cp_button('Disable selected', 'disable', array('href'=>'#', 'onclick'=>"return disable_selected()")) ?></li>
 	*/ ?>
-	<div class="clear"></div>
-</div>
+</ul>
