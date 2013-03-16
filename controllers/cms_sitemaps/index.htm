@@ -4,24 +4,24 @@
 	<?=flash()?>
 	<? if (!isset($fatalError)): ?>
 
-        <div class="scoreboard_report header_report">
+        <div class="scoreboard-report">
             <ul>
-                <li class="align_left last">
+                <li>
                     <h3>Sitemap</h3>
-                    <p>Sitemap is located at <a href="<?=root_url('sitemap.xml')?>" target="_blank"><?=root_url('sitemap.xml', true)?></a></p>
+                    <small>Location: <a href="<?=root_url('sitemap.xml')?>" target="_blank"><?=root_url('sitemap.xml', true)?></a></small>
                 </li>
             </ul>
-            <div class="clear"></div>
         </div>
 
 		<div class="form-700">
 			<?=form_open(array('id'=>'settings_form'))?>
 				<? $this->form_render($form_model) ?>
 
-				<div class="form_toolbar">
-					<?=admin_ajax_button('Save', 'index_on_save', array('class'=>'positive')) ?>
-					<?=backend_button('Cancel', array('href'=>url('admin/settings'))) ?>
-					<div class="clear"></div>
+				<div id="fixed-toolbar" class="top">
+					<div class="form-toolbar">
+						<?=admin_ajax_button('Save', 'index_on_save', array('class'=>'btn-success')) ?>
+						<?=admin_button('Cancel', array('href'=>url('admin/settings'))) ?>
+					</div>
 				</div>
 			<?=form_close()?>
 		</div>

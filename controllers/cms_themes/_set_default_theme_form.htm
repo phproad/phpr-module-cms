@@ -34,13 +34,13 @@
 						onSuccess: cancelPopup,
 						onAfterUpdate: update_scrollable_toolbars
 						") ?>
-					<?=backend_button('Cancel', array('onclick'=>"
+					<?=admin_button('Cancel', array('onclick'=>"
 						cancelPopup();
 						return false;
 					")) ?>
 				<? else: ?>
 					<div class="formFlash"><?=flash()?></div>
-					<?=backend_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
 				<? endif ?>
 			
 				<div class="clear"></div>
