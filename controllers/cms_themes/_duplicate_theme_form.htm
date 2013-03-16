@@ -11,7 +11,7 @@
 						<? $this->form_render($theme) ?>
 						
 						<script type="text/javascript">
-							$('duplicate_form').addEvent('popupLoaded', function(){
+							jQuery('#duplicate_form').bind('popupLoaded', function(){
 								init_user_agent_ui();
 							});
 						</script>
