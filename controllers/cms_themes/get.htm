@@ -1,0 +1,8 @@
+<? Admin_Breadcrumb::add('Themes', 'cms/themes')->add($this->app_page_title);?>
+<? Phpr_View::begin_block("view") ?>
+	<?=flash()?>
+
+	<? if (isset($fatalError)): ?>
+		<p><a href="<?=url('cms/themes') ?>">Return to themes list</a></p>
+	<? endif ?>
+<? Phpr_View::end_block() ?>

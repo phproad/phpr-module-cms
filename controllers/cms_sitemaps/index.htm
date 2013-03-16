@@ -1,0 +1,30 @@
+<? Admin_Breadcrumb::add('Settings', 'admin/settings')->add($this->app_page_title);?>
+<? Phpr_View::begin_block("view") ?>
+	<?=flash()?>
+	<? if (!isset($fatalError)): ?>
+
+		<div class="scoreboard-report">
+			<ul>
+				<li>
+					<h3>Sitemap</h3>
+					<small>Location: <a href="<?=root_url('sitemap.xml')?>" target="_blank"><?=root_url('sitemap.xml', true)?></a></small>
+				</li>
+			</ul>
+		</div>
+
+		<div class="form-700">
+			<?=form_open(array('id'=>'settings_form'))?>
+				<? $this->form_render($form_model) ?>
+
+				<div id="fixed-toolbar" class="top">
+					<div class="form-toolbar">
+						<?=admin_ajax_button('Save', 'index_on_save', array('class'=>'btn-success')) ?>
+						<?=admin_button('Cancel', array('href'=>url('admin/settings'))) ?>
+					</div>
+				</div>
+			<?=form_close()?>
+		</div>
+	<? else: ?>
+		<p><a href="<?=url('/admin/settings') ?>">Return to the settings page</a></p>
+	<? endif ?>
+<? Phpr_View::end_block() ?>

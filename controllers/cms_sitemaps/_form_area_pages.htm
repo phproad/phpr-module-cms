@@ -1,0 +1,20 @@
+<div class="list-container">
+	<table class="table list-table">
+		<thead>
+			<tr>
+				<th class="checkbox"><input type="checkbox" class="list_head_cb checkbox" value="1" onclick="Admin_Page.listCheckAll(this)"></th>
+				<th>Page Title</th>
+				<th>Page URL</th>
+			</tr>
+		</thead>
+		<tbody>
+			<? foreach ($pages as $page): ?>
+				<tr class="<?=Phpr_Html::zebra('even') ?>">
+					<td class="checkbox"><input type="checkbox" class="list_cb checkbox" value="1" name="pages[<?=$page->id?>]" id="pages_<?=$page->id?>" <?=Phpr_Form::checkbox_state($page->sitemap_visible)?> onclick="Admin_Page.listCheckSingle(this)"></td>
+					<td><label class="choice" for="pages_<?=$page->id?>"><?=$page->title_name?></label></td>
+					<td><label class="choice" for="pages_<?=$page->id?>"><?=$page->url?></label></td>
+				</tr>
+			<? endforeach ?>
+		</tbody>
+	</table>
+</div>

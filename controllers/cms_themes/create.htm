@@ -1,0 +1,29 @@
+<? Admin_Breadcrumb::add('Themes', 'cms/themes')->add($this->app_page_title);?>
+<? Phpr_View::begin_block("head") ?>
+	<script type="text/javascript" src="modules/cms/assets/javascript/theme.js"></script>
+<? Phpr_View::end_block() ?>
+
+<? Phpr_View::begin_block("view") ?>
+
+	<?=flash()?>
+
+	<? if (!isset($fatalError)): ?>
+		<div class="form-600">
+			<?=Phpr_Form::open_tag() ?>
+
+				<? $this->form_render() ?>
+
+				<div id="fixed-toolbar" class="top">
+					<div class="form-toolbar">
+						<?=admin_ajax_button('Create', 'create_on_save', array('class'=>'btn-success'), 
+							"prepareFunction: function(){phprTriggerSave();}") ?>
+						<?=admin_ajax_button('Cancel', 'create_on_cancel') ?>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	<? else: ?>
+		<p><a href="<?=url('/cms/themes') ?>">Return to the theme list</a></p>
+	<? endif ?>
+<? Phpr_View::end_block() ?>
