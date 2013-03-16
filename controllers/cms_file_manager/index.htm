@@ -1,35 +1,35 @@
 <? //Admin_Breadcrumb::add($this->app_page_title);?>
 <? Phpr_View::begin_block("head") ?>
-    <script src="modules/cms/vendor/elfinder/js/elfinder.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="modules/cms/vendor/elfinder/css/elfinder.min.css">
-    <link rel="stylesheet" type="text/css" href="modules/cms/assets/css/file_manager.css">
-    <script type="text/javascript" charset="utf-8">
-        jQuery(document).ready(function($) {             
-            $('#file_manager').elfinder({
-                url: '<?=url('cms/file_manager/connector')?>',
-                requestType: 'post',
-                resizable: false,
-                height: 600,
-                uiOptions : {
-                    toolbar : [
-                        ['back', 'forward'],
-                        ['mkdir', 'mkfile', 'upload'],
-                        ['open', 'download', 'getfile'],
-                        ['info', 'quicklook', 'reload'],
-                        ['copy', 'cut', 'paste'],
-                        ['rm'],
-                        ['duplicate', 'rename', 'edit', 'resize'],
-                        ['search'],
-                        ['view', 'sort']
-                    ]
-                }
-            });
-        });
-        jQuery(document).ready(function($) { 
-            $('#content').css('padding', 0);
-        });
-    </script>
+	<script src="modules/cms/vendor/elfinder/js/elfinder.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="modules/cms/vendor/elfinder/css/elfinder.min.css">
+	<link rel="stylesheet" type="text/css" href="modules/cms/assets/css/file_manager.css">
+	<script type="text/javascript" charset="utf-8">
+		jQuery(document).ready(function($) {             
+			$('#file_manager').elfinder({
+				url: '<?=url('cms/file_manager/connector')?>',
+				requestType: 'post',
+				resizable: false,
+				height: 600,
+				uiOptions : {
+					toolbar : [
+						['back', 'forward'],
+						['mkdir', 'mkfile', 'upload'],
+						['open', 'download', 'getfile'],
+						['info', 'quicklook', 'reload'],
+						['copy', 'cut', 'paste'],
+						['rm'],
+						['duplicate', 'rename', 'edit', 'resize'],
+						['search'],
+						['view', 'sort']
+					]
+				}
+			});
+		});
+		jQuery(document).ready(function($) { 
+			$('#content').css('padding', 0);
+		});
+	</script>
 <? Phpr_View::end_block() ?>
 <? Phpr_View::begin_block("view") ?>
-    <div id="file_manager"></div>
+	<div id="file_manager"></div>
 <? Phpr_View::end_block() ?>
