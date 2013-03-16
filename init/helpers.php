@@ -17,12 +17,12 @@ function global_content_block($code, $name, $params=array())
 
 function text_block($code, $name, $params=array())
 {
-    echo Cms_Html::content_block($code, $name, $params, 'text');
+	echo Cms_Html::content_block($code, $name, $params, 'text');
 }
 
 function global_text_block($code, $name, $params=array())
 {
-    echo Cms_Html::global_content_block($code, $name, $params, 'text');
+	echo Cms_Html::global_content_block($code, $name, $params, 'text');
 }
 
 function __($phrase, $params=null, $key=null)
@@ -39,10 +39,10 @@ function c($name, $type='Cms')
 
 function flash_message()
 {
-    return Cms_Html::flash_message();
+	return Cms_Html::flash_message();
 }
 
 function format_currency($value)
 {
-    return Core_Locale::format_currency($value);
+	return Core_Locale::format_currency($value);
 }

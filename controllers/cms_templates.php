@@ -77,6 +77,4 @@ class Cms_Templates extends Admin_Controller
 		if (post('create_close'))
 			$this->form_create_save_redirect = url('/cms/templates');
 	}
-
 }
-

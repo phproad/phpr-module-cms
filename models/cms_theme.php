@@ -42,17 +42,17 @@ class Cms_Theme extends Cms_Base
 
 	// Events
 	//
-    
-    public function before_save($session_key = null)
-    {
-        if (Phpr::$config->get('DEMO_MODE'))
-            throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
+	
+	public function before_save($session_key = null)
+	{
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 	}
 
 	public function before_delete($id = null)
 	{
-        if (Phpr::$config->get('DEMO_MODE'))
-            throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 
 		if ($this->default_theme)
 			throw new Phpr_ApplicationException('Theme '.$this->name.' is set as default. Set a different default theme and try again.');
@@ -251,30 +251,30 @@ class Cms_Theme extends Cms_Base
 	//   @param1 can be boolean/string
 	//     bool - front end?
 	//     string - define theme code
-    public static function get_theme_dir($param=true, $absolute=true)
-    {
-    	if (is_string($param))
-        	$result = "/themes/".$param;
-    	else if (is_bool($param) && $param === false)
-        	$result = "/themes/".self::get_edit_theme()->code;
-    	else
-        	$result = "/themes/".self::get_active_theme()->code;
+	public static function get_theme_dir($param=true, $absolute=true)
+	{
+		if (is_string($param))
+			$result = "/themes/".$param;
+		else if (is_bool($param) && $param === false)
+			$result = "/themes/".self::get_edit_theme()->code;
+		else
+			$result = "/themes/".self::get_active_theme()->code;
 
-        return ($absolute) ? PATH_APP . $result : $result;
-    }
+		return ($absolute) ? PATH_APP . $result : $result;
+	}
 
-    public static function theme_dir_is_writable($param1=true)
-    {
-        return is_writable(self::get_theme_dir($param1));
-    }
+	public static function theme_dir_is_writable($param1=true)
+	{
+		return is_writable(self::get_theme_dir($param1));
+	}
 
 	public function get_asset_path($absolute=true)
 	{
 		return self::get_theme_dir($this->code, $absolute).'/assets';
 	}
-    
-    // Duplicate
-    //
+	
+	// Duplicate
+	//
 
 	public function init_copy($obj)
 	{

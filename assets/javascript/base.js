@@ -20,8 +20,7 @@ jQuery(document).ready(function($){
 	}
 });
 
-function update_file_name(name_field)
-{
+function update_file_name(name_field) {
 	if (cms_file_name_modified)
 		return;
 

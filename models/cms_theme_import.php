@@ -63,13 +63,13 @@ class Cms_Theme_Import extends Db_ActiveRecord
 
 	public function import($data, $session_key)
 	{
-        if (Phpr::$config->get('DEMO_MODE'))
-            throw new Phpr_ApplicationException('Sorry you cannot import themes while site is in demonstration mode.');
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot import themes while site is in demonstration mode.');
 
 		@set_time_limit(3600);
 
-        try
-        {
+		try
+		{
 			$this->validate_data($data, $session_key);
 			$this->set_data($data);
 			
@@ -95,7 +95,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			$temp_path = PATH_APP.'/temp/'.uniqid('ahoy');
 
 			if (!@mkdir($temp_path))
-			    throw new Phpr_SystemException('Unable to create directory '.$temp_path);
+				throw new Phpr_SystemException('Unable to create directory '.$temp_path);
 
 			if (!is_writable(PATH_APP.'/themes/') || !is_writable($theme_path))
 				throw new Phpr_SystemException('Insufficient writing permissions to '.PATH_APP.'/themes');

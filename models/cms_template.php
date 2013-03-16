@@ -38,16 +38,16 @@ class Cms_Template extends Cms_Base
 	// Events
 	// 
 
-    public function before_save($session_key = null) 
-    {
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify templates while site is in demonstration mode.');
+	public function before_save($session_key = null) 
+	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify templates while site is in demonstration mode.');
 	}
 
 	public function before_delete($id = null) 
 	{
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify templates while site is in demonstration mode.');
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify templates while site is in demonstration mode.');
 
 		$in_use = Db_Helper::scalar('select count(*) from cms_pages where template_id=:id', array('id'=>$this->id));
 		

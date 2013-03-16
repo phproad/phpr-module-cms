@@ -139,52 +139,52 @@ class Cms_Base extends Db_ActiveRecord
 
 		$xml_obj = $this->get_settings_xml();
 
-        if ($node = $this->find_setting($xml_obj))
-        {
-        	$node->file_name = $this->file_name;   	
-	        foreach ($this->cms_fields_to_save as $field)
-	        {
-	        	$value = ($this->$field) ? htmlspecialchars($this->$field) : "null";
-	            $node->$field = $value;
-	        }
-	        foreach ($this->cms_relations_to_save as $relation=>$link)
-	        {
-        		$value = "relation_".$relation;
+		if ($node = $this->find_setting($xml_obj))
+		{
+			$node->file_name = $this->file_name;   	
+			foreach ($this->cms_fields_to_save as $field)
+			{
+				$value = ($this->$field) ? htmlspecialchars($this->$field) : "null";
+				$node->$field = $value;
+			}
+			foreach ($this->cms_relations_to_save as $relation=>$link)
+			{
+				$value = "relation_".$relation;
 
-	        	if (!$this->$relation)
-	        	{
-	        		unset($node->$value);
-	        		continue;
-	        	}
-	        	
-        		$link = $link['linked_key'];
-        		$node->$value = $this->$relation->$link;
-	        }
-        }
-        else
-        {
-        	$node = $xml_obj->addChild('object');
-        	//$node->addChild('id', $this->id);
-        	$node->addChild('class', get_class($this));
-        	$node->addChild('file_name', $this->file_name);
+				if (!$this->$relation)
+				{
+					unset($node->$value);
+					continue;
+				}
+				
+				$link = $link['linked_key'];
+				$node->$value = $this->$relation->$link;
+			}
+		}
+		else
+		{
+			$node = $xml_obj->addChild('object');
+			//$node->addChild('id', $this->id);
+			$node->addChild('class', get_class($this));
+			$node->addChild('file_name', $this->file_name);
 
-	        foreach ($this->cms_fields_to_save as $field)
-	        {
-	        	$value = ($this->$field) ? htmlspecialchars($this->$field) : "null";
-	            $node->addChild($field, $value);
-	        }
-	        foreach ($this->cms_relations_to_save as $relation=>$link)
-	        {
-	        	$value = "relation_".$relation;     	
-	        	
-	        	if (!$this->$relation)
-	        		continue;
+			foreach ($this->cms_fields_to_save as $field)
+			{
+				$value = ($this->$field) ? htmlspecialchars($this->$field) : "null";
+				$node->addChild($field, $value);
+			}
+			foreach ($this->cms_relations_to_save as $relation=>$link)
+			{
+				$value = "relation_".$relation;     	
+				
+				if (!$this->$relation)
+					continue;
 
-        		$link = $link['linked_key'];
-        		$node->addChild($value, $this->$relation->$link);
-	        }
-        }
-     
+				$link = $link['linked_key'];
+				$node->addChild($value, $this->$relation->$link);
+			}
+		}
+	 
 		$this->save_settings_xml($xml_obj);
 	}
 
@@ -201,15 +201,15 @@ class Cms_Base extends Db_ActiveRecord
 		else
 			$data = '<data></data>';
 
-        return new SimpleXMLElement($data);
+		return new SimpleXMLElement($data);
 	}
 
 	protected function save_settings_xml($xml_obj)
 	{
 		$path = $this->get_settings_path($this->file_name);
-        $data = Phpr_Xml::beautify_xml($xml_obj);
+		$data = Phpr_Xml::beautify_xml($xml_obj);
 
-        if (!Cms_Theme::theme_dir_is_writable($this->theme_id))
+		if (!Cms_Theme::theme_dir_is_writable($this->theme_id))
 			throw new Phpr_ApplicationException('Directory is not writable: ' . Cms_Theme::get_theme_dir($this->theme_id));
  
 		if (!is_writable(dirname(dirname($path))))
@@ -227,14 +227,14 @@ class Cms_Base extends Db_ActiveRecord
 
 	protected function find_setting(&$xml_obj, $match_field='file_name')
 	{
-        foreach ($xml_obj->children() as $child)
-        {
-        	if ($child->class == get_class($this) && $child->$match_field == $this->$match_field)
-        	{
-            	return $child;
-            }
-        }
-        return null;
+		foreach ($xml_obj->children() as $child)
+		{
+			if ($child->class == get_class($this) && $child->$match_field == $this->$match_field)
+			{
+				return $child;
+			}
+		}
+		return null;
 	}
 
 	protected function delete_settings($file_name)
@@ -249,8 +249,8 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->file_name)
 			return;
 
-        $xml_obj = $this->get_settings_xml();
-        $child = $this->find_setting($xml_obj);
+		$xml_obj = $this->get_settings_xml();
+		$child = $this->find_setting($xml_obj);
 
 		foreach ($this->cms_fields_to_save as $field)
 		{
@@ -264,8 +264,8 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->name)
 			$this->name = $this->file_name;
 
-        if (!$this->theme_id)
-            $this->theme_id = Cms_Theme::get_edit_theme()->code;
+		if (!$this->theme_id)
+			$this->theme_id = Cms_Theme::get_edit_theme()->code;
 	}
 
 	protected function load_relation_settings()
@@ -273,18 +273,18 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->file_name)
 			return $this;
 
-        $xml_obj = $this->get_settings_xml();
-        $child = $this->find_setting($xml_obj);
+		$xml_obj = $this->get_settings_xml();
+		$child = $this->find_setting($xml_obj);
 
-        foreach ($this->cms_relations_to_save as $relation=>$link)
-        {        	
-        	$field = "relation_".$relation;
-        	if (!isset($child->$field))
-        		continue;
+		foreach ($this->cms_relations_to_save as $relation=>$link)
+		{        	
+			$field = "relation_".$relation;
+			if (!isset($child->$field))
+				continue;
 			
-    		$this->{$link['foreign_key']} = $this->load_relation_setting($relation, $link['linked_key'], $child->$field);        	
-        }        
-        return $this;
+			$this->{$link['foreign_key']} = $this->load_relation_setting($relation, $link['linked_key'], $child->$field);        	
+		}        
+		return $this;
 	}
 
 	protected function load_relation_setting($relation, $linked_key, $value)

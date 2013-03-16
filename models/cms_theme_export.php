@@ -50,11 +50,11 @@ class Cms_Theme_Export extends Db_ActiveRecord
 	
 	public function export($data)
 	{
-        if (Phpr::$config->get('DEMO_MODE'))
-            throw new Phpr_ApplicationException('Sorry you cannot export themes while site is in demonstration mode.');
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot export themes while site is in demonstration mode.');
 
-        try 
-        {
+		try 
+		{
 			$this->define_form_fields();
 			$this->validate_data($data);
 			$this->set_data($data);
@@ -67,10 +67,10 @@ class Cms_Theme_Export extends Db_ActiveRecord
 			$options = array('ignore'=>array('.svn', '.gitignore', '.DS_Store'));
 
 			if (!@mkdir($temp_path))
-			    throw new Phpr_SystemException('Unable to create directory '.$temp_path);
+				throw new Phpr_SystemException('Unable to create directory '.$temp_path);
 
 			if (!@mkdir($temp_path . '/meta'))
-			    throw new Phpr_SystemException('Unable to create directory '.$meta_path);
+				throw new Phpr_SystemException('Unable to create directory '.$meta_path);
 
 			foreach ($this->components as $object)
 			{

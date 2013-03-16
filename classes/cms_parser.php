@@ -83,7 +83,7 @@ class Cms_Parser {
 		}
 
 		return $parse_result;
-	}	
+	}
 
 	public function parse_handler($code, $call_stack_object_type, $call_stack_object_name, $params = array())
 	{
@@ -184,5 +184,5 @@ class Cms_Exception extends Phpr_ApplicationException
 {
 
 // Do nothing
-	
+
 }

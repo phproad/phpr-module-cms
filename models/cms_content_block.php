@@ -17,20 +17,20 @@ class Cms_Content_Block extends Cms_Base
 
 	public $cms_folder_name = "content";
 	public $cms_fields_to_save = array('name', 'code', 'type');
-    public $cms_relations_to_save = array(
-        'page'=>array('foreign_key' =>'page_id', 'linked_key' => 'unique_id')
-    );
+	public $cms_relations_to_save = array(
+		'page'=>array('foreign_key' =>'page_id', 'linked_key' => 'unique_id')
+	);
 
 	public $ignore_file_copy = false;
 	public static $content_blocks = array();
 
-    public $belongs_to = array(
-        'page' => array('class_name'=>'Cms_Page', 'foreign_key'=>'page_id'),
-    );
+	public $belongs_to = array(
+		'page' => array('class_name'=>'Cms_Page', 'foreign_key'=>'page_id'),
+	);
 
-    public $calculated_columns = array(
-    	'file_name'=>array('sql'=>'code')
-    );
+	public $calculated_columns = array(
+		'file_name'=>array('sql'=>'code')
+	);
 	
 	public static function create()
 	{
@@ -72,20 +72,19 @@ class Cms_Content_Block extends Cms_Base
 		}
 	}
 
-	/**
-	 * Events
-	 */
-    
-    public function before_save($session_key = null)
-    {
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
+	// Events
+	//
+	
+	public function before_save($session_key = null)
+	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
 	}
 
-    public function before_delete($session_key = null)
-    {
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
+	public function before_delete($session_key = null)
+	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
 	}
 	
 	public function before_create($session_key = null)
@@ -115,9 +114,8 @@ class Cms_Content_Block extends Cms_Base
 		}
 	}
 
-	/**
-	 * Getters
-	 */
+	// Getters
+	//
 
 	public static function get_by_page_and_code($id, $code)
 	{
@@ -176,9 +174,8 @@ class Cms_Content_Block extends Cms_Base
 		return $block->get_content();
 	}
 
-	/**
-	 * File based methods
-	 */
+	// File based methods
+	//
 
 	protected static function create_from_file($file_path)
 	{
@@ -244,8 +241,8 @@ class Cms_Content_Block extends Cms_Base
 				}
 			}
 
-	        foreach ($objects as $obj)
-	            $obj->load_relation_settings()->save();
+			foreach ($objects as $obj)
+				$obj->load_relation_settings()->save();
 
 		}
 	}	

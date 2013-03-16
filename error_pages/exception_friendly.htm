@@ -1,16 +1,17 @@
-<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_ID') || Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
-	<p>
-		We're sorry, something went wrong. Please contact customer support.
-		<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_ID')): ?>
-			Include this log ID number: <?=$error->log_id ?>.
-			<br /><br />
-		<? endif ?>
-		
-		<? if(Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
-			Include this information:
-			<br /><br />
-			<?=implode("<br />", str_split(Phpr_Error_Log::encode_error_details($error), 64)) ?>
-			<br /><br />
-		<? endif ?>
-	</p>
+<? if (Phpr::$config->get('DISPLAY_ERROR_LOG_ID') || Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
+	<p>Uh oh! It looks like something is broken. No worries - we're on it! </p>
+	<p>In the meantime you can <a href="/">navigation to our Homepage</a> to see if you can find what you need.</p>
+	
+	<? if (Phpr::$config->get('DISPLAY_ERROR_LOG_ID')): ?>
+		<!-- Error Code -->
+		<p>If you need to contact support, please include this log ID number: <strong><?=$error->log_id ?></strong>.</p>
+	<? endif ?>
+	
+	<? if (Phpr::$config->get('DISPLAY_ERROR_LOG_STRING')): ?>
+		<!-- Error String -->
+		<p>If you need to contact support, please include this information:</p>
+		<blockquote>
+			<?= implode("<br />", str_split(Phpr_Error_Log::encode_error_details($error), 64)) ?>
+		</blockquote>
+	<? endif ?>
 <? endif ?>

@@ -34,19 +34,19 @@ class Cms_Partial extends Cms_Base
 		$this->add_form_field('content')->size('giant')->css_classes('code')->display_as(frm_code_editor)->language('php')->save_callback('save_code');
 	}
 
-    // Events
-    //
+	// Events
+	//
 
-    public function before_delete($session_key = null)
-    {
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify partials while site is in demonstration mode.');
+	public function before_delete($session_key = null)
+	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify partials while site is in demonstration mode.');
 	}
 	
-    public function before_save($session_key = null)
-    {
-        if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
-            throw new Phpr_ApplicationException('Sorry you cannot modify partials while site is in demonstration mode.');
+	public function before_save($session_key = null)
+	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify partials while site is in demonstration mode.');
 	}
 
 	public function before_create($session_key = null)
@@ -78,9 +78,8 @@ class Cms_Partial extends Cms_Base
 		}
 	}
 
-	/**
-	 * Getters
-	 */
+	// Getters
+	//
 
 	// This is designed to take a stdObject or itself
 	public static function get_content($partial=null)
@@ -207,9 +206,4 @@ class Cms_Partial extends Cms_Base
 	{
 		return strtolower(str_replace(':', ';', $name));
 	}
-
-
 }
-
-
-

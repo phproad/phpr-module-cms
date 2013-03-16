@@ -9,9 +9,9 @@ class Cms_String extends Db_ActiveRecord
 	public $cms_folder_name = 'strings';
 	public $csv_file_name = 'cms_string_export.csv';
 
-    public $belongs_to = array(
-        'page' => array('class_name'=>'Cms_Page', 'foreign_key'=>'page_id'),
-    );
+	public $belongs_to = array(
+		'page' => array('class_name'=>'Cms_Page', 'foreign_key'=>'page_id'),
+	);
 
 	public static function create()
 	{
@@ -77,7 +77,7 @@ class Cms_String extends Db_ActiveRecord
 		$string = $language->content = $language->original = $content;
 		$language->save();
 
-		// add to cache
+		// Add to cache
 		$id = ($page_id) ? $page_id : 0;
 		self::$language_strings[$id][$code] = $language;
 
@@ -105,8 +105,9 @@ class Cms_String extends Db_ActiveRecord
 
 		if (!array_key_exists($page_id, self::$language_strings))
 		{
-			self::$language_strings[$page_id] = ($page_id==0) ? self::create()->where('page_id is null')->find_all()->as_array(null, 'code')
-															  : self::create()->find_all_by_page_id($page_id)->as_array(null, 'code');
+			self::$language_strings[$page_id] = ($page_id==0) 
+				? self::create()->where('page_id is null')->find_all()->as_array(null, 'code')
+		  		: self::create()->find_all_by_page_id($page_id)->as_array(null, 'code');
 		}
 		return self::$language_strings[$page_id];
 	}

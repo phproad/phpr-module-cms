@@ -72,4 +72,3 @@ class Cms_Pages extends Admin_Controller
 			$this->form_create_save_redirect = url('/cms/pages');
 	}
 }
-
