@@ -334,10 +334,15 @@ class Cms_Controller extends Cms_Parser
 	protected function resource_combine($type, $files, $options, $show_tag = true)
 	{
 		$aliases = array(
-			'jquery'=>'/modules/cms/assets/javascript/jquery_src.js',
-			'jquery_noconflict'=>'/modules/cms/assets/javascript/jquery_noconflict.js',
-			'core_jquery'=>'/modules/cms/assets/javascript/jquery_core.js',
-			'frontend_core'=>'/modules/cms/assets/javascript/frontend_core.js',
+			'jquery' => '/modules/cms/assets/javascript/jquery.js',
+			'jquery-noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
+			'jquery-helper' => '/modules/cms/assets/javascript/jquery.helper.js',
+			'cms-core' => '/modules/cms/assets/javascript/cms.core.js',
+
+			// @deprecated
+			'jquery_noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
+			'core_jquery' => '/modules/cms/assets/javascript/jquery.helper.js',
+			'frontend_core' => '/modules/cms/assets/javascript/cms.core.js',
 		);
 
 		$files = Phpr_Util::splat($files);
