@@ -3,9 +3,10 @@
 class Cms_Security extends Phpr_Security
 {
 	public $user_class_name = "User";
-	public $cookie_name = "Website";
-	protected $cookie_lifetime_name = 'FRONTEND_AUTH_COOKIE_LIFETIME';
 	protected static $user_cache = array();
+	
+	public $cookie_name = "Website";
+	protected $cookie_lifetime_name = 'CMS_AUTH_COOKIE_LIFETIME';
 	protected $cookie_updated = false;
 
 	public function login(Phpr_Validation $validation = null, $redirect = null, $login = null, $password = null, $default_field = 'login')
@@ -18,18 +19,18 @@ class Cms_Security extends Phpr_Security
 		if ($this->user !== null)
 			return $this->user;
 
-		$cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
+		$cookie_name = Phpr::$config->get('CMS_AUTH_COOKIE_NAME', $this->cookie_name);
 		$ticket = Phpr::$request->cookie($cookie_name);
 
-		$frontend_ticket_param = Phpr::$config->get('TICKET_PARAM_NAME', 'frontend_ticket');
+		$session_param = Phpr::$config->get('CMS_SESSION_PARAM_NAME', 'cms_ticket_parameter');
 
 		if ($ticket === null)
 		{
-			$ticket = $this->restore_ticket(Phpr::$request->get_field($frontend_ticket_param));
+			$ticket = $this->restore_ticket(Phpr::$request->get_field($session_param));
 		}
 		else
 		{
-			$this->remove_ticket(Phpr::$request->get_field($frontend_ticket_param));
+			$this->remove_ticket(Phpr::$request->get_field($session_param));
 		}
 
 		if (!$ticket)
@@ -69,11 +70,11 @@ class Cms_Security extends Phpr_Security
 	{
 		$ticket = $this->get_ticket($id);
 
-		$cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
+		$cookie_name = Phpr::$config->get('CMS_AUTH_COOKIE_NAME', $this->cookie_name);
 		$cookie_lifetime = Phpr::$config->get($this->cookie_lifetime_name, $this->cookie_lifetime);
 
-		$cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookie_path);
-		$cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
+		$cookie_path = Phpr::$config->get('CMS_AUTH_COOKIE_PATH', $this->cookie_path);
+		$cookie_domain = Phpr::$config->get('CMS_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
 
 		Phpr::$response->cookie($cookie_name, $ticket, $cookie_lifetime, $cookie_path, $cookie_domain);
 	}
@@ -86,9 +87,9 @@ class Cms_Security extends Phpr_Security
 
 	public function logout($redirect = null)
 	{
-		$cookie_name = Phpr::$config->get('FRONTEND_AUTH_COOKIE_NAME', $this->cookie_name);
-		$cookie_path = Phpr::$config->get('FRONTEND_AUTH_COOKIE_PATH', $this->cookie_path);
-		$cookie_domain = Phpr::$config->get('FRONTEND_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
+		$cookie_name = Phpr::$config->get('CMS_AUTH_COOKIE_NAME', $this->cookie_name);
+		$cookie_path = Phpr::$config->get('CMS_AUTH_COOKIE_PATH', $this->cookie_path);
+		$cookie_domain = Phpr::$config->get('CMS_AUTH_COOKIE_DOMAIN', $this->cookie_domain);
 
 		Phpr::$response->delete_cookie($cookie_name, $cookie_path, $cookie_domain);
 
