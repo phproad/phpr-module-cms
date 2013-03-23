@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Sitemap extends Core_Settings_Model 
+class Cms_Sitemap extends Core_Settings_Base 
 {
 	public $record_code = 'cms_sitemap';
 	

@@ -61,8 +61,8 @@ class Cms_Theme_Export extends Db_ActiveRecord
 			
 			$theme = Cms_Theme::create()->find($this->theme_id);
 			$theme_path = Cms_Theme::get_theme_dir($theme->code, true);
-			$temp_path = PATH_APP.'/temp/'.uniqid('ahoy');
-			$zip_name = uniqid('ahoy');
+			$temp_path = PATH_APP.'/temp/'.uniqid('phpr');
+			$zip_name = uniqid('phpr');
 			$zip_path = PATH_APP.'/temp/'.$zip_name;
 			$options = array('ignore'=>array('.svn', '.gitignore', '.DS_Store'));
 

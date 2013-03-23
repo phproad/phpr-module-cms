@@ -334,10 +334,27 @@ class Cms_Controller extends Cms_Parser
 	protected function resource_combine($type, $files, $options, $show_tag = true)
 	{
 		$aliases = array(
-			'jquery'=>'/modules/cms/assets/javascript/jquery_src.js',
-			'jquery_noconflict'=>'/modules/cms/assets/javascript/jquery_noconflict.js',
-			'core_jquery'=>'/modules/cms/assets/javascript/jquery_core.js',
-			'frontend_core'=>'/modules/cms/assets/javascript/frontend_core.js',
+			'jquery' => '/modules/cms/assets/javascript/jquery.js',
+			'jquery-noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
+			'jquery-helper' => '/modules/cms/assets/javascript/jquery.helper.js',
+			'jquery-validate' => '/framework/assets/scripts/js/jquery.validate.js',
+			'cms-core' => '/modules/cms/assets/javascript/cms.core.js',
+			
+			// PHPR Libs
+			'phpr' => '/framework/assets/scripts/js/phpr.js',
+			'phpr-post' => '/framework/assets/scripts/js/phpr.post.js', // Should replace cms-core
+			'phpr-indicator' => '/framework/assets/scripts/js/phpr.indicator.js',
+			'phpr-form' => '/framework/assets/scripts/js/phpr.form.js',
+			'phpr-validate' => '/framework/assets/scripts/js/phpr.validate.js',
+
+			// @todo Refactor phpr.js to work both back end and front end 
+			// then add to this array
+			'phpr-core' => array('phpr-post', 'phpr-indicator', 'phpr-form', 'jquery-validate', 'phpr-validate'),
+
+			// @deprecated
+			'jquery_noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
+			'core_jquery' => '/modules/cms/assets/javascript/jquery.helper.js',
+			'frontend_core' => '/modules/cms/assets/javascript/cms.core.js',
 		);
 
 		$files = Phpr_Util::splat($files);
@@ -347,8 +364,19 @@ class Cms_Controller extends Cms_Parser
 		{
 			$file = trim($file);
 
-			if (array_key_exists($file, $aliases))
-				$file = $aliases[$file];
+			if (isset($aliases[$file])) {
+
+				// Grouped aliases
+				if (is_array($aliases[$file])) {
+					foreach ($aliases[$file] as $subalias) {
+						$files_array[] = 'file%5B%5D='.urlencode(trim($aliases[$subalias]));
+					}
+					continue;
+				}
+				else
+					$file = $aliases[$file];
+				
+			}
 
 			if (substr($file, 0, 1) == '@')
 			{

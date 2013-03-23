@@ -1,10 +1,8 @@
 <? Admin_Breadcrumb::add('Strings', 'cms/strings')->add($this->app_page_title);?>
 <? Phpr_View::begin_block("view") ?>
-
 	<? if (!isset($fatalError)): ?>
-	<? $dbName = $this->view_data['form_model']; ?>
 		<div class="form-600">
-			<?=form_open(array('id'=>'form_element')) ?>
+			<?= form_open(array('id'=>'form_element')) ?>
 
 				<? $this->form_render() ?>
 
@@ -20,7 +18,7 @@
 			<?=form_close()?>
 		</div>
 	<? else: ?>
-		<?=flash()?>
+		<?= flash() ?>
 		<p><a href="<?=url('/cms/strings') ?>">Return to the list</a></p>
 	<? endif ?>
 <? Phpr_View::end_block() ?>

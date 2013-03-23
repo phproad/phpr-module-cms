@@ -265,6 +265,8 @@
 					// if update element is a string, set update element to self.text
 					context.update && typeof(context.update) === 'string' && $('#' + context.update).html(self.text);
 					
+					// @todo Apparantley jQuery's $.ajax() function will already evaluate javascript
+					// so this causes JS to fire twice and the setting is ignored... 
 					if (context.evalScripts && !context.evalScriptsAfterUpdate) 
 						eval(self.javascript);
 					
@@ -302,7 +304,7 @@
 				 * @return Boolean
 				 */
 				isSuccess: function() {
-					return this.text.search("@AJAX-ERROR@") == -1;
+					return this.text.search('@AJAX-ERROR@') == -1;
 				}
 			}, Phpr.response);
 			
@@ -325,6 +327,7 @@
 					xhr.setRequestHeader('PHPR-EVENT-HANDLER', 'ev{on_handle_request}');
 				},
 				type: 'POST',
+				dataType: 'html', // Always force plaintext
 				error: function(data, status, message) {
 					response.text = data;
 					

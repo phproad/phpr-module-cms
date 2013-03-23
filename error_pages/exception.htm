@@ -92,7 +92,7 @@
 								$last_index = count($error->call_stack) - 1;
 							?>
 								
-							<? foreach ($error->call_stack as $index => $stack_item): 
+							<? foreach ($error->call_stack as $index => $stack_item): ?>
 								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?=$index == $last_index ? 'last' : null ?>">
 									<td class="first"><?=$stack_item->id ?></td>
 									<td><?=$stack_item->document ?></td>
@@ -114,11 +114,12 @@
 									$last_index = count($error->call_stack) - 1;
 								?>	
 								<? foreach ($error->call_stack as $index => $stack_item): ?>
+									<?
 										if (strlen($stack_item->args))
 											$args = '<span class="arguments">' . Phpr_Html::encode($stack_item->args) . '</span>';
 										else 
 											$args = '()';
-								?>
+									?>
 								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?=$index == $last_index ? 'last' : null ?>">
 									<td class="first"><?=$stack_item->id ?></td>
 									<td><?=$stack_item->function_name . '(' . $args . ')' ?></td>
