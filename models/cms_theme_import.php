@@ -92,7 +92,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			
 			$file_path = PATH_APP.$file->getPath();
 			$theme_path = PATH_APP.'/themes/'.$theme->code;
-			$temp_path = PATH_APP.'/temp/'.uniqid('ahoy');
+			$temp_path = PATH_APP.'/temp/'.uniqid('phpr');
 
 			if (!@mkdir($temp_path))
 				throw new Phpr_SystemException('Unable to create directory '.$temp_path);
