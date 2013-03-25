@@ -247,6 +247,16 @@ class Cms_Page extends Cms_Base
 		return str_replace('_', '-', $this->template->file_name).'-template';
 	}
 
+	// Filters
+	// 
+
+	public function apply_edit_theme()
+	{
+		$theme_code = Cms_Theme::get_edit_theme()->code;
+		$this->where('theme_id=?', $theme_code);
+		return $this;
+	}
+
 	// Getters
 	//
 
@@ -779,14 +789,6 @@ class Cms_Page extends Cms_Base
 	{
 		$obj = self::create();
 
-		$edit_theme = Cms_Theme::get_edit_theme()->code;
-		
-		$id = Db_Helper::scalar("select id from cms_pages where theme_id = ? and file_name = ?", array($edit_theme, $dir_name));
-		
-		if ($id) {
-			$obj = $obj->find($id);
-		}
-
 		$obj->init_columns_info();
 		$obj->file_name = $dir_name;
 		$obj->load_settings();
@@ -804,7 +806,7 @@ class Cms_Page extends Cms_Base
 	public static function auto_create_from_files()
 	{
 		$objects = array();
-		$dirs = self::list_directories();
+		$dirs = self::list_orphan_directories();
 		foreach ($dirs as $dir_name)
 			$objects[] = self::create_from_directory($dir_name);
 
@@ -812,7 +814,7 @@ class Cms_Page extends Cms_Base
 			$obj->load_relation_settings()->save();
 	}
 
-	public static function list_directories()
+	public static function list_orphan_directories()
 	{
 		$path = Cms_Theme::get_theme_dir(false) . '/pages';
 		$result = array();
@@ -827,10 +829,23 @@ class Cms_Page extends Cms_Base
 			if (!is_dir($file_path) || substr($file, 0, 1) == '.' || !preg_match('/^[a-z_0-9-]*$/', $file))
 				continue;
 
-			$result[] = $file;
+			if (!in_array($file, $existing_files))
+				$result[] = $file;
 		}
 
 		return $result;
+	}
+
+	public static function refresh_from_meta()
+	{
+		$all_pages = self::create()->apply_edit_theme()->find_all();
+
+		foreach ($all_pages as $page) {
+			$obj->load_settings();
+			$obj->load_file_content();
+			$obj->ignore_file_copy = true;
+			$obj->save();
+		}
 	}
 
 	protected function delete_page_dir()
