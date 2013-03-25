@@ -778,6 +778,15 @@ class Cms_Page extends Cms_Base
 	protected static function create_from_directory($dir_name)
 	{
 		$obj = self::create();
+
+		$edit_theme = Cms_Theme::get_edit_theme()->code;
+		
+		$id = Db_Helper::scalar("select id from cms_pages where theme_id = ? and file_name = ?", array($edit_theme, $dir_name));
+		
+		if ($id) {
+			$obj = $obj->find($id);
+		}
+
 		$obj->init_columns_info();
 		$obj->file_name = $dir_name;
 		$obj->load_settings();
@@ -795,7 +804,7 @@ class Cms_Page extends Cms_Base
 	public static function auto_create_from_files()
 	{
 		$objects = array();
-		$dirs = self::list_orphan_directories();
+		$dirs = self::list_directories();
 		foreach ($dirs as $dir_name)
 			$objects[] = self::create_from_directory($dir_name);
 
@@ -803,7 +812,7 @@ class Cms_Page extends Cms_Base
 			$obj->load_relation_settings()->save();
 	}
 
-	public static function list_orphan_directories()
+	public static function list_directories()
 	{
 		$path = Cms_Theme::get_theme_dir(false) . '/pages';
 		$result = array();
@@ -818,8 +827,7 @@ class Cms_Page extends Cms_Base
 			if (!is_dir($file_path) || substr($file, 0, 1) == '.' || !preg_match('/^[a-z_0-9-]*$/', $file))
 				continue;
 
-			if (!in_array($file, $existing_files))
-				$result[] = $file;
+			$result[] = $file;
 		}
 
 		return $result;
