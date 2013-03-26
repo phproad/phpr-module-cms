@@ -247,6 +247,16 @@ class Cms_Page extends Cms_Base
 		return str_replace('_', '-', $this->template->file_name).'-template';
 	}
 
+	// Filters
+	// 
+
+	public function apply_edit_theme()
+	{
+		$theme_code = Cms_Theme::get_edit_theme()->code;
+		$this->where('theme_id=?', $theme_code);
+		return $this;
+	}
+
 	// Getters
 	//
 
@@ -778,6 +788,7 @@ class Cms_Page extends Cms_Base
 	protected static function create_from_directory($dir_name)
 	{
 		$obj = self::create();
+
 		$obj->init_columns_info();
 		$obj->file_name = $dir_name;
 		$obj->load_settings();
@@ -823,6 +834,18 @@ class Cms_Page extends Cms_Base
 		}
 
 		return $result;
+	}
+
+	public static function refresh_from_meta()
+	{
+		$all_pages = self::create()->apply_edit_theme()->find_all();
+
+		foreach ($all_pages as $page) {
+			$obj->load_settings();
+			$obj->load_file_content();
+			$obj->ignore_file_copy = true;
+			$obj->save();
+		}
 	}
 
 	protected function delete_page_dir()

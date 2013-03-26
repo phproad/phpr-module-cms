@@ -71,4 +71,14 @@ class Cms_Pages extends Admin_Controller
 		if (post('create_close'))
 			$this->form_create_save_redirect = url('/cms/pages');
 	}
+
+	public function index_on_refresh_pages_from_files()
+	{
+		try {
+			Cms_Page::refresh_from_meta();
+		}
+		catch (Exception $ex) {
+			Phpr::$response->ajax_report_exception($ex, true, true);
+		}
+	}
 }

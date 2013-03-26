@@ -1,7 +1,7 @@
-#1 First version
-#2 Add page visitor statistics
-#3 Add SEO sitemap for pages, add block render types
-#4 Add Menu builder compatability
-#5 Fixes bug with long language strings
-#6 Minor security update
-#7 Allow partials to display when file is not present
+#1|1.0.1 First version
+#2|1.0.2 Add page visitor statistics
+#3|1.0.3 Add SEO sitemap for pages, add block render types
+#4|1.0.4 Add Menu builder compatability
+#5|1.0.5 Fixes bug with long language strings
+#6|1.0.6 Minor security update
+#7|1.0.7 Allow partials to display when file is not present
