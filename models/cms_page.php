@@ -177,6 +177,9 @@ class Cms_Page extends Cms_Base
 
 	public function before_save($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify pages while site is in demonstration mode.');
+
 		if (isset($this->fetched['file_name']) && $this->fetched['file_name'] != $this->file_name)
 		{
 			$new_dir_path = $this->get_directory_path($this->file_name);
@@ -192,6 +195,9 @@ class Cms_Page extends Cms_Base
 
 	public function before_delete($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify pages while site is in demonstration mode.');
+
 		$in_use = Db_Helper::scalar('select count(*) from cms_pages where security_page_id=:id', array('id'=>$this->id));
 
 		if ($in_use)

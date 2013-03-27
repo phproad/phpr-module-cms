@@ -65,6 +65,9 @@ class Cms_Theme_Import extends Db_ActiveRecord
 	{
 		Phpr::$events->fire_event('cms:on_import_theme');
 		
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot import themes while site is in demonstration mode.');
+
 		@set_time_limit(3600);
 
 		try

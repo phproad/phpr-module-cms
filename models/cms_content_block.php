@@ -77,10 +77,14 @@ class Cms_Content_Block extends Cms_Base
 	
 	public function before_save($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
 	}
 
 	public function before_delete($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE') && !$this->ignore_file_copy)
+			throw new Phpr_ApplicationException('Sorry you cannot modify content while site is in demonstration mode.');
 	}
 	
 	public function before_create($session_key = null)

@@ -45,10 +45,15 @@ class Cms_Theme extends Cms_Base
 	
 	public function before_save($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 	}
 
 	public function before_delete($id = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
+
 		if ($this->default_theme)
 			throw new Phpr_ApplicationException('Theme '.$this->name.' is set as default. Set a different default theme and try again.');
 	}
@@ -198,13 +203,10 @@ class Cms_Theme extends Cms_Base
 
 	public static function get_active_theme()
 	{
-		$theme = Phpr::$events->fire_event('cms:on_get_active_theme');
+		$theme = self::get_default_theme();
 
 		if (!$theme)
-			$theme = self::get_default_theme();
-
-		if (!$theme)
-			throw new Phpr_ApplicationException('No theme found. Please re-install.');
+			throw new Phpr_ApplicationException('No theme found please reinstall');
 
 		return $theme;
 	}

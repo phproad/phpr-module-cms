@@ -30,6 +30,9 @@ class Cms_Config extends Core_Settings_Base
 	
 	public function before_save($session_key = null)
 	{
+		if (Phpr::$config->get('DEMO_MODE'))
+			throw new Phpr_ApplicationException('Sorry you cannot modify the website settings while site is in demonstration mode.');
+
 		parent::before_save($session_key);
 	}
 
