@@ -12,11 +12,6 @@ class Cms_Partial extends Cms_Base
 
 	protected static $cache = null;
 
-	public static function create()
-	{
-		return new self();
-	}
-
 	public function define_columns($context = null)
 	{
 		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("You must specify a partial name.");

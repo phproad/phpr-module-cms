@@ -10,11 +10,6 @@ class Cms_Theme extends Cms_Base
 	private static $theme_edit = false;
 	private static $themes = array();
 
-	public static function create()
-	{
-		return new self();
-	}
-
 	public function define_columns($context = null)
 	{
 		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("Please specify the theme name.");

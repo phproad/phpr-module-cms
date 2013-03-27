@@ -39,11 +39,6 @@ class Cms_Page extends Cms_Base
 		'template_code' => db_varchar
 	);
 
-	public static function create()
-	{
-		return new self();
-	}
-
 	public function define_columns($context = null)
 	{
 		$this->define_column('unique_id', 'Unique ID')->invisible();

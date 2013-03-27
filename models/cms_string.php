@@ -12,11 +12,6 @@ class Cms_String extends Db_ActiveRecord
 	public $belongs_to = array(
 		'page' => array('class_name'=>'Cms_Page', 'foreign_key'=>'page_id'),
 	);
-
-	public static function create()
-	{
-		return new self();
-	}
 	
 	public function define_columns($context = null)
 	{
