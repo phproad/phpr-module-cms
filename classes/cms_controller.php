@@ -334,11 +334,11 @@ class Cms_Controller extends Cms_Parser
 	protected function resource_combine($type, $files, $options, $show_tag = true)
 	{
 		$aliases = array(
-			'jquery' => '/modules/cms/assets/javascript/jquery.js',
-			'jquery-noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
-			'jquery-helper' => '/modules/cms/assets/javascript/jquery.helper.js',
+			'jquery' => '/modules/cms/assets/scripts/js/jquery.js',
+			'jquery-noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
+			'jquery-helper' => '/modules/cms/assets/scripts/js/jquery.helper.js',
 			'jquery-validate' => '/framework/assets/scripts/js/jquery.validate.js',
-			'cms-core' => '/modules/cms/assets/javascript/cms.core.js',
+			'cms-core' => '/modules/cms/assets/scripts/js/cms.core.js',
 			
 			// PHPR Libs
 			'phpr' => '/framework/assets/scripts/js/phpr.js',
@@ -352,9 +352,9 @@ class Cms_Controller extends Cms_Parser
 			'phpr-core' => array('phpr-post', 'phpr-indicator', 'phpr-form', 'jquery-validate', 'phpr-validate'),
 
 			// @deprecated
-			'jquery_noconflict' => '/modules/cms/assets/javascript/jquery.noconflict.js',
-			'core_jquery' => '/modules/cms/assets/javascript/jquery.helper.js',
-			'frontend_core' => '/modules/cms/assets/javascript/cms.core.js',
+			'jquery_noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
+			'core_jquery' => '/modules/cms/assets/scripts/js/jquery.helper.js',
+			'frontend_core' => '/modules/cms/assets/scripts/js/cms.core.js',
 		);
 
 		$files = Phpr_Util::splat($files);
