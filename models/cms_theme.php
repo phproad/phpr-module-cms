@@ -111,7 +111,7 @@ class Cms_Theme extends Cms_Base
 			// 
 			$theme_path = self::get_theme_dir($this->code);
 			if (file_exists($theme_path))
-				Phpr_Files::remove_dir_recursive($theme_path);
+				File_Directory::delete_recursive($theme_path);
 
 			// Delete strings, content blocks, pages, partials and layouts
 			//
@@ -287,7 +287,7 @@ class Cms_Theme extends Cms_Base
 		$new_theme->define_form_fields();
 		$new_theme->save($data);
 
-		Phpr_Files::copy_dir(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
+		File_Directory::copy(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
 
 		return $new_theme;
 	}

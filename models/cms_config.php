@@ -61,7 +61,7 @@ class Cms_Config extends Core_Settings_Base
 	{
 		$settings = self::create();
 		if ($settings->logo->count > 0)
-			return root_url($settings->logo->first()->getPath());
+			return root_url($settings->logo->first()->get_path());
 		else
 			return null;
 	}

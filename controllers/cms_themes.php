@@ -334,7 +334,7 @@ class Cms_Themes extends Admin_Controller
 				throw new Phpr_ApplicationException('File not found');
 				
 			$output_name = $output_name ? $output_name : 'theme.zip';
-			$file = Db_File::create()->fromFile($zip_path);
+			$file = Db_File::create()->from_file($zip_path);
 			$file->name = $output_name;
 			$file->output();
 			@unlink($zip_path);

@@ -80,7 +80,7 @@ class Cms_Base extends Db_ActiveRecord
 
 		try
 		{
-			@chmod($path, Phpr_Files::get_file_permissions());
+			@chmod($path, File::get_permissions());
 		}
 		catch (exception $ex)
 		{

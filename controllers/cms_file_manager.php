@@ -23,11 +23,11 @@ class Cms_File_Manager extends Admin_Controller
 	{
 		$disposition = 'inline';
 		$file_path = PATH_APP.'/temp/.cms_thumbs/'.$filename;
-		$file = Db_File::create()->fromFile($file_path);
+		$file = Db_File::create()->from_file($file_path);
 		$file->name = $filename;
 		$file->output();
 
-		$dest_path = $file->getFileSavePath($file->disk_name);
+		$dest_path = $file->get_file_save_path($file->disk_name);
 
 		if (file_exists($dest_path))
 			@unlink($dest_path);

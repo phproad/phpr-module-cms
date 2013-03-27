@@ -741,7 +741,7 @@ class Cms_Page extends Cms_Base
 			if (!@mkdir($dest_path))
 				throw new Phpr_ApplicationException('Error creating page directory: '.$dest_path);
 
-			$folder_permissions = Phpr_Files::get_folder_permissions();
+			$folder_permissions = File_Directory::get_permissions();
 			@chmod($dest_path, $folder_permissions);
 		}
 

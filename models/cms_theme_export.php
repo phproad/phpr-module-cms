@@ -76,20 +76,20 @@ class Cms_Theme_Export extends Db_ActiveRecord
 
 			foreach ($this->components as $object)
 			{
-				Phpr_Files::copy_dir($theme_path.'/'.$object, $temp_path.'/'.$object, $options);
+				File_Directory::copy($theme_path.'/'.$object, $temp_path.'/'.$object, $options);
 
 				if ($object != "assets" && file_exists($theme_path.'/meta/'.$object))
-					Phpr_Files::copy_dir($theme_path.'/meta/'.$object, $temp_path.'/meta/'.$object, $options);
+					File_Directory::copy($theme_path.'/meta/'.$object, $temp_path.'/meta/'.$object, $options);
 			}
 
 			File_Zip::zip_directory($temp_path, $zip_path);
-			Phpr_Files::remove_dir_recursive($temp_path);
+			File_Directory::delete_recursive($temp_path);
 
 		}
 		catch (Exception $ex)
 		{
 			if (strlen($temp_path) && @file_exists($temp_path))
-				Phpr_Files::remove_dir_recursive($temp_path);
+				File_Directory::delete_recursive($temp_path);
 
 			if (strlen($zip_path) && @file_exists($zip_path))
 				@unlink($zip_path);

@@ -92,7 +92,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			else
 				$theme = Cms_Theme::create()->find($this->theme_id);
 			
-			$file_path = PATH_APP.$file->getPath();
+			$file_path = PATH_APP.$file->get_path();
 			$theme_path = PATH_APP.'/themes/'.$theme->code;
 			$temp_path = PATH_APP.'/temp/'.uniqid('phpr');
 
@@ -109,16 +109,16 @@ class Cms_Theme_Import extends Db_ActiveRecord
 				$options = array('overwrite' => $this->overwrite_files);
 				
 				if ($object != "assets" && file_exists($temp_path.'/meta/'.$object))
-					Phpr_Files::copy_dir($temp_path.'/meta/'.$object, $theme_path.'/meta/'.$object, $options);
+					File_Directory::copy($temp_path.'/meta/'.$object, $theme_path.'/meta/'.$object, $options);
 				
-				Phpr_Files::copy_dir($temp_path.'/'.$object, $theme_path.'/'.$object, $options);
+				File_Directory::copy($temp_path.'/'.$object, $theme_path.'/'.$object, $options);
 			}
 
 			Cms_Theme::auto_create_all_from_files();
 
 			// Clean up
 			@unlink($file_path);
-			Phpr_Files::remove_dir_recursive($temp_path);
+			File_Directory::delete_recursive($temp_path);
 		}
 		catch (Exception $ex)
 		{
@@ -126,7 +126,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 				@unlink($file_path);
 			
 			if (isset($temp_path) && @file_exists($temp_path))
-				Phpr_Files::remove_dir_recursive($temp_path);
+				File_Directory::delete_recursive($temp_path);
 
 			throw $ex;
 		}
