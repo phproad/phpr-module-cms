@@ -50,9 +50,8 @@ class Cms_Theme_Export extends Db_ActiveRecord
 	
 	public function export($data)
 	{
-		if (Phpr::$config->get('DEMO_MODE'))
-			throw new Phpr_ApplicationException('Sorry you cannot export themes while site is in demonstration mode.');
-
+		Phpr::$events->fire_event('cms:on_export_theme');
+		
 		try 
 		{
 			$this->define_form_fields();

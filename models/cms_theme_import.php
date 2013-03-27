@@ -63,9 +63,8 @@ class Cms_Theme_Import extends Db_ActiveRecord
 
 	public function import($data, $session_key)
 	{
-		if (Phpr::$config->get('DEMO_MODE'))
-			throw new Phpr_ApplicationException('Sorry you cannot import themes while site is in demonstration mode.');
-
+		Phpr::$events->fire_event('cms:on_import_theme');
+		
 		@set_time_limit(3600);
 
 		try
