@@ -38,9 +38,9 @@ class Cms_Pages extends Admin_Controller
 		$this->app_menu = 'cms';
 		$this->app_module_name = 'CMS';
 
-		$this->list_record_url = url('/cms/pages/edit/');
-		$this->form_redirect = url('/cms/pages');
-		$this->form_create_save_redirect = url('/cms/pages/edit/%s/'.uniqid());
+		$this->list_record_url = url('cms/pages/edit/');
+		$this->form_redirect = url('cms/pages');
+		$this->form_create_save_redirect = url('cms/pages/edit/%s/'.uniqid());
 		$this->app_page = 'pages';
 	}
 
@@ -69,7 +69,7 @@ class Cms_Pages extends Admin_Controller
 	public function form_after_create_save($page, $session_key)
 	{
 		if (post('create_close'))
-			$this->form_create_save_redirect = url('/cms/pages');
+			$this->form_create_save_redirect = url('cms/pages');
 	}
 
 	public function index_on_refresh_pages_from_files()

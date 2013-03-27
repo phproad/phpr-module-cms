@@ -27,9 +27,9 @@ class Cms_Themes extends Admin_Controller
 		$this->app_menu = 'cms';
 		$this->app_module_name = 'CMS';
 
-		$this->list_record_url = url('/cms/themes/edit/');
-		$this->form_redirect = url('/cms/themes');
-		$this->form_create_save_redirect = url('/cms/themes/edit/%s/');
+		$this->list_record_url = url('cms/themes/edit/');
+		$this->form_redirect = url('cms/themes');
+		$this->form_create_save_redirect = url('cms/themes/edit/%s/');
 		$this->app_page = 'themes';
 	}
 	
@@ -312,7 +312,7 @@ class Cms_Themes extends Admin_Controller
 			if (!$theme)
 				throw new Phpr_ApplicationException("Theme not found");
 			
-			Phpr::$response->redirect(url('/cms/themes/get/'.$file.'/'.$theme->code.'.zip'));
+			Phpr::$response->redirect(url('cms/themes/get/'.$file.'/'.$theme->code.'.zip'));
 		}
 		catch (Exception $ex)
 		{
@@ -326,7 +326,7 @@ class Cms_Themes extends Admin_Controller
 		{
 			$this->app_page_title = 'Download CMS Export Archive';
 			
-			if (!preg_match('/^ahoy[0-9a-z]*$/i', $name))
+			if (!preg_match('/^phpr[0-9a-z]*$/i', $name))
 				throw new Phpr_ApplicationException('File not found');
 
 			$zip_path = PATH_APP.'/temp/'.$name;

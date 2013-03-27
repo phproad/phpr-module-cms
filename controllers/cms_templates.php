@@ -36,9 +36,9 @@ class Cms_Templates extends Admin_Controller
 		$this->app_menu = 'cms';
 		$this->app_module_name = 'CMS';
 
-		$this->list_record_url = url('/cms/templates/edit/');
-		$this->form_redirect = url('/cms/templates');
-		$this->form_create_save_redirect = url('/cms/templates/edit/%s');
+		$this->list_record_url = url('cms/templates/edit/');
+		$this->form_redirect = url('cms/templates');
+		$this->form_create_save_redirect = url('cms/templates/edit/%s');
 		$this->app_page = 'templates';
 
 	}
@@ -75,6 +75,6 @@ class Cms_Templates extends Admin_Controller
 	public function form_after_create_save($page, $session_key)
 	{
 		if (post('create_close'))
-			$this->form_create_save_redirect = url('/cms/templates');
+			$this->form_create_save_redirect = url('cms/templates');
 	}
 }

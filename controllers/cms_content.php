@@ -35,9 +35,9 @@ class Cms_Content extends Admin_Controller
 		parent::__construct();
 		$this->app_menu = 'cms';
 		$this->app_module_name = 'CMS';
-		$this->list_record_url = url('/cms/content/edit/');
-		$this->form_redirect = url('/cms/content');
-		$this->form_create_save_redirect = url('/cms/content/edit/%s');
+		$this->list_record_url = url('cms/content/edit/');
+		$this->form_redirect = url('cms/content');
+		$this->form_create_save_redirect = url('cms/content/edit/%s');
 		$this->app_page = 'content';
 	}
 
@@ -65,6 +65,6 @@ class Cms_Content extends Admin_Controller
 	public function form_after_create_save($page, $session_key)
 	{
 		if (post('create_close'))
-			$this->form_create_save_redirect = url('/cms/content');
+			$this->form_create_save_redirect = url('cms/content');
 	}
 }
