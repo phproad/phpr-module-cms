@@ -2,7 +2,7 @@
 
 class Cms_Themes extends Admin_Controller
 {
-	public $implement = 'Db_ListBehavior, Db_FormBehavior';
+	public $implement = 'Db_List_Behavior, Db_Form_Behavior';
 	public $list_model_class = 'Cms_Theme';
 	public $list_no_data_message = 'No themes found.';
 	public $list_record_url = null;
@@ -246,7 +246,7 @@ class Cms_Themes extends Admin_Controller
 				
 			$theme = $this->view_data['theme'] = Cms_Theme::create();
 			$existing_theme->init_copy($theme);
-			$theme->define_form_fields('duplicate');
+			$theme->init_form_fields('duplicate');
 		} catch (Exception $ex)
 		{
 			$this->handle_page_error($ex);
@@ -291,7 +291,7 @@ class Cms_Themes extends Admin_Controller
 			$model = new Cms_Theme_Export();
 			
 			$model->theme_id = count($ids) ? $ids[0] : null;
-			$model->define_form_fields();
+			$model->init_form_fields();
 			$this->view_data['model'] = $model;
 		} catch (Exception $ex)
 		{
@@ -355,7 +355,7 @@ class Cms_Themes extends Admin_Controller
 		try
 		{
 			$model = new Cms_Theme_Import();
-			$model->define_form_fields();
+			$model->init_form_fields();
 			$this->view_data['model'] = $model;
 		} 
 		catch (Exception $ex)

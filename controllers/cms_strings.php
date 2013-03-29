@@ -2,7 +2,7 @@
 
 class Cms_Strings extends Admin_Controller
 {
-	public $implement = 'Db_ListBehavior, Db_FormBehavior';
+	public $implement = 'Db_List_Behavior, Db_Form_Behavior';
 	public $list_model_class = 'Cms_String';
 	public $list_record_url = null;
 	public $list_handle_row_click = false;
@@ -97,7 +97,7 @@ class Cms_Strings extends Admin_Controller
 			if ($model_id)
 				$model = $model->find($model_id);
 
-			$model->define_form_fields();
+			$model->init_form_fields();
 			
 			$this->view_data['model'] = $model;
 			$this->view_data['new_record_flag'] = !($model_id);

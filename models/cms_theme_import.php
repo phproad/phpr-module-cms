@@ -75,7 +75,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			$this->validate_data($data, $session_key);
 			$this->set_data($data);
 			
-			$file = $this->list_related_records_deferred('file', $session_key)->first;
+			$file = $this->get_all_deferred('file', $session_key)->first;
 
 			$path_info = pathinfo($file->name);
 			$ext = strtolower($path_info['extension']);

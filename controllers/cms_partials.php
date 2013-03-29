@@ -2,7 +2,7 @@
 
 class Cms_Partials extends Admin_Controller
 {
-	public $implement = 'Db_ListBehavior, Db_FormBehavior';
+	public $implement = 'Db_List_Behavior, Db_Form_Behavior';
 	public $list_model_class = 'Cms_Partial';
 	public $list_record_url = null;
 	public $list_handle_row_click = false;

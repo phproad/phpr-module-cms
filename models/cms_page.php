@@ -596,7 +596,7 @@ class Cms_Page extends Cms_Base
 			if (!$block)
 				$block = Cms_Content_Block::create();
 
-			$block->init_columns_info();
+			$block->init_columns();
 
 			$block->page_id = $this->id;
 			$block->name = $content_block->name;
@@ -784,7 +784,7 @@ class Cms_Page extends Cms_Base
 	{
 		$obj = self::create();
 
-		$obj->init_columns_info();
+		$obj->init_columns();
 		$obj->file_name = $dir_name;
 		$obj->load_settings();
 		$obj->load_file_content();

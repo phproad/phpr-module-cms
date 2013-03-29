@@ -2,7 +2,7 @@
 
 class Cms_Pages extends Admin_Controller
 {
-	public $implement = 'Db_ListBehavior, Db_FormBehavior';
+	public $implement = 'Db_List_Behavior, Db_Form_Behavior';
 	public $list_model_class = 'Cms_Page';
 	public $list_record_url = null;
 	public $list_display_as_tree = true;

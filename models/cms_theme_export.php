@@ -57,7 +57,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 
 		try 
 		{
-			$this->define_form_fields();
+			$this->init_form_fields();
 			$this->validate_data($data);
 			$this->set_data($data);
 			

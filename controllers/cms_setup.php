@@ -2,7 +2,7 @@
 
 class Cms_Setup extends Admin_Settings_Controller
 {
-	public $implement = 'Db_FormBehavior';
+	public $implement = 'Db_Form_Behavior';
 
 	public $form_edit_title = 'Website Settings';
 	public $form_model_class = 'Cms_Config';

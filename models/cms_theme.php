@@ -283,8 +283,8 @@ class Cms_Theme extends Cms_Base
 	public function duplicate_theme($data)
 	{
 		$new_theme = self::create();
-		$new_theme->init_columns_info();
-		$new_theme->define_form_fields();
+		$new_theme->init_columns();
+		$new_theme->init_form_fields();
 		$new_theme->save($data);
 
 		File_Directory::copy(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
