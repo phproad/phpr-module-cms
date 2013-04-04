@@ -1,6 +1,6 @@
 <? Admin_Breadcrumb::add('Themes', 'cms/themes')->add($this->app_page_title);?>
 <? Phpr_View::begin_block("head") ?>
-	<script type="text/javascript" src="modules/cms/assets/javascript/theme.js"></script>
+	<script type="text/javascript" src="modules/cms/assets/scripts/js/theme.js"></script>
 <? Phpr_View::end_block() ?>
 
 <? Phpr_View::begin_block("view") ?>
@@ -24,6 +24,6 @@
 			</form>
 		</div>
 	<? else: ?>
-		<p><a href="<?=url('/cms/themes') ?>">Return to the theme list</a></p>
+		<p><a href="<?= url('cms/themes') ?>">Return to the theme list</a></p>
 	<? endif ?>
 <? Phpr_View::end_block() ?>

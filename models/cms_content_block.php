@@ -31,12 +31,7 @@ class Cms_Content_Block extends Cms_Base
 	public $calculated_columns = array(
 		'file_name'=>array('sql'=>'code')
 	);
-	
-	public static function create()
-	{
-		return new self();
-	}
-	
+		
 	public function define_columns($context = null)
 	{
 		$this->define_relation_column('page', 'page', 'Page', db_varchar, '@name')->validation();

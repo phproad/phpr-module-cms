@@ -11,11 +11,6 @@ class Cms_Template extends Cms_Base
 	public $cms_fields_to_save = array('name','unique_id');
 	
 	public $ignore_file_copy = false;
-
-	public static function create()
-	{
-		return new self();
-	}
 	
 	public function define_columns($context = null)
 	{

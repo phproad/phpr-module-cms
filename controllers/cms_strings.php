@@ -2,7 +2,7 @@
 
 class Cms_Strings extends Admin_Controller
 {
-	public $implement = 'Db_ListBehavior, Db_FormBehavior';
+	public $implement = 'Db_List_Behavior, Db_Form_Behavior';
 	public $list_model_class = 'Cms_String';
 	public $list_record_url = null;
 	public $list_handle_row_click = false;
@@ -41,11 +41,11 @@ class Cms_Strings extends Admin_Controller
 		$this->app_module_name = 'CMS';
 
 		$this->list_record_onclick = "new PopupForm('index_onshow_manage_string_form', { ajaxFields: {string_id: '%s' } }); return false;";
-		$this->form_redirect = url('/cms/strings');
-		$this->form_create_save_redirect = url('/cms/strings/edit/%s');
+		$this->form_redirect = url('cms/strings');
+		$this->form_create_save_redirect = url('cms/strings/edit/%s');
 
-		$this->list_csv_import_url = url('/cms/strings/import');
-		$this->list_csv_cancel_url = url('/cms/strings');
+		$this->list_csv_import_url = url('cms/strings/import');
+		$this->list_csv_cancel_url = url('cms/strings');
 
 		$this->app_page = 'strings';
 	}
@@ -97,7 +97,7 @@ class Cms_Strings extends Admin_Controller
 			if ($model_id)
 				$model = $model->find($model_id);
 
-			$model->define_form_fields();
+			$model->init_form_fields();
 			
 			$this->view_data['model'] = $model;
 			$this->view_data['new_record_flag'] = !($model_id);

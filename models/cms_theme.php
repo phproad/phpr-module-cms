@@ -10,11 +10,6 @@ class Cms_Theme extends Cms_Base
 	private static $theme_edit = false;
 	private static $themes = array();
 
-	public static function create()
-	{
-		return new self();
-	}
-
 	public function define_columns($context = null)
 	{
 		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("Please specify the theme name.");
@@ -116,7 +111,7 @@ class Cms_Theme extends Cms_Base
 			// 
 			$theme_path = self::get_theme_dir($this->code);
 			if (file_exists($theme_path))
-				Phpr_Files::remove_dir_recursive($theme_path);
+				File_Directory::delete_recursive($theme_path);
 
 			// Delete strings, content blocks, pages, partials and layouts
 			//
@@ -288,11 +283,11 @@ class Cms_Theme extends Cms_Base
 	public function duplicate_theme($data)
 	{
 		$new_theme = self::create();
-		$new_theme->init_columns_info();
-		$new_theme->define_form_fields();
+		$new_theme->init_columns();
+		$new_theme->init_form_fields();
 		$new_theme->save($data);
 
-		Phpr_Files::copy_dir(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
+		File_Directory::copy(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
 
 		return $new_theme;
 	}

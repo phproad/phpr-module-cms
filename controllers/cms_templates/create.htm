@@ -1,6 +1,6 @@
 <? Admin_Breadcrumb::add('Templates', 'cms/templates')->add($this->app_page_title);?>
 <? Phpr_View::begin_block("head") ?>
-	<script src="modules/cms/assets/javascript/base.js"></script>
+	<script src="modules/cms/assets/scripts/js/base.js"></script>
 	<script>
 		cms_name_field = '#Cms_Template_name';
 		cms_file_name_field = '#Cms_Template_file_name';
@@ -11,7 +11,7 @@
 	<? $dbName = $this->view_data['form_model']; ?>
 		<div class="form-750">
 			<?=form_open(array('id'=>'form_element')) ?>
-				<?=form_hidden('new_flag', 1, 'id="new_flag"')?>
+				<input type="hidden" name="new_flag" value="1" id="new_flag" />
 
 				<? $this->form_render() ?>
 
@@ -29,6 +29,6 @@
 		</div>
 	<? else: ?>
 		<?=flash()?>
-		<p><a href="<?=url('/cms/templates') ?>">Return to the list</a></p>
+		<p><a href="<?= url('cms/templates') ?>">Return to the list</a></p>
 	<? endif ?>
 <? Phpr_View::end_block() ?>
