@@ -1,13 +1,14 @@
 <div>
 	<h2>Import theme</h2>
-	<div class="content">
-		<div class="form-400">
-			<?=Phpr_Form::open_tag() ?>
+	<div class="form-400">
+		<?=Phpr_Form::open_tag() ?>
 
-				<? if (!isset($fatalError)): ?>
+			<? if (!isset($fatalError)): ?>
+				<input type="hidden" name="phpr_uploader_model_class" value="<?=get_class($model) ?>"/>
+				<div class="content">
 					<? $this->form_render($model) ?>
-
-					<input type="hidden" name="phpr_uploader_model_class" value="<?=get_class($model) ?>"/>
+				</div>
+				<div class="footer">
 					<?=admin_ajax_button('Import', 'index_onimport_theme', array('class'=>'positive'), "
 						loadIndicator: {injectInElement: true},
 						update: 'themes_page_content',
@@ -18,13 +19,16 @@
 						cancelPopup();
 						return false;
 					")) ?>
-				<? else: ?>
+				</div>
+			<? else: ?>
+				<div class="content">
 					<div class="formFlash"><?=flash()?></div>
+				</div>
+				<div class="footer">
 					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
-				<? endif ?>
-			
-				<div class="clear"></div>
-			</form>
-		</div>
+				</div>
+			<? endif ?>
+
+		</form>
 	</div>
 </div>

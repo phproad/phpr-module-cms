@@ -5,22 +5,28 @@
 			<?=Phpr_Form::open_tag() ?>
 
 				<? if (!isset($fatalError)): ?>
-					<? $this->form_render($model) ?>
-
-					<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'positive'), "
-							loadIndicator: {injectInElement: true},
-							onSuccess: cancelPopup
-						") ?>
-					<?=admin_button('Cancel', array('onclick'=>"
-						cancelPopup();
-						return false;
-					")) ?>
+					<div class="content">
+						<? $this->form_render($model) ?>
+					</div>
+					<div class="footer">
+						<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'positive'), "
+								loadIndicator: {injectInElement: true},
+								onSuccess: cancelPopup
+							") ?>
+						<?=admin_button('Cancel', array('onclick'=>"
+							cancelPopup();
+							return false;
+						")) ?>
+					</div>
 				<? else: ?>
-					<div class="formFlash"><?=flash()?></div>
-					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+					<div class="content">
+						<div class="formFlash"><?=flash()?></div>
+					</div>
+					<div class="footer">
+						<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+					</div>
 				<? endif ?>
 			
-				<div class="clear"></div>
 			</form>
 		</div>
 	</div>

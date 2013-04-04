@@ -1,21 +1,16 @@
 <div>
 	<div id="duplicate_form">
 		<h2>Duplicate theme</h2>
-		<div class="content">
 			<div class="form-400">
-				<?=Phpr_Form::open_tag() ?>
-
-					<? if (!isset($fatalError)): ?>
+			<?=Phpr_Form::open_tag() ?>
+			
+				<? if (!isset($fatalError)): ?>
+					<input type="hidden" name="theme_id" value="<?=$existing_theme->id ?>"/>
+					<div class="content">
 						<p>Please provide details for the new theme.</p>
-					
 						<? $this->form_render($theme) ?>
-						
-						<script type="text/javascript">
-							jQuery('#duplicate_form').bind('popupLoaded', function(){
-								init_user_agent_ui();
-							});
-						</script>
-
+					</div>
+					<div class="footer">
 						<?=admin_ajax_button('Duplicate', 'index_onduplicate_theme', array('class'=>'positive'), "
 							loadIndicator: {injectInElement: true},
 							update: 'themes_page_content',
@@ -27,16 +22,22 @@
 							cancelPopup();
 							return false;
 						")) ?>
-						
-						<input type="hidden" name="theme_id" value="<?=$existing_theme->id ?>"/>
-					<? else: ?>
+					</div>
+					<script type="text/javascript">
+						jQuery('#duplicate_form').bind('popupLoaded', function(){
+							init_user_agent_ui();
+						});
+					</script>
+				<? else: ?>
+					<div class="content">
 						<div class="formFlash"><?=flash()?></div>
+					</div>
+					<div class="footer">
 						<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
-					<? endif ?>
-				
-					<div class="clear"></div>
-				</form>
-			</div>
+					</div>
+				<? endif ?>
+			
+			</form>
 		</div>
 	</div>
 </div>
