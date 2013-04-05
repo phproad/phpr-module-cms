@@ -1,7 +1,7 @@
 <?php
 
 $table = Db_Structure::table('cms_security');
-	$table->primary_key('id');
+	$table->primary_key('id', db_varchar, 25);
 	$table->column('name', db_varchar);
 	$table->column('description', db_varchar);
 	$table->save();
