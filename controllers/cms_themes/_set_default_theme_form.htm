@@ -1,10 +1,10 @@
 <div>
 	<h2>Set default theme</h2>
-	<div class="content">
-		<div class="form-400">
-			<?=Phpr_Form::open_tag() ?>
+	<div class="form-400">
+		<?=Phpr_Form::open_tag() ?>
 
-				<? if (!isset($fatalError)): ?>
+			<? if (!isset($fatalError)): ?>
+				<div class="content">
 					<div class="form">
 						<div class="formFlash"></div>
 
@@ -27,7 +27,8 @@
 						</ul>
 						<div class="clear"></div>
 					</div>
-
+				</div>
+				<div class="footer">
 					<?=admin_ajax_button('Apply', 'index_onset_default_theme', array('class'=>'positive'), "
 						loadIndicator: {injectInElement: true},
 						update: 'themes_page_content',
@@ -38,13 +39,16 @@
 						cancelPopup();
 						return false;
 					")) ?>
-				<? else: ?>
+				</div>
+			<? else: ?>
+				<div class="content">
 					<div class="formFlash"><?=flash()?></div>
+				</div>
+				<div class="footer">
 					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
-				<? endif ?>
-			
-				<div class="clear"></div>
-			</form>
-		</div>
+				</div>
+			<? endif ?>
+		
+		</form>
 	</div>
 </div>
