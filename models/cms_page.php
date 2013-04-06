@@ -782,20 +782,20 @@ class Cms_Page extends Cms_Base
 
 	protected static function create_from_directory($dir_name)
 	{
-		$obj = self::create();
+		$page = self::create();
 
-		$obj->init_columns();
-		$obj->file_name = $dir_name;
-		$obj->load_settings();
-		$obj->load_file_content();
-		$obj->ignore_file_copy = true;
+		$page->init_columns();
+		$page->file_name = $dir_name;
+		$page->load_settings();
+		$page->load_file_content();
+		$page->ignore_file_copy = true;
 
-		if (!$obj->url)
-			$obj->url = '/'.$dir_name;
+		if (!$page->url)
+			$page->url = '/'.$dir_name;
 
-		$obj->save();
+		$page->save();
 
-		return $obj;
+		return $page;
 	}
 
 	public static function auto_create_from_files()
@@ -836,10 +836,10 @@ class Cms_Page extends Cms_Base
 		$all_pages = self::create()->apply_edit_theme()->find_all();
 
 		foreach ($all_pages as $page) {
-			$obj->load_settings();
-			$obj->load_file_content();
-			$obj->ignore_file_copy = true;
-			$obj->save();
+			$page->load_settings();
+			$page->load_file_content();
+			$page->ignore_file_copy = true;
+			$page->save();
 		}
 	}
 
