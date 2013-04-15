@@ -26,8 +26,9 @@ class Cms_Theme_Export extends Db_ActiveRecord
 		$result = array();
 		
 		$themes = Cms_Theme::create()->order('name')->find_all();
-		foreach ($themes as $theme)
+		foreach ($themes as $theme) {
 			$result[$theme->id] = $theme->name.' ('.$theme->code.')';
+		}
 			
 		return $result;
 	}
@@ -43,7 +44,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 		);
 	}
 	
-	public function get_components_optionState($value)
+	public function get_components_option_state($value)
 	{
 		return true;
 	}

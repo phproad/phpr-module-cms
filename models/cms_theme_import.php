@@ -56,7 +56,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 		);
 	}
 	
-	public function get_components_optionState($value)
+	public function get_components_option_state($value)
 	{
 		return true;
 	}

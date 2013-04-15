@@ -3,19 +3,18 @@
 	<div class="form-400">
 		<?=Phpr_Form::open_tag() ?>
 
-			<? if (!isset($fatalError)): ?>
+			<? if (!isset($fatal_error)): ?>
 				<div class="content">
 					<div class="form">
 						<div class="formFlash"></div>
 
-						<ul class="formElements">
-							<li class="field dropdown full">
-								<label for="theme_id">
+						<fieldset class="form-elements">
+							<div class="control-group dropdown full">
+								<label for="theme_id" class="control-label">
 									Theme <span class="required">*</span>
-									
-									<span class="comment">Please select a default theme.</span>
 								</label>
-								<div class="fieldContainer">
+								<div class="controls">
+									<span class="help-block">Please select a default theme.</span>
 									<select name="theme_id" id="theme_id">
 										<option value="">&lt;please select&gt;</option>
 										<? foreach ($themes as $theme): ?>
@@ -23,13 +22,13 @@
 										<? endforeach ?>
 									</select>
 								</div>
-							</li>
-						</ul>
-						<div class="clear"></div>
+							</div>
+						</fieldset>
+
 					</div>
 				</div>
 				<div class="footer">
-					<?=admin_ajax_button('Apply', 'index_onset_default_theme', array('class'=>'positive'), "
+					<?=admin_ajax_button('Apply', 'index_onset_default_theme', array('class'=>'btn btn-success'), "
 						loadIndicator: {injectInElement: true},
 						update: 'themes_page_content',
 						onSuccess: cancelPopup,
