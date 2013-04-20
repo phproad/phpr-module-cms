@@ -588,6 +588,10 @@ class Cms_Page extends Cms_Base
 
 	protected function update_content_blocks()
 	{
+		// This is to step refresh_from_meta from trashing the blocks
+		if ($this->ignore_file_copy)
+			return;
+
 		$found_blocks = array();
 		foreach ($this->content_blocks as $content_block)
 		{

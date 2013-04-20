@@ -4,7 +4,7 @@
 			<div class="form-400">
 			<?=Phpr_Form::open_tag() ?>
 			
-				<? if (!isset($fatalError)): ?>
+				<? if (!isset($fatal_error)): ?>
 					<input type="hidden" name="theme_id" value="<?=$existing_theme->id ?>"/>
 					<div class="content">
 						<p>Please provide details for the new theme.</p>

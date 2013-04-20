@@ -1,6 +1,6 @@
 <? Admin_Breadcrumb::add('Strings', 'cms/strings')->add($this->app_page_title);?>
 <? Phpr_View::begin_block("view") ?>
-	<? if (!isset($fatalError)): ?>
+	<? if (!isset($fatal_error)): ?>
 		<div class="form-600">
 			<?= form_open(array('id'=>'form_element')) ?>
 

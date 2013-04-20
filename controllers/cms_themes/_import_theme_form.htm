@@ -1,34 +1,32 @@
-<div>
-	<h2>Import theme</h2>
-	<div class="form-400">
-		<?=Phpr_Form::open_tag() ?>
+<div class="form-400">
+	<?=Phpr_Form::open_tag() ?>
 
-			<? if (!isset($fatalError)): ?>
-				<input type="hidden" name="phpr_uploader_model_class" value="<?=get_class($model) ?>"/>
-				<div class="content">
-					<? $this->form_render($model) ?>
-				</div>
-				<div class="footer">
-					<?=admin_ajax_button('Import', 'index_onimport_theme', array('class'=>'positive'), "
-						loadIndicator: {injectInElement: true},
-						update: 'themes_page_content',
-						onSuccess: cancelPopup,
-						onAfterUpdate: update_scrollable_toolbars
-						") ?>
-					<?=admin_button('Cancel', array('onclick'=>"
-						cancelPopup();
-						return false;
-					")) ?>
-				</div>
-			<? else: ?>
-				<div class="content">
-					<div class="formFlash"><?=flash()?></div>
-				</div>
-				<div class="footer">
-					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
-				</div>
-			<? endif ?>
+		<? if (!isset($fatal_error)): ?>
+			<input type="hidden" name="phpr_uploader_model_class" value="<?=get_class($model) ?>"/>
+			<h2>Import theme</h2>
+			<div class="content">
+				<? $this->form_render($model) ?>
+			</div>
+			<div class="footer">
+				<?=admin_ajax_button('Import', 'index_onimport_theme', array('class'=>'btn btn-success'), "
+					loadIndicator: {injectInElement: true},
+					update: 'themes_page_content',
+					onSuccess: cancelPopup,
+					onAfterUpdate: update_scrollable_toolbars
+					") ?>
+				<?=admin_button('Cancel', array('onclick'=>"
+					cancelPopup();
+					return false;
+				")) ?>
+			</div>
+		<? else: ?>
+			<div class="content">
+				<div class="formFlash"><?=flash()?></div>
+			</div>
+			<div class="footer">
+				<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+			</div>
+		<? endif ?>
 
-		</form>
-	</div>
+	</form>
 </div>

@@ -2,7 +2,7 @@
 	<h2>Update String</h2>
 		<div class="form-400">
 		<?=Phpr_Form::open_tag() ?>
-			<? if (!isset($fatalError)): ?>
+			<? if (!isset($fatal_error)): ?>
 				<div class="content">
 					<? $this->form_render($model) ?>
 					<?=form_hidden('string_id', $model->id)?>

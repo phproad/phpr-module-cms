@@ -1,33 +1,29 @@
-<div>
-	<h2>Export theme</h2>
-	<div class="content">
-		<div class="form-400">
-			<?=Phpr_Form::open_tag() ?>
+<div class="form-400">
+	<?=Phpr_Form::open_tag() ?>
 
-				<? if (!isset($fatalError)): ?>
-					<div class="content">
-						<? $this->form_render($model) ?>
-					</div>
-					<div class="footer">
-						<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'positive'), "
-								loadIndicator: {injectInElement: true},
-								onSuccess: cancelPopup
-							") ?>
-						<?=admin_button('Cancel', array('onclick'=>"
-							cancelPopup();
-							return false;
-						")) ?>
-					</div>
-				<? else: ?>
-					<div class="content">
-						<div class="formFlash"><?=flash()?></div>
-					</div>
-					<div class="footer">
-						<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
-					</div>
-				<? endif ?>
-			
-			</form>
-		</div>
-	</div>
+		<? if (!isset($fatal_error)): ?>
+			<h2>Export theme</h2>
+			<div class="content">
+				<? $this->form_render($model) ?>
+			</div>
+			<div class="footer">
+				<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'btn btn-success'), "
+						loadIndicator: {injectInElement: true},
+						onSuccess: cancelPopup
+					") ?>
+				<?=admin_button('Cancel', array('onclick'=>"
+					cancelPopup();
+					return false;
+				")) ?>
+			</div>
+		<? else: ?>
+			<div class="content">
+				<div class="formFlash"><?=flash()?></div>
+			</div>
+			<div class="footer">
+				<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+			</div>
+		<? endif ?>
+	
+	</form>
 </div>

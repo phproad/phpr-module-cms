@@ -1,7 +1,7 @@
 <? Admin_Breadcrumb::add('Settings', 'admin/settings')->add($this->app_page_title);?>
 <? Phpr_View::begin_block("view") ?>
 	<?=flash()?>
-	<? if (!isset($fatalError)): ?>
+	<? if (!isset($fatal_error)): ?>
 
 		<div class="scoreboard-report">
 			<ul>
