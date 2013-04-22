@@ -252,7 +252,7 @@ class Cms_Controller extends Cms_Parser
 	public function get_content_for($key)
 	{
 		if(isset($this->yield_content[$key]))
-			echo $this->yield_content[$key];
+			return $this->yield_content[$key];
 	}
 
 	public function start_content_for($key)
