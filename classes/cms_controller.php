@@ -9,6 +9,7 @@ class Cms_Controller extends Cms_Parser
 	public $template;
 	public $template_content;
 	public $partial;
+	public $yield_content = array();
 
 	public $data = array();
 	public $ajax_mode = false;
@@ -246,6 +247,23 @@ class Cms_Controller extends Cms_Parser
 		}
 
 		return $result;
+	}
+
+	public function get_content_for($key)
+	{
+		if(isset($this->yield_content[$key]))
+			return $this->yield_content[$key];
+	}
+
+	public function start_content_for($key)
+	{
+		ob_start();
+	}
+
+	public function end_content_for($key)
+	{
+		$this->yield_content[$key] = ob_get_contents();
+		ob_end_clean();
 	}
 
 	protected function enforce_security($params)
