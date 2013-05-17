@@ -219,7 +219,7 @@ class Cms_Theme extends Cms_Base
 		if (self::$theme_edit !== false)
 			return self::$theme_edit;
 
-		if ($theme_id = Db_User_Parameters::get('admin_edit_theme'))
+		if ($theme_id = Phpr_User_Parameters::get('admin_edit_theme'))
 		{
 			$theme = self::get_theme_by_id($theme_id);
 			if ($theme)
@@ -239,7 +239,7 @@ class Cms_Theme extends Cms_Base
 			throw new Phpr_ApplicationException('Could not find that theme.');
 
 		self::$theme_edit = $theme;
-		Db_User_Parameters::set('admin_edit_theme', $id);
+		Phpr_User_Parameters::set('admin_edit_theme', $id);
 	}
 
 	// Smart method to find theme name
