@@ -4,7 +4,6 @@ $table = Db_Structure::table('cms_security');
 	$table->primary_key('id', db_varchar, 25);
 	$table->column('name', db_varchar);
 	$table->column('description', db_varchar);
-	$table->save();
 
 $table = Db_Structure::table('cms_pages');
 	$table->primary_key('id');
@@ -30,7 +29,6 @@ $table = Db_Structure::table('cms_pages');
 	$table->column('security_page_id', db_number);
 	$table->column('unique_id', db_varchar, 25);
 	$table->footprints();
-	$table->save();
 
 $table = Db_Structure::table('cms_templates');
 	$table->primary_key('id');
@@ -40,7 +38,6 @@ $table = Db_Structure::table('cms_templates');
 	$table->column('theme_id', db_varchar, 64)->index();
 	$table->column('unique_id', db_varchar, 25);
 	$table->footprints();
-	$table->save();
 
 $table = Db_Structure::table('cms_partials');
 	$table->primary_key('id');
@@ -49,7 +46,6 @@ $table = Db_Structure::table('cms_partials');
 	$table->column('content', 'mediumtext');
 	$table->column('theme_id', db_varchar, 64)->index();
 	$table->footprints();
-	$table->save();
 
 $table = Db_Structure::table('cms_content');
 	$table->primary_key('id');
@@ -61,7 +57,6 @@ $table = Db_Structure::table('cms_content');
 	$table->column('page_id', db_number)->index();
 	$table->column('theme_id', db_varchar, 64)->index();
 	$table->footprints();
-	$table->save();
 
 $table = Db_Structure::table('cms_strings');
 	$table->primary_key('id');
@@ -71,7 +66,6 @@ $table = Db_Structure::table('cms_strings');
 	$table->column('global', db_bool);
 	$table->column('page_id', db_number)->index();
 	$table->column('theme_id', db_varchar, 64)->index();
-	$table->save();
 
 $table = Db_Structure::table('cms_themes');
 	$table->primary_key('id');
@@ -82,7 +76,6 @@ $table = Db_Structure::table('cms_themes');
 	$table->column('author_website', db_varchar);
 	$table->column('default_theme', db_bool);
 	$table->column('enabled', db_bool)->set_default(true);
-	$table->save();
 
 $table = Db_Structure::table('cms_page_visits');
 	$table->primary_key('id');
@@ -91,4 +84,3 @@ $table = Db_Structure::table('cms_page_visits');
 	$table->column('ip', db_varchar, 15);
 	$table->column('page_id', db_number);
 	$table->add_key('date_ip', array('visit_date', 'ip'));
-	$table->save();
