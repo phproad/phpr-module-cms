@@ -23,7 +23,6 @@ class Cms_Sitemap extends Core_Settings_Base
 		$this->add_field('blog_posts_path', 'Blog posts Root Path', 'full', db_varchar)->tab('Blog Posts');
 		$this->add_field('blog_posts_frequency', 'Change frequency', 'left', db_varchar)->tab('Blog Posts')->display_as(frm_dropdown);
 		$this->add_field('blog_posts_priority', 'Priority', 'right', db_varchar)->tab('Blog Posts')->validation('The blog posts priority field should contain a number between 0 and 1')->method('priority_validation');
-		
 	}
 	
 	protected function init_config_data() 
@@ -77,10 +76,9 @@ class Cms_Sitemap extends Core_Settings_Base
 			->where('theme_id = ?', $active_theme->code)
 			->find_all();
 		
-		if ($page_list->count) 
-		{
-			foreach ($page_list as $page) 
-			{
+		if ($page_list->count) {
+
+			foreach ($page_list as $page) {
 				$page_url = root_url($page->url, true);
 
 				if (substr($page_url, -1) != '/') 
@@ -93,15 +91,14 @@ class Cms_Sitemap extends Core_Settings_Base
 
 		// Blog Posts
 		// 
-		if ($this->include_blog_posts) 
-		{
+		if ($this->include_blog_posts) {
+
 			$blog_post_list = Blog_Post::create()
 				->limit(self::max_generated)
 				->order('blog_posts.updated_at desc')
 				->find_all();
 
-			foreach ($blog_post_list as $blog_post) 
-			{
+			foreach ($blog_post_list as $blog_post) {
 				$blog_post_url = root_url($this->blog_posts_path.'/'.$blog_post->url_title, true);
 				
 				if (substr($blog_post_url, -1) != '/') 
@@ -119,21 +116,20 @@ class Cms_Sitemap extends Core_Settings_Base
 	
 	private function prepare_url_element($xml, $page_url, $page_lastmod, $page_frequency, $page_priority) 
 	{
-		if ($this->url_count < self::max_urls) 
-		{
-		
+		if ($this->url_count < self::max_urls) {
 			$url = $xml->createElement('url');
 			
 			$url->appendChild($xml->createElement('loc', $page_url));
 			$url->appendChild($xml->createElement('lastmod', $page_lastmod));
-			$url->appendChild($xml->createElement('frequency', $page_frequency));
+			$url->appendChild($xml->createElement('changefreq', $page_frequency));
 			$url->appendChild($xml->createElement('priority', $page_priority));
-									
+
 			$this->url_count++;
-									
+
 			return $url;
 		} 
-		else return false;
+		else 
+			return false;
 	}
 
 }

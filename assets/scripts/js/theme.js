@@ -1,5 +1,5 @@
 function themes_selected() {
-	return jQuery('#listCms_Themes_index_list_body').find('tr td.checkbox input:checked');
+	return jQuery('#listCms_Themes_index_list_body').find('tr td.list-checkbox input:checked');
 }
 
 function delete_selected() {
