@@ -77,6 +77,8 @@ class Cms_Controller extends Cms_Parser
 		//$this->page_content = preg_replace(',\</body\>,i', $sa_code."</body>", $this->page_content, 1);
 
 		echo $this->display_page();
+				
+		Phpr::$events->fire_event('cms:on_after_display_page', $page);
 	}
 
 	public function action()
