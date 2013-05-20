@@ -77,7 +77,7 @@ class Cms_Statistics
 		{
 			$now = $now->add_days(-1);
 			$key = $now->to_sql_date();
-			$int = $now->get_php_time() * 1000;
+			$int = $now->get_php_datetime() * 1000;
 			$chart_data[$key] = array($int, 0);
 		}
 
