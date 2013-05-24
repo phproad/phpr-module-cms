@@ -6,7 +6,7 @@
 			<? if (!isset($fatal_error)): ?>
 				<div class="content">
 					<div class="form">
-						<div class="formFlash"></div>
+						<div class="form-flash"></div>
 
 						<fieldset class="form-elements">
 							<div class="control-group dropdown full">
@@ -41,7 +41,7 @@
 				</div>
 			<? else: ?>
 				<div class="content">
-					<div class="formFlash"><?=flash()?></div>
+					<div class="form-flash"><?=flash()?></div>
 				</div>
 				<div class="footer">
 					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
