@@ -8,7 +8,6 @@
 <? Phpr_View::end_block() ?>
 <? Phpr_View::begin_block("view") ?>
 	<? if (!isset($fatal_error)): ?>
-	<? $dbName = $this->view_data['form_model']; ?>
 		<div class="form-750">
 			<?=form_open(array('id'=>'form_element')) ?>
 				<input type="hidden" name="new_flag" value="1" id="new_flag" />
@@ -22,6 +21,7 @@
 						<?=admin_ajax_button('Cancel', 'create_on_cancel') ?>
 					</div>
 				</div>
+				
 			<?=form_close()?>
 		</div>
 	<? else: ?>

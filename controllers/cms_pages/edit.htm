@@ -4,7 +4,6 @@
 <? Phpr_View::end_block() ?>
 <? Phpr_View::begin_block("view") ?>
 	<? if (!isset($fatal_error)): ?>
-	<? $dbName = $this->view_data['form_model']; ?>
 		<div class="form-750">
 			<?=form_open(array('id'=>'form_element')) ?>
 
