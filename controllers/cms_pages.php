@@ -35,7 +35,7 @@ class Cms_Pages extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->app_menu = 'cms';
+		$this->app_menu = 'cms_editor';
 		$this->app_module_name = 'CMS';
 
 		$this->list_record_url = url('cms/pages/edit/');

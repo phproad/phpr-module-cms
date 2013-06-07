@@ -15,14 +15,16 @@ class Cms_Module extends Core_Module_Base
 
 	public function build_admin_menu($menu)
 	{
-		$top = $menu->add('cms', 'Website', 'cms/pages', 100)->icon('font')->permission(array('manage_files', 'manage_themes', 'manage_templates', 'manage_pages', 'manage_partials', 'manage_content'));
-		$top->add_child('file_manager', 'File Manager', 'cms/file_manager', 50)->permission('manage_files');
-		$top->add_child('themes', 'Themes', 'cms/themes', 100)->permission('manage_themes');
-		$top->add_child('templates', 'Templates', 'cms/templates', 200)->permission('manage_templates');
-		$top->add_child('pages', 'Pages', 'cms/pages', 300)->permission(array('manage_pages', 'manage_content'));
-		$top->add_child('partials', 'Partials', 'cms/partials', 400)->permission('manage_partials');
-		$top->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
-		$top->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
+		$content = $menu->add('cms_content', 'Content', 'cms/content', 300)->icon('font')->permission(array('manage_files', 'manage_content'));
+		$content->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
+		$content->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
+		$content->add_child('file_manager', 'File Manager', 'cms/file_manager', 700)->permission('manage_files');
+		
+		$editor = $menu->add('cms_editor', 'Editor', 'cms/pages', 400)->icon('code')->permission(array('manage_themes', 'manage_templates', 'manage_pages', 'manage_partials'));
+		$editor->add_child('pages', 'Pages', 'cms/pages', 100)->permission(array('manage_pages', 'manage_content'));
+		$editor->add_child('partials', 'Partials', 'cms/partials', 200)->permission('manage_partials');
+		$editor->add_child('templates', 'Templates', 'cms/templates', 300)->permission('manage_templates');
+		$editor->add_child('themes', 'Themes', 'cms/themes', 400)->permission('manage_themes');
 	}
 
 	public function build_admin_settings($settings)
