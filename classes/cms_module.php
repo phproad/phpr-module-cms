@@ -8,7 +8,7 @@ class Cms_Module extends Core_Module_Base
 		return new Core_Module_Detail(
 			"Website",
 			"Content Management System",
-			"PHP Road",
+			"PHPRoad",
 			"http://phproad.com/"
 		);
 	}
