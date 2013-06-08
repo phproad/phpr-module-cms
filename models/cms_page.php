@@ -528,7 +528,7 @@ class Cms_Page extends Cms_Base
 		return $this->get_page_tree_options($key_value, $max_level);
 	}
 
-	public function get_action_code_options($keyValue=-1)
+	public function get_action_code_options($key_value = -1)
 	{
 		$result = array();
 		$result['Custom'] = self::action_custom;
