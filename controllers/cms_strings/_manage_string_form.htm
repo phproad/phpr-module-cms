@@ -10,17 +10,17 @@
 				<div class="footer">
 					<?=admin_ajax_button('Save', 'index_onsave_string', array('class'=>'btn btn-success'), "
 							loadIndicator: {injectInElement: true},
-							onComplete: listReload,
-							onSuccess: cancelPopup") ?>
+							complete: listReload,
+							success: cancelPopup") ?>
 					
 					<?=admin_button('Cancel', array('onclick'=>"cancelPopup(); return false")) ?>
 
 					<?=(!$new_record_flag) 
 						? admin_ajax_button('Delete', 'index_ondelete_string', array('class'=>"btn btn-danger pull-right"), "
 							confirm: 'Do you really want to delete this string?',
-							onComplete: listReload,
+							complete: listReload,
 							loadIndicator: {injectInElement: true},
-							onSuccess: cancelPopup") 
+							success: cancelPopup") 
 						: '' ?>
 				</div>
 			<? else: ?>
