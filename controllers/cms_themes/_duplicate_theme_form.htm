@@ -12,22 +12,17 @@
 					</div>
 					<div class="footer">
 						<?=admin_ajax_button('Duplicate', 'index_onduplicate_theme', array('class'=>'positive'), "
-							loadIndicator: {injectInElement: true},
-							update: 'themes_page_content',
-							prepareFunction: function(){phprTriggerSave();},
-							onSuccess: cancelPopup,
-							onAfterUpdate: update_scrollable_toolbars
+							loadIndicator: { injectInElement: true },
+							update: '#themes_page_content',
+							beforeSend: function(){phprTriggerSave();},
+							success: cancelPopup,
+							afterUpdate: update_scrollable_toolbars
 							") ?>
 						<?=admin_button('Cancel', array('onclick'=>"
 							cancelPopup();
 							return false;
 						")) ?>
 					</div>
-					<script type="text/javascript">
-						jQuery('#duplicate_form').bind('popupLoaded', function(){
-							init_user_agent_ui();
-						});
-					</script>
 				<? else: ?>
 					<div class="content">
 						<div class="form-flash"><?=flash()?></div>

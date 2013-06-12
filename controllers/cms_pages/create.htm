@@ -17,9 +17,9 @@
 
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
-						<?=admin_ajax_button('Create', 'create_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, customIndicator: LightLoadingIndicator") ?>
-						<?=admin_ajax_button('Create and Close', 'create_on_save', array('class'=>'btn-primary'), "data: {create_close: 1}, beforeSend: function(){phprTriggerSave();}") ?>
-						<?=admin_ajax_button('Cancel', 'create_on_cancel') ?>
+						<?= admin_ajax_button('Create', 'create_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, customIndicator: LightLoadingIndicator") ?>
+						<?= admin_ajax_button('Create and Close', 'create_on_save', array('class'=>'btn-primary'), "data: {create_close: 1}, beforeSend: function(){phprTriggerSave();}") ?>
+						<?= admin_ajax_button('Cancel', 'create_on_cancel') ?>
 					</div>
 				</div>
 			<?=form_close()?>

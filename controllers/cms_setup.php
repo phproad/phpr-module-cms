@@ -6,7 +6,7 @@ class Cms_Setup extends Admin_Settings_Controller
 
 	public $form_edit_title = 'Website Settings';
 	public $form_model_class = 'Cms_Config';
-	public $form_flash_id = 'form_flash';
+	public $form_flash_id = 'form-flash';
 
 	public $form_redirect = null;
 	public $form_edit_save_flash = 'Website configuration has been saved.';

@@ -11,10 +11,10 @@
 
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
-						<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, data: {redirect: 0}, customIndicator: LightLoadingIndicator") ?>
-						<?=admin_ajax_button('Save and Close', 'edit_on_save', array('class'=>'btn-primary'), "beforeSend: function(){phprTriggerSave();}") ?>
-						<?=admin_ajax_button('Cancel', 'edit_on_cancel') ?>
-						<?=admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-danger pull-right"), "confirm: 'Do you really want to delete this page?'") ?>
+						<?= admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, data: {redirect: 0}, customIndicator: LightLoadingIndicator") ?>
+						<?= admin_ajax_button('Save and Close', 'edit_on_save', array('class'=>'btn-primary'), "beforeSend: function(){phprTriggerSave();}") ?>
+						<?= admin_ajax_button('Cancel', 'edit_on_cancel') ?>
+						<?= admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-danger pull-right"), "confirm: 'Do you really want to delete this page?'") ?>
 					</div>
 				</div>
 

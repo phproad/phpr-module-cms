@@ -15,7 +15,7 @@
 
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
-						<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "prepareFunction: function(){phprTriggerSave();}") ?>
+						<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}") ?>
 						<?=admin_ajax_button('Cancel', 'edit_on_cancel') ?>
 						<?=admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-alert pull-right"), "confirm: 'Do you really want to delete this theme? This will delete all theme templates, pages, partials and asset files.'") ?>
 					</div>
