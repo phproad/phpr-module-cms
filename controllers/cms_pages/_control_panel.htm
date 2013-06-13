@@ -2,6 +2,6 @@
 	<ul class="nav">
 		<li><?=cp_button('New page', 'plus', url('/cms/pages/create')) ?></li>
 		<li class="divider-vertical"></li>
-		<li><?=cp_button('Refresh pages from files', 'refresh', array(), 'index_on_refresh_pages_from_files', "loadIndicator: {show: false}, onBeforePost: function(){LightLoadingIndicator.show('Refreshing pages...')}, onComplete: function(){ LightLoadingIndicator.hide(); listReload(true); }") ?></li>
+		<li><?=cp_button('Refresh pages from files', 'refresh', array(), 'index_on_refresh_pages_from_files', "customIndicator: LightLoadingIndicator, afterUpdate: function(){ listReload(true); }") ?></li>
 	</ul>
 </form>

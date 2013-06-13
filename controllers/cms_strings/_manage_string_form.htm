@@ -1,21 +1,21 @@
 <div>
 	<h2>Update String</h2>
-		<div class="form-400">
-		<?=Phpr_Form::open_tag() ?>
+	<div class="form-400">
+		<?= Phpr_Form::open_tag() ?>
 			<? if (!isset($fatal_error)): ?>
 				<div class="content">
-					<? $this->form_render($model) ?>
-					<?=form_hidden('string_id', $model->id)?>
+					<?= $this->form_render($model) ?>
+					<?= form_hidden('string_id', $model->id)?>
 				</div>
 				<div class="footer">
-					<?=admin_ajax_button('Save', 'index_onsave_string', array('class'=>'btn btn-success'), "
+					<?= admin_ajax_button('Save', 'index_onsave_string', array('class'=>'btn btn-success'), "
 							loadIndicator: {injectInElement: true},
 							complete: listReload,
 							success: cancelPopup") ?>
 					
-					<?=admin_button('Cancel', array('onclick'=>"cancelPopup(); return false")) ?>
+					<?= admin_button('Cancel', array('onclick'=>"cancelPopup(); return false")) ?>
 
-					<?=(!$new_record_flag) 
+					<?= (!$new_record_flag) 
 						? admin_ajax_button('Delete', 'index_ondelete_string', array('class'=>"btn btn-danger pull-right"), "
 							confirm: 'Do you really want to delete this string?',
 							complete: listReload,
@@ -25,10 +25,10 @@
 				</div>
 			<? else: ?>
 				<div class="content">
-					<div class="form-flash"><?=flash()?></div>
+					<div class="form-flash"><?= flash()?></div>
 				</div>
 				<div class="footer">
-					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+					<?= admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
 				</div>
 			<? endif ?>
 		</form>
