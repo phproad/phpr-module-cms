@@ -43,6 +43,25 @@ class Cms_Module extends Core_Module_Base
 		$host->add_permission_field($this, 'manage_partials', 'Manage Partials', 'left')->display_as(frm_checkbox)->comment('Modify page partial code');
 	}
 
+	public function build_quicksearch_feed($feed, $query)
+	{
+		$feed->add('pages', Cms_Page::create(), array(
+			'item_name' => 'Page', 
+			'icon' => 'code',
+			'label_field' => 'name',
+			'search_fields' => array('name'),
+			'link' => url('cms/pages/edit/%s')
+		));
+
+		$feed->add('partials', Cms_Partial::create(), array(
+			'item_name' => 'Partial', 
+			'icon' => 'code',
+			'label_field' => 'name',
+			'search_fields' => array('name', 'file_name'),
+			'link' => url('cms/partials/edit/%s')
+		));		
+	}
+
 	public function subscribe_access_points()
 	{
 		return array('sitemap.xml'=>'get_sitemap');
