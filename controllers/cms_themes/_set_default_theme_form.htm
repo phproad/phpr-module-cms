@@ -30,14 +30,11 @@
 				<div class="footer">
 					<?=admin_ajax_button('Apply', 'index_onset_default_theme', array('class'=>'btn btn-success'), "
 						loadIndicator: {injectInElement: true},
-						update: 'themes_page_content',
-						onSuccess: cancelPopup,
-						onAfterUpdate: update_scrollable_toolbars
+						update: '#themes_page_content',
+						success: cancelPopup,
+						afterUpdate: update_scrollable_toolbars
 						") ?>
-					<?=admin_button('Cancel', array('onclick'=>"
-						cancelPopup();
-						return false;
-					")) ?>
+					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();')) ?>
 				</div>
 			<? else: ?>
 				<div class="content">

@@ -8,13 +8,10 @@
 			</div>
 			<div class="footer">
 				<?=admin_ajax_button('Export', 'index_onexport_theme', array('class'=>'btn btn-success'), "
-						loadIndicator: {injectInElement: true},
-						onSuccess: cancelPopup
+						loadIndicator: { injectInElement: true },
+						success: cancelPopup
 					") ?>
-				<?=admin_button('Cancel', array('onclick'=>"
-					cancelPopup();
-					return false;
-				")) ?>
+				<?=admin_button('Cancel', array('onclick'=>"return cancelPopup();")) ?>
 			</div>
 		<? else: ?>
 			<div class="content">
