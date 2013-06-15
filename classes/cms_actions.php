@@ -2,9 +2,9 @@
 
 class Cms_Actions extends Cms_Action_Base 
 {
-	/*
-	 * CMS service functions
-	 */
+	//
+	// CMS service functions
+	//
 
 	public function on_currency()
 	{
