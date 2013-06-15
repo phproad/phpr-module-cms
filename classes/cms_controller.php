@@ -142,7 +142,7 @@ class Cms_Controller extends Cms_Parser
 				if (!$element)
 					continue;
 
-				echo '>>#'.$element.'<<';
+				echo '>>'.$element.'<<';
 				$this->display_partial($partial);
 			}
 			ob_end_flush();
