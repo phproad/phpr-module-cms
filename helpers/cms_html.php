@@ -52,7 +52,7 @@ class Cms_Html
 		return $content;
 	}
 
-	private static function content_block_parse_params($content, $params)
+	public static function content_block_parse_params($content, $params = array())
 	{
 		$params['site_name'] = c('site_name');
 		$params['root_url'] = root_url();
