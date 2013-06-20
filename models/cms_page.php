@@ -369,7 +369,7 @@ class Cms_Page extends Cms_Base
 
 			// Find a match
 			if (self::get_url_match($segments_request, $segments_page, $page->url, $params))
-				return Cms_Page::create()->where('id = ?', $page->id)->find();
+				return Cms_Page::create()->where('cms_pages.id = ?', $page->id)->find();
 
 		}
 
