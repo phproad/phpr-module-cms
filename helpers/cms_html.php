@@ -11,7 +11,7 @@ class Cms_Html
 			if ($type == 'system')
 				continue;
 
-			$result .= '<p class="flash '.$type.'">'.h($message).'</p>';
+			$result .= '<div class="flash alert alert-'.$type.'">'.h($message).'</div>';
 		}
 
 		Phpr::$session->flash->now();

@@ -1,14 +1,14 @@
 <ul class="nav">
-	<li><?=cp_button('New theme', 'plus', url('/cms/themes/create')) ?></li>
-	<li><?=cp_button('Duplicate theme', 'copy', array('href'=>'#', 'onclick'=>"duplicate_theme(); return false;")) ?></li>
-	<li><?=cp_button('Delete selected', 'remove', array('href'=>'#', 'onclick'=>"return delete_selected()")) ?></li>
+	<li><?=cp_button('New theme', 'plus', url('cms/themes/create')) ?></li>
+	<li><?=cp_button('Duplicate theme', 'copy', array('href'=>'javascript:;', 'onclick'=>"duplicate_theme(); return false;")) ?></li>
+	<li><?=cp_button('Delete selected', 'remove', array('href'=>'javascript:;', 'onclick'=>"return delete_selected()")) ?></li>
 	<li class="divider-vertical"></li>
-	<li><?=cp_button('Set default theme', 'star', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
+	<li><?=cp_button('Set default theme', 'star', array('href'=>'javascript:;', 'onclick'=>"new PopupForm('index_onshow_set_default_theme_form', {ajaxFields: $('#listformCms_Themes_index_list')}); return false;")) ?></li>
 	<li class="divider-vertical"></li>
-	<li><?=cp_button('Export theme', 'download-alt', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
-	<li><?=cp_button('Import theme', 'upload-alt', array('href'=>'#', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('listformCms_Themes_index_list')}); return false;")) ?></li>
+	<li><?=cp_button('Export theme', 'download-alt', array('href'=>'javascript:;', 'onclick'=>"new PopupForm('index_onshow_export_theme_form', {ajaxFields: $('#listformCms_Themes_index_list')}); return false;")) ?></li>
+	<li><?=cp_button('Import theme', 'upload-alt', array('href'=>'javascript:;', 'onclick'=>"new PopupForm('index_onshow_import_theme_form', {ajaxFields: $('#listformCms_Themes_index_list')}); return false;")) ?></li>
 	<? /*
-	<li><?=cp_button('Enable selected', 'enable', array('href'=>'#', 'onclick'=>"return enable_selected()")) ?></li>
-	<li><?=cp_button('Disable selected', 'disable', array('href'=>'#', 'onclick'=>"return disable_selected()")) ?></li>
+	<li><?=cp_button('Enable selected', 'enable', array('href'=>'javascript:;', 'onclick'=>"return enable_selected()")) ?></li>
+	<li><?=cp_button('Disable selected', 'disable', array('href'=>'javascript:;', 'onclick'=>"return disable_selected()")) ?></li>
 	*/ ?>
 </ul>

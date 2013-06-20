@@ -9,7 +9,7 @@ class Cms_File_Manager extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->app_menu = 'cms';
+		$this->app_menu = 'cms_content';
 		$this->app_module_name = 'CMS';
 		$this->app_page = 'file_manager';
 	}

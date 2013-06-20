@@ -9,19 +9,16 @@
 			</div>
 			<div class="footer">
 				<?=admin_ajax_button('Import', 'index_onimport_theme', array('class'=>'btn btn-success'), "
-					loadIndicator: {injectInElement: true},
-					update: 'themes_page_content',
-					onSuccess: cancelPopup,
-					onAfterUpdate: update_scrollable_toolbars
+					loadIndicator: { injectInElement: true },
+					update: '#themes_page_content',
+					success: cancelPopup,
+					afterUpdate: update_scrollable_toolbars
 					") ?>
-				<?=admin_button('Cancel', array('onclick'=>"
-					cancelPopup();
-					return false;
-				")) ?>
+				<?=admin_button('Cancel', array('onclick'=>"cancelPopup(); return false;")) ?>
 			</div>
 		<? else: ?>
 			<div class="content">
-				<div class="formFlash"><?=flash()?></div>
+				<div class="form-flash"><?=flash()?></div>
 			</div>
 			<div class="footer">
 				<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>

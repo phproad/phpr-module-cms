@@ -36,11 +36,11 @@ class Cms_Theme_Export extends Db_ActiveRecord
 	public function get_components_options($key_value = -1)
 	{
 		return array(
-			'assets'=>'Assets',
-			'pages'=>'Pages',
-			'templates'=>'Templates',
-			'partials'=>'Partials',
-			'content'=>'Content',
+			'assets' => 'Assets',
+			'pages' => 'Pages',
+			'templates' => 'Templates',
+			'partials' => 'Partials',
+			'content' => 'Content',
 		);
 	}
 	

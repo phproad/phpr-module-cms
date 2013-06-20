@@ -9,18 +9,17 @@
 <? Phpr_View::end_block() ?>
 <? Phpr_View::begin_block("view") ?>
 	<? if (!isset($fatal_error)): ?>
-	<? $dbName = $this->view_data['form_model']; ?>
 		<div class="form-750">
-			<?=form_open(array('id'=>'form_element')) ?>
+			<?=form_open(array('id'=>'form-element')) ?>
 				<input type="hidden" name="new_flag" value="1" id="new_flag" />
 
 				<? $this->form_render() ?>
 
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
-						<?=admin_ajax_button('Create', 'create_on_save', array('class'=>'btn-success'), "prepareFunction: function(){phprTriggerSave();}, loadIndicator: {show: false}, onBeforePost: LightLoadingIndicator.show('Saving...'), onComplete: LightLoadingIndicator.hide") ?>
-						<?=admin_ajax_button('Create and Close', 'create_on_save', array('class'=>'btn-primary'), "extraFields: {create_close: 1}, prepareFunction: function(){phprTriggerSave();}") ?>
-						<?=admin_ajax_button('Cancel', 'create_on_cancel') ?>
+						<?= admin_ajax_button('Create', 'create_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, customIndicator: LightLoadingIndicator") ?>
+						<?= admin_ajax_button('Create and Close', 'create_on_save', array('class'=>'btn-primary'), "data: {create_close: 1}, beforeSend: function(){phprTriggerSave();}") ?>
+						<?= admin_ajax_button('Cancel', 'create_on_cancel') ?>
 					</div>
 				</div>
 			<?=form_close()?>

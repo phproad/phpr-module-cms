@@ -15,7 +15,7 @@ class Cms_Pages extends Admin_Controller
 	public $form_not_found_message = 'Page not found';
 	public $form_redirect = null;
 	public $form_create_save_redirect = null;
-	public $form_flash_id = 'form_flash';
+	public $form_flash_id = 'form-flash';
 
 	public $form_edit_save_flash = 'The page has been successfully saved';
 	public $form_create_save_flash = 'The page has been successfully added';
@@ -35,7 +35,7 @@ class Cms_Pages extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->app_menu = 'cms';
+		$this->app_menu = 'cms_editor';
 		$this->app_module_name = 'CMS';
 
 		$this->list_record_url = url('cms/pages/edit/');

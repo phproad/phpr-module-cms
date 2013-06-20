@@ -12,17 +12,15 @@ class Cms_Config extends Core_Settings_Base
 	
 	protected function build_form()
 	{
-		$this->add_field('site_name', 'Site Name', 'full', db_varchar)->tab('General');
-
 		// Add logo to model
 		$this->add_relation('has_many', 'logo', array('class_name'=>'Db_File', 'foreign_key'=>'master_object_id', 'conditions'=>"master_object_class='Cms_Config' and field='logo'", 'order'=>'id', 'delete'=>true));
 		$this->define_multi_relation_column('logo', 'logo', 'Logo', '@name')->invisible();
 		$this->add_form_field('logo', 'left')->display_as(frm_file_attachments)
 			->display_files_as('single_image')
-			->add_document_label('Upload logo')            
+			->add_document_label('Upload logo')
 			->no_attachments_label('Logo is not uploaded')
 			->image_thumb_size(170)
-			->no_label()            
+			->no_label()
 			->tab('General');
 
 		$this->add_field('development_mode', 'Development Mode', 'full', db_bool)->display_as(frm_onoffswitcher)->tab('General')->comment('Enable development mode if you are working on the site, this will disable caching of front end files.', 'above');
@@ -38,7 +36,6 @@ class Cms_Config extends Core_Settings_Base
 
 	protected function init_config_data()
 	{
-		$this->site_name = Phpr::$config->get('APP_NAME');
 		$this->development_mode = true;
 	}
 

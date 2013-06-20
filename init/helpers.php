@@ -30,13 +30,6 @@ function __($phrase, $params=null, $key=null)
 	return Cms_Html::locale_string($phrase, $params, $key);
 }
 
-function c($name, $type='Cms')
-{
-	$class_name = $type . '_Config';
-	$settings = call_user_func(array($class_name, 'create'));
-	return $settings->{$name};
-}
-
 function flash_message()
 {
 	return Cms_Html::flash_message();

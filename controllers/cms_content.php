@@ -33,7 +33,7 @@ class Cms_Content extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->app_menu = 'cms';
+		$this->app_menu = 'cms_content';
 		$this->app_module_name = 'CMS';
 		$this->list_record_url = url('cms/content/edit/');
 		$this->form_redirect = url('cms/content');

@@ -23,14 +23,14 @@ function asset_url(url) {
 }
 
 function var_dump(obj, use_alert) {
-    var out = '';
-    for (var i in obj) {
-        out += i + ": " + obj[i] + "\n";
-    }
+	var out = '';
+	for (var i in obj) {
+		out += i + ": " + obj[i] + "\n";
+	}
 
-    if (use_alert)
-        alert(out);
-    else 
-        jQuery('<pre />').html(out).appendTo(jQuery('body'));
-    
+	if (use_alert)
+		alert(out);
+	else 
+		jQuery('<pre />').html(out).appendTo(jQuery('body'));
+	
 };

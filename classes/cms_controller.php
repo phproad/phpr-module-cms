@@ -37,8 +37,7 @@ class Cms_Controller extends Cms_Parser
 
 	public function request_param($index, $default = null)
 	{
-		if ($index < 0)
-		{
+		if ($index < 0) {
 			$length = count($this->params);
 			$index = $length+$index;
 		}
@@ -72,9 +71,7 @@ class Cms_Controller extends Cms_Parser
 
 		$this->page_content = ob_get_clean();
 
-		// Powered by code (this should be a hook)
-		//$sa_code = '<script src="http://scriptsahoy.com/ahoy_powered_by"></script>';
-		//$this->page_content = preg_replace(',\</body\>,i', $sa_code."</body>", $this->page_content, 1);
+		Phpr::$events->fire_event('cms:on_before_display_page', $page);
 
 		echo $this->display_page();
 				
@@ -145,7 +142,7 @@ class Cms_Controller extends Cms_Parser
 				if (!$element)
 					continue;
 
-				echo ">>$element<<";
+				echo '>>'.$element.'<<';
 				$this->display_partial($partial);
 			}
 			ob_end_flush();
@@ -354,27 +351,26 @@ class Cms_Controller extends Cms_Parser
 	protected function resource_combine($type, $files, $options, $show_tag = true)
 	{
 		$aliases = array(
-			'jquery' => '/modules/cms/assets/scripts/js/jquery.js',
+			'jquery'            => '/modules/cms/assets/scripts/js/jquery.js',
 			'jquery-noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
-			'jquery-helper' => '/modules/cms/assets/scripts/js/jquery.helper.js',
-			'jquery-validate' => '/framework/assets/scripts/js/jquery.validate.js',
-			'cms-core' => '/modules/cms/assets/scripts/js/cms.core.js',
+			'jquery-helper'     => '/modules/cms/assets/scripts/js/jquery.helper.js',
+			'jquery-validate'   => '/framework/assets/scripts/js/jquery.validate.js',
 			
 			// PHPR Libs
-			'phpr' => '/framework/assets/scripts/js/phpr.js',
-			'phpr-post' => '/framework/assets/scripts/js/phpr.post.js', // Should replace cms-core
+			'phpr'           => '/framework/assets/scripts/js/phpr.js',
+			'phpr-post'      => '/framework/assets/scripts/js/phpr.post.js',
+			'phpr-request'   => '/framework/assets/scripts/js/phpr.request.js',
 			'phpr-indicator' => '/framework/assets/scripts/js/phpr.indicator.js',
-			'phpr-form' => '/framework/assets/scripts/js/phpr.form.js',
-			'phpr-validate' => '/framework/assets/scripts/js/phpr.validate.js',
+			'phpr-form'      => '/framework/assets/scripts/js/phpr.form.js',
+			'phpr-validate'  => '/framework/assets/scripts/js/phpr.validate.js',
 
-			// @todo Refactor phpr.js to work both back end and front end 
-			// then add to this array
-			'phpr-core' => array('phpr-post', 'phpr-indicator', 'phpr-form', 'jquery-validate', 'phpr-validate'),
+			// Combined core
+			'phpr-core' => array('phpr', 'phpr-post', 'phpr-request', 'phpr-indicator', 'phpr-form', 'jquery-validate', 'phpr-validate'),
 
 			// @deprecated
 			'jquery_noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
-			'core_jquery' => '/modules/cms/assets/scripts/js/jquery.helper.js',
-			'frontend_core' => '/modules/cms/assets/scripts/js/cms.core.js',
+			'core_jquery'       => '/modules/cms/assets/scripts/js/jquery.helper.js',
+			'frontend_core'     => '/modules/cms/assets/scripts/js/cms.core.js',
 		);
 
 		$files = Phpr_Util::splat($files);

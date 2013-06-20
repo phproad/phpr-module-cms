@@ -6,7 +6,7 @@ class Cms_Sitemaps extends Admin_Settings_Controller
 
 	public $form_edit_title = 'Sitemap Settings';
 	public $form_model_class = 'Cms_Sitemap';
-	public $form_flash_id = 'form_flash';
+	public $form_flash_id = 'form-flash';
 
 	public $form_redirect = null;
 	public $form_edit_save_flash = 'Sitemap configuration has been saved.';
