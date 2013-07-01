@@ -29,7 +29,7 @@ class Cms_Html
 		$url = Cms_Theme::get_theme_dir(true,false).$url;
 
 		if ($root_url)
-			return root_url($url, $public);
+			return Phpr_Url::root_url($url, $public);
 
 		return $url;
 	}
@@ -55,7 +55,7 @@ class Cms_Html
 	public static function content_block_parse_params($content, $params = array())
 	{
 		$params['site_name'] = c('site_name');
-		$params['root_url'] = root_url();
+		$params['root_url'] = Phpr_Url::root_url();
 		$params['theme_url'] = theme_url();
 
 		foreach ($params as $param=>$value)
