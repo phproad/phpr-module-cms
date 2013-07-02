@@ -33,7 +33,7 @@
 			<h1>Unhandled Error!</h1>
 			
 			<div id="error-wrapper">
-				<p class="error"><?=$error->message ?></p>
+				<p class="error"><?=$error->message ? $error->message : 'NULL' ?></p>
 				
 				<? if ($error->hint): ?>
 					<div class="hint">
