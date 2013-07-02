@@ -14,14 +14,14 @@
 			$phpr_url = Phpr::$config->get('PHPR_URL', 'phpr');
 		?>
 
-		<script type="text/javascript" src="<?=$phpr_url?>/assets/js/jquery.js"></script>
+		<script type="text/javascript" src="<?= $phpr_url?>/assets/js/jquery.js"></script>
 		
-		<script type="text/javascript" src="<?=$phpr_url?>/vendor/syntaxhighlighter/scripts/shCore.js"></script>
-		<script type="text/javascript" src="<?=$phpr_url?>/vendor/syntaxhighlighter/scripts/shBrushPhp.js"></script>
-		<script type="text/javascript" src="<?=$phpr_url?>/vendor/syntaxhighlighter/scripts/shBrushXml.js"></script>
+		<script type="text/javascript" src="<?= $phpr_url?>/vendor/syntaxhighlighter/scripts/shCore.js"></script>
+		<script type="text/javascript" src="<?= $phpr_url?>/vendor/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+		<script type="text/javascript" src="<?= $phpr_url?>/vendor/syntaxhighlighter/scripts/shBrushXml.js"></script>
 
-		<link type="text/css" rel="stylesheet" href="<?=$phpr_url?>/vendor/syntaxhighlighter/styles/shCore.css"/>
-		<link type="text/css" rel="stylesheet" href="<?=$phpr_url?>/vendor/syntaxhighlighter/styles/shThemeDefault.css"/>
+		<link type="text/css" rel="stylesheet" href="<?= $phpr_url?>/vendor/syntaxhighlighter/styles/shCore.css"/>
+		<link type="text/css" rel="stylesheet" href="<?= $phpr_url?>/vendor/syntaxhighlighter/styles/shThemeDefault.css"/>
 		
 		<script type="text/javascript">
 			SyntaxHighlighter.all();
@@ -33,50 +33,53 @@
 			<h1>Unhandled Error!</h1>
 			
 			<div id="error-wrapper">
-				<p class="error"><?=$error->message ? $error->message : 'NULL' ?></p>
+				<div class="alert alert-error"><?= $error->message ? $error->message : 'NULL' ?></div>
 				
 				<? if ($error->hint): ?>
-					<div class="hint">
+					<div class="alert alert-hint">
 						<h3>Hint</h3>
-						<p><?=$error->hint ?></p>
+						<p><?= $error->hint ?></p>
 					</div>
 				<? endif ?>
 				
-				<table class="column_view">
+				<table class="error-summary">
 					<tbody>
 						<tr class="first">
 							<th>Document</th>
-							<td><?=$error->document ?></td>
+							<td><?= $error->document ?></td>
 						</tr>
 						<tr>
 							<th>Document type</th>
 							<td>
-								<?=$error->document_type ?>
+								<?= $error->document_type ?>
 							</td>
 						</tr>
 						<tr>
 							<th>Line</th>
-							<td><?=$error->line ?></td>
+							<td><?= $error->line ?></td>
 						</tr>
 						<tr class="last">
 							<th>Exception class</th>
-							<td><?=$error->class_name ?></td>
+							<td><?= $error->class_name ?></td>
 						</tr>
 					</tbody>
 				</table>
 
 				<? if (count($error->code_highlight->lines)): ?>
 					<div class="details">
-						<h3>Code Highlight</h3>
-						<div class="code"><pre class="brush:<?=$error->code_highlight->brush ?>;toolbar:false;wrap-lines:false;tab-size:3;first-line:<?=$error->code_highlight->start_line+1 ?>;highlight:[<?=$error->code_highlight->error_line+1 ?>]">
+						<h3 class="separated">Code Highlight</h3>
+						<div class="code">
+							<pre class="brush:<?= $error->code_highlight->brush ?>;toolbar:false;wrap-lines:false;tab-size:3;first-line:<?= $error->code_highlight->start_line+1 ?>;highlight:[<?= $error->code_highlight->error_line+1 ?>]">
 							<? foreach ($error->code_highlight->lines as $line): ?>
-								<?= strlen(trim($line)) ? Phpr_Html::encode($line) : "&nbsp;\n"; ?>
+								<?= strlen(trim($line)) ? Phpr_Html::encode($line) : "&nbsp;".PHP_EOL; ?>
 							<? endforeach ?>
-						</pre></div>
+							</pre>
+						</div>
 					</div>
 				<? endif ?>
 				
 				<div class="details last">
+					<h3 class="separated">Call Stack</h3>
 					<table class="call_stack">
 						<? if ($error->is_document): ?>
 							<thead>
@@ -92,10 +95,10 @@
 							?>
 								
 							<? foreach ($error->call_stack as $index => $stack_item): ?>
-								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?=$index == $last_index ? 'last' : null ?>">
-									<td class="first"><?=$stack_item->id ?></td>
-									<td><?=$stack_item->document ?></td>
-									<td class="last"><?=$stack_item->type ?></td>
+								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?= $index == $last_index ? 'last' : null ?>">
+									<td class="first"><?= $stack_item->id ?></td>
+									<td><?= $stack_item->document ?></td>
+									<td class="last"><?= $stack_item->type ?></td>
 								</tr>
 							<? endforeach ?>
 							</tbody>
@@ -103,7 +106,7 @@
 							<thead>
 								<tr>
 									<th class="first record_number">#</th>
-									<th>Call Stack Code</th>
+									<th>Code</th>
 									<th>Document</th>
 									<th class="last">Line</th>
 								</tr>
@@ -119,11 +122,11 @@
 										else 
 											$args = '()';
 									?>
-								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?=$index == $last_index ? 'last' : null ?>">
-									<td class="first"><?=$stack_item->id ?></td>
-									<td><?=$stack_item->function_name . '(' . $args . ')' ?></td>
-									<td><?=$stack_item->document ?></td>
-									<td class="last"><?=$stack_item->line ?></td>
+								<tr class="<?=Phpr_Html::zebra('callstack') ?> <?= $index == $last_index ? 'last' : null ?>">
+									<td class="first"><?= $stack_item->id ?></td>
+									<td><?= $stack_item->function_name . '(' . $args . ')' ?></td>
+									<td><?= $stack_item->document ?></td>
+									<td class="last"><?= $stack_item->line ?></td>
 								</tr>
 								<? endforeach ?>
 							</tbody>
