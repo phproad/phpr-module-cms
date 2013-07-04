@@ -191,7 +191,6 @@ class Cms_Controller extends Cms_Parser
 			$this->parse_handler($this->page->get_code('post'), 'Error executing CMS page Post Load Code (Advanced tab)', $this->page->name);
 		}
 
-
 		$this->parse('?>'.$this->page->get_content(), 'CMS page', $this->page->name);
 		$this->page_content = ob_get_clean();
 	}

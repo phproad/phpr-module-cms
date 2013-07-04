@@ -35,6 +35,7 @@ class Cms_Theme extends Cms_Base
 		$this->add_form_field('author_website', 'right')->tab('Theme');
 	}
 
+	//
 	// Events
 	//
 	
@@ -124,6 +125,7 @@ class Cms_Theme extends Cms_Base
 		}
 	}
 
+	//
 	// Validation
 	//
 
@@ -143,6 +145,7 @@ class Cms_Theme extends Cms_Base
 		return $value;
 	}
 
+	//
 	// Service methods
 	// 
 
@@ -171,6 +174,7 @@ class Cms_Theme extends Cms_Base
 		Db_Helper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
 	}
 
+	//
 	// General
 	//
 
@@ -182,6 +186,7 @@ class Cms_Theme extends Cms_Base
 		Cms_Partial::auto_create_from_files();
 	}
 
+	//
 	// Getters
 	//
 
@@ -268,7 +273,8 @@ class Cms_Theme extends Cms_Base
 	{
 		return self::get_theme_dir($this->code, $absolute).'/assets';
 	}
-	
+
+	//
 	// Duplicate
 	//
 

@@ -29,6 +29,7 @@ class Cms_Partial extends Cms_Base
 		$this->add_form_field('content')->size('giant')->css_classes('code')->display_as(frm_code_editor)->language('php')->save_callback('save_code');
 	}
 
+	//
 	// Events
 	//
 
@@ -73,6 +74,7 @@ class Cms_Partial extends Cms_Base
 		}
 	}
 
+	//
 	// Getters
 	//
 
@@ -113,10 +115,10 @@ class Cms_Partial extends Cms_Base
 			self::$cache = array();
 
 			$partials = Db_Helper::object_array("select * from cms_partials where theme_id=:theme_id", array('theme_id'=>$theme->code));
-			//$partials = self::create()->where('theme_id=?', $theme->code)->find_all();
 
-			foreach ($partials as $partial)
+			foreach ($partials as $partial) {
 				self::$cache[$partial->name] = $partial;
+			}
 		}
 
 		if (array_key_exists($name, self::$cache))
@@ -136,9 +138,9 @@ class Cms_Partial extends Cms_Base
 		return null;
 	}
 
-	/**
-	 * File based methods
-	 */
+	//
+	// File based methods
+	//
 
 	protected static function create_from_file($file_path)
 	{

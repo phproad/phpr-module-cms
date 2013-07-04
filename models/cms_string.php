@@ -29,6 +29,7 @@ class Cms_String extends Db_ActiveRecord
 		$this->add_form_field('original')->display_as(frm_text)->disabled();
 	}
 
+	//
 	// Events
 	//
 
@@ -38,6 +39,7 @@ class Cms_String extends Db_ActiveRecord
 			$this->theme_id = Cms_Theme::get_edit_theme()->code;
 	}
 
+	//
 	// Getters
 	//
 
