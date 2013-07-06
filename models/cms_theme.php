@@ -21,7 +21,7 @@ class Cms_Theme extends Cms_Base
 		$this->define_column('description', 'Description')->validation()->fn('trim');
 		$this->define_column('author_name', 'Author')->validation()->fn('trim');
 		$this->define_column('author_website', 'Author website')->validation()->fn('trim');
-		$this->define_column('default_theme', 'Default');
+		$this->define_column('is_default', 'Default');
 		$this->define_column('enabled', 'Enabled')->validation()->method('validate_enabled');
 	}
 
@@ -50,7 +50,7 @@ class Cms_Theme extends Cms_Base
 		if (Phpr::$config->get('DEMO_MODE'))
 			throw new Phpr_ApplicationException('Sorry you cannot modify themes while site is in demonstration mode.');
 
-		if ($this->default_theme)
+		if ($this->is_default)
 			throw new Phpr_ApplicationException('Theme '.$this->name.' is set as default. Set a different default theme and try again.');
 	}
 
@@ -139,7 +139,7 @@ class Cms_Theme extends Cms_Base
 
 	public function validate_enabled($name, $value)
 	{
-		if (!$value && $this->default_theme)
+		if (!$value && $this->is_default)
 			$this->validation->set_error('Default theme cannot be disabled.', $name, true);
 
 		return $value;
@@ -155,8 +155,8 @@ class Cms_Theme extends Cms_Base
 			throw new Phpr_ApplicationException('Theme '.$this->name.' is disabled and cannot be set as default.');
 
 		$bind = array('id' => $this->id);
-		Db_Helper::query('update cms_themes set default_theme=1 where id=:id', $bind);
-		Db_Helper::query('update cms_themes set default_theme=null where id!=:id', $bind);
+		Db_Helper::query('update cms_themes set is_default=1 where id=:id', $bind);
+		Db_Helper::query('update cms_themes set is_default=null where id!=:id', $bind);
 	}
 
 	public function enable_theme()
@@ -167,8 +167,8 @@ class Cms_Theme extends Cms_Base
 
 	public function disable_theme()
 	{
-		if ($this->default_theme)
-			throw new Phpr_ApplicationException(sprintf('Theme "%s" is default_theme and cannot be disabled.', $this->name));
+		if ($this->is_default)
+			throw new Phpr_ApplicationException(sprintf('Theme "%s" is is_default and cannot be disabled.', $this->name));
 
 		$this->enabled = false;
 		Db_Helper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
@@ -214,7 +214,7 @@ class Cms_Theme extends Cms_Base
 	public static function get_default_theme()
 	{
 		if (self::$theme_default === false)
-			self::$theme_default = self::create()->where('default_theme=1')->find();
+			self::$theme_default = self::create()->where('is_default=1')->find();
 
 		return self::$theme_default;
 	}

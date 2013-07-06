@@ -77,7 +77,7 @@ $table = Db_Structure::table('cms_themes');
 	$table->column('description', db_text);
 	$table->column('author_name', db_varchar);
 	$table->column('author_website', db_varchar);
-	$table->column('default_theme', db_bool);
+	$table->column('is_default', db_bool);
 	$table->column('enabled', db_bool)->set_default(true);
 
 $table = Db_Structure::table('cms_page_visits');

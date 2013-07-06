@@ -45,7 +45,7 @@ class Cms_Themes extends Admin_Controller
 	
 	public function list_get_row_class($model)
 	{
-		if ($model->default_theme)
+		if ($model->is_default)
 			return 'important';
 			
 		if (!$model->enabled)
@@ -59,7 +59,7 @@ class Cms_Themes extends Admin_Controller
 			$ids = post('list_ids', array());
 			$this->view_data['theme_id'] = count($ids) ? $ids[0] : null;
 
-			$this->view_data['themes'] = Cms_Theme::create()->where('default_theme is null')->order('name')->find_all();
+			$this->view_data['themes'] = Cms_Theme::create()->where('is_default is null')->order('name')->find_all();
 		} 
 		catch (Exception $ex)
 		{
