@@ -8,7 +8,7 @@ class Cms_Template extends Cms_Base
 	public $auto_footprints_visible = true;
 
 	public $cms_folder_name = "templates";
-	public $cms_fields_to_save = array('name','unique_id');
+	public $cms_fields_to_save = array('name','is_default','unique_id');
 	
 	public $ignore_file_copy = false;
 	
