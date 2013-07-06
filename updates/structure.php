@@ -28,6 +28,7 @@ $table = Db_Structure::table('cms_pages');
 	$table->column('security_id', db_varchar, 15)->set_default('everyone');
 	$table->column('security_page_id', db_number);
 	$table->column('unique_id', db_varchar, 25);
+	$table->column('module_id', db_varchar, 30);
 	$table->footprints();
 
 $table = Db_Structure::table('cms_templates');
@@ -37,6 +38,7 @@ $table = Db_Structure::table('cms_templates');
 	$table->column('content', 'mediumtext');
 	$table->column('theme_id', db_varchar, 64)->index();
 	$table->column('unique_id', db_varchar, 25);
+	$table->column('is_default', db_bool);
 	$table->footprints();
 
 $table = Db_Structure::table('cms_partials');
@@ -45,6 +47,7 @@ $table = Db_Structure::table('cms_partials');
 	$table->column('file_name', db_varchar);
 	$table->column('content', 'mediumtext');
 	$table->column('theme_id', db_varchar, 64)->index();
+	$table->column('module_id', db_varchar, 30);
 	$table->footprints();
 
 $table = Db_Structure::table('cms_content');
