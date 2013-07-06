@@ -1,3 +1,5 @@
 <ul class="nav">
 	<li><?=cp_button('New template', 'plus', url('/cms/templates/create')) ?></li>
+	<li class="divider-vertical"></li>
+	<li><?=cp_button('Set default template', 'star', array('href'=>'javascript:;', 'onclick'=>"new PopupForm('index_onshow_set_default_template_form', {ajaxFields: $('#listformCms_Templates_index_list')}); return false;")) ?></li>
 </ul>

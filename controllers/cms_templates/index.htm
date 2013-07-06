@@ -1,5 +1,5 @@
 <? Phpr_View::begin_block("view") ?>
-	<?=flash()?>
-	
-	<?=$this->list_render(array('list_control_panel'=>'control_panel')) ?>
+	<div id="templates_page_content">
+		<? $this->display_partial('templates_page_content') ?>
+	</div>
 <? Phpr_View::end_block() ?>

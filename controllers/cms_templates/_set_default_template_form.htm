@@ -18,7 +18,7 @@
 									<select name="template_id" id="template_id">
 										<option value="">&lt;please select&gt;</option>
 										<? foreach ($templates as $template): ?>
-											<option <?=Phpr_Form::option_state($template_id, $template->id) ?> value="<?=h($template->id) ?>"><?=h($template->name).' ('.$template->code.')' ?></option>
+											<option <?=Phpr_Form::option_state($template_id, $template->id) ?> value="<?=h($template->id) ?>"><?=h($template->name).' ('.$template->file_name.')' ?></option>
 										<? endforeach ?>
 									</select>
 								</div>
