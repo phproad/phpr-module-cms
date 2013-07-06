@@ -49,6 +49,13 @@ class Cms_Templates extends Admin_Controller
 		$this->app_page_title = 'Templates';
 	}
 
+	
+	public function list_get_row_class($model)
+	{
+		if ($model->is_default)
+			return 'important';
+	}
+		
 	public function list_prepare_data()
 	{
 		$obj = Cms_Template::create();
@@ -77,4 +84,49 @@ class Cms_Templates extends Admin_Controller
 		if (post('create_close'))
 			$this->form_create_save_redirect = url('cms/templates');
 	}
+
+	//
+	// Set Default
+	// 
+
+	protected function index_onshow_set_default_template_form()
+	{
+		try
+		{
+			$ids = post('list_ids', array());
+			$this->view_data['template_id'] = count($ids) ? $ids[0] : null;
+
+			$this->view_data['templates'] = Cms_Template::create()->where('is_default is null')->order('name')->find_all();
+		} 
+		catch (Exception $ex)
+		{
+			$this->handle_page_error($ex);
+		}
+
+		$this->display_partial('set_default_template_form');
+	}
+	
+	protected function index_onset_default_template()
+	{
+		try
+		{
+			$template_id = post('template_id');
+			
+			if (!$template_id)
+				throw new Phpr_ApplicationException("Please select a default template");
+				
+			$template = Cms_Template::create()->find($template_id);
+			if (!$template)
+				throw new Phpr_ApplicationException("Template not found");
+
+			$template->make_default();
+
+			Phpr::$session->flash['success'] = 'Template "'.h($template->name).'" is now the default template';
+			$this->display_partial('templates_page_content');
+		}
+		catch (Exception $ex)
+		{
+			Phpr::$response->ajax_report_exception($ex, true, true);
+		}
+	}	
 }

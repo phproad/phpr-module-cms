@@ -42,7 +42,7 @@ class Cms_Themes extends Admin_Controller
 	{
 		$this->display_partial('themes_page_content');
 	}
-	
+
 	public function list_get_row_class($model)
 	{
 		if ($model->is_default)
@@ -51,7 +51,11 @@ class Cms_Themes extends Admin_Controller
 		if (!$model->enabled)
 			return 'deleted';
 	}
-		
+
+	//
+	// Set Default
+	// 
+
 	protected function index_onshow_set_default_theme_form()
 	{
 		try
@@ -83,7 +87,7 @@ class Cms_Themes extends Admin_Controller
 				throw new Phpr_ApplicationException("Theme not found");
 
 			$theme->make_default();
-			Phpr::$session->flash['success'] = sprintf('Theme "%s" is now the default theme', h($theme->name));
+			Phpr::$session->flash['success'] = 'Theme "'.h($theme->name).'" is now the default theme';
 			$this->display_partial('themes_page_content');
 
 			Cms_Theme::auto_create_all_from_files();
@@ -94,6 +98,10 @@ class Cms_Themes extends Admin_Controller
 		}
 	}
 	
+	//
+	// Enable / Disable
+	// 
+
 	protected function index_ondelete_selected()
 	{
 		$items_processed = 0;
@@ -229,6 +237,7 @@ class Cms_Themes extends Admin_Controller
 		$this->display_partial('themes_page_content');
 	}
 
+	//
 	// Duplicate
 	// 
 	
@@ -279,6 +288,7 @@ class Cms_Themes extends Admin_Controller
 		}
 	}
 	
+	//
 	// Export
 	// 
 
@@ -347,6 +357,7 @@ class Cms_Themes extends Admin_Controller
 		}
 	}
 
+	//
 	// Import
 	// 
 
@@ -379,6 +390,6 @@ class Cms_Themes extends Admin_Controller
 		{
 			Phpr::$response->ajax_report_exception($ex, true, true);
 		}
-	}	
+	}
 }
 

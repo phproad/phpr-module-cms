@@ -1,0 +1,50 @@
+<div>
+	<h2>Set default template</h2>
+	<div class="form-400">
+		<?=Phpr_Form::open_tag() ?>
+
+			<? if (!isset($fatal_error)): ?>
+				<div class="content">
+					<div class="form">
+						<div class="form-flash"></div>
+
+						<fieldset class="form-elements">
+							<div class="control-group dropdown full">
+								<label for="template_id" class="control-label">
+									Theme <span class="required">*</span>
+								</label>
+								<div class="controls">
+									<span class="help-block">Please select a default template.</span>
+									<select name="template_id" id="template_id">
+										<option value="">&lt;please select&gt;</option>
+										<? foreach ($templates as $template): ?>
+											<option <?=Phpr_Form::option_state($template_id, $template->id) ?> value="<?=h($template->id) ?>"><?=h($template->name).' ('.$template->code.')' ?></option>
+										<? endforeach ?>
+									</select>
+								</div>
+							</div>
+						</fieldset>
+
+					</div>
+				</div>
+				<div class="footer">
+					<?=admin_ajax_button('Apply', 'index_onset_default_template', array('class'=>'btn btn-success'), "
+						loadIndicator: {injectInElement: true},
+						update: '#templates_page_content',
+						success: cancelPopup,
+						afterUpdate: update_scrollable_toolbars
+						") ?>
+					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();')) ?>
+				</div>
+			<? else: ?>
+				<div class="content">
+					<div class="form-flash"><?=flash()?></div>
+				</div>
+				<div class="footer">
+					<?=admin_button('Cancel', array('onclick'=>'return cancelPopup();"')) ?>
+				</div>
+			<? endif ?>
+		
+		</form>
+	</div>
+</div>
