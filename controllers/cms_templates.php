@@ -58,12 +58,7 @@ class Cms_Templates extends Admin_Controller
 		
 	public function list_prepare_data()
 	{
-		$obj = Cms_Template::create();
-
-		$theme = Cms_Theme::get_edit_theme();
-		if ($theme)
-			$obj->where('theme_id=?', $theme->code);
-
+		$obj = Cms_Template::create()->apply_edit_theme();
 		return $obj;
 	}
 

@@ -81,7 +81,21 @@ class Cms_Template extends Cms_Base
 			$this->unique_id = uniqid("", true);
 
 		if (!strlen($this->theme_id))
-			$this->theme_id = Cms_Theme::get_edit_theme()->code;		
+			$this->theme_id = Cms_Theme::get_edit_theme()->code;
+	}
+
+	//
+	// Filters
+	// 
+
+	public function apply_edit_theme()
+	{
+		$theme = Cms_Theme::get_edit_theme();
+
+		if ($theme)
+			$this->where('theme_id=?', $theme->code);
+
+		return $this;
 	}
 
 	//
