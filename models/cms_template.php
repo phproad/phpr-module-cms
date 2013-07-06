@@ -20,6 +20,7 @@ class Cms_Template extends Cms_Base
 			->regexp('/^[a-z_0-9-;]*$/i', 'File name can only contain letters, numbers, underscore (_), dash (-), forward slash (/), dot (.) and semi-colon (;)')
 			->fn('strtolower')->unique('File name (%s) is already in use', array($this, 'config_unique_validator'));
 
+		$this->define_column('is_default', 'Default');
 		$this->define_column('content', 'Content')->invisible()->validation()->required('You must specify the template content.');
 	}
 	
@@ -30,6 +31,7 @@ class Cms_Template extends Cms_Base
 		$this->add_form_field('content')->size('giant')->css_classes('code')->display_as(frm_code_editor)->language('php')->save_callback('save_code');
 	}
 	
+	//
 	// Events
 	// 
 
@@ -47,7 +49,10 @@ class Cms_Template extends Cms_Base
 		$in_use = Db_Helper::scalar('select count(*) from cms_pages where template_id=:id', array('id'=>$this->id));
 		
 		if ($in_use)
-			throw new Phpr_ApplicationException("Unable to delete template: there are pages (".$in_use.") which use it.");
+			throw new Phpr_ApplicationException("Unable to delete template because there are pages (".$in_use.") which use it.");
+
+		if ($this->is_default)
+			throw new Phpr_ApplicationException('Unable to delete template because '.$this->name.' is set as default. Set a different default template and try again.');
 	}
 
 	public function after_delete()
@@ -79,8 +84,16 @@ class Cms_Template extends Cms_Base
 			$this->theme_id = Cms_Theme::get_edit_theme()->code;		
 	}
 
+	//
 	// Service methods
 	// 
+
+	public function make_default()
+	{
+		$bind = array('id' => $this->id);
+		Db_Helper::query('update cms_templates set is_default=1 where id=:id', $bind);
+		Db_Helper::query('update cms_templates set is_default=null where id!=:id', $bind);
+	}
 
 	public function get_content()
 	{
@@ -103,6 +116,7 @@ class Cms_Template extends Cms_Base
 		}		
 	}
 
+	//
 	// File based methods
 	//
 
@@ -147,7 +161,7 @@ class Cms_Template extends Cms_Base
 			foreach ($files as $file)
 			{
 				if (!self::is_valid_file_name($file))
-					continue;				
+					continue;
 
 				if (!in_array($file, $existing_files))
 				{
