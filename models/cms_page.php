@@ -6,6 +6,9 @@ class Cms_Page extends Cms_Base
 
 	public $implement = 'Db_AutoFootprints, Db_Act_As_Tree';
 
+	public $act_as_tree_parent_key = 'parent_id';
+	public $act_as_tree_sql_filter = null;
+
 	public $cms_folder_name = "pages";
 	public $cms_fields_to_save = array('name', 'url', 'title', 'description', 'keywords', 'sort_order', 'published', 'action_code', 'security_id', 'unique_id');
 	public $cms_relations_to_save = array(
@@ -51,7 +54,7 @@ class Cms_Page extends Cms_Base
 				regexp(',^[/a-z0-9_\.-]*$,i', "Page URL can only contain letters, numbers, underscore (_), dash (-), forward slash (/) and dot (.)")->
 				regexp(',^/,i', "The first character in the URL must be the forward slash")->method('validate_url');
 
-		$this->define_column('file_name', 'File Name')->default_invisible()->validation()->fn('trim')->required("Please specify a file name.")
+		$this->define_column('file_name', 'File Name')->default_invisible()->validation()->fn('trim')->required('Please specify a file name.')
 			->regexp('/^[a-z_0-9-;]*$/i', 'File name can only contain letters, numbers, underscore (_), dash (-), forward slash (/), dot (.) and semi-colon (;)')
 			->fn('strtolower')->unique('File name (%s) is already in use', array($this, 'config_unique_validator'));
 
@@ -61,7 +64,7 @@ class Cms_Page extends Cms_Base
 		$this->define_column('keywords', 'Keywords')->default_invisible()->validation()->fn('trim');
 		$this->define_column('head', 'Head Extras')->default_invisible()->validation()->fn('trim');
 
-		$this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->default_invisible()->list_title('Navigation Parent');
+		$this->define_relation_column('parent', 'parent', 'Parent Page', db_varchar, 'if(@name is not null and length(@name) > 0, @name, @title)')->default_invisible()->list_title('Menu Parent');
 		$this->define_relation_column('template', 'template', 'Page Template', db_varchar, '@name')->validation();
 		$this->define_relation_column('security_mode', 'security_mode', 'Security', db_varchar, '@name')->default_invisible();
 		$this->define_relation_column('security_redirect', 'security_redirect', 'Redirect', db_varchar, '@name')->default_invisible()->validation()->method('validate_redirect');
@@ -505,12 +508,17 @@ class Cms_Page extends Cms_Base
 	{
 		$obj = new self();
 		$result = array();
-		if ($key_value == -1)
-		{
+		
+		if ($key_value == -1) {
+			
+			$theme = Cms_Theme::get_edit_theme();
+			if ($theme)
+				$obj->act_as_tree_sql_filter = strtr("theme_id='{theme_code}'", array('{theme_code}'=>$theme->code));
+
 			$this->list_parent_options($obj->list_root_children('cms_pages.sort_order'), $result, 0, $this->id, $max_level);
 		}
-		else
-		{
+		else {
+			
 			if ($key_value == null)
 				return $result;
 
