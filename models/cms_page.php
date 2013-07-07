@@ -66,7 +66,7 @@ class Cms_Page extends Cms_Base
 		$this->define_relation_column('security_mode', 'security_mode', 'Security', db_varchar, '@name')->default_invisible();
 		$this->define_relation_column('security_redirect', 'security_redirect', 'Redirect', db_varchar, '@name')->default_invisible()->validation()->method('validate_redirect');
 
-		$this->define_column('action_code', 'Page Function')->default_invisible();
+		$this->define_column('action_code', 'Page Action')->default_invisible();
 		$this->define_column('code_pre', 'Pre Load Code')->invisible();
 		$this->define_column('code_post', 'Post Load Code')->invisible();
 		$this->define_column('code_ajax', 'Ajax Events')->invisible();

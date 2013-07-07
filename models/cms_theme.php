@@ -168,7 +168,7 @@ class Cms_Theme extends Cms_Base
 	public function disable_theme()
 	{
 		if ($this->is_default)
-			throw new Phpr_ApplicationException(sprintf('Theme "%s" is is_default and cannot be disabled.', $this->name));
+			throw new Phpr_ApplicationException('Theme "'.$this->name.'" is is_default and cannot be disabled.');
 
 		$this->enabled = false;
 		Db_Helper::query('update cms_themes set enabled=0 where id=:id', array('id'=>$this->id));
