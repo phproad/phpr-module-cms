@@ -152,9 +152,10 @@ class Cms_Page extends Cms_Base
 			$form_field = $this->find_form_field($column_name);
 			if ($form_field)
 				$form_field->options_method('get_added_field_options');
-		}        
+		}
 	}
 
+	//
 	// Extensibility
 	// 
 	
@@ -170,6 +171,7 @@ class Cms_Page extends Cms_Base
 		return false;
 	}
 
+	//
 	// Events
 	//
 
@@ -229,6 +231,7 @@ class Cms_Page extends Cms_Base
 			$this->delete_page_dir();
 	}
 
+	//
 	// Custom columns
 	// 
 
@@ -245,6 +248,7 @@ class Cms_Page extends Cms_Base
 		return str_replace('_', '-', $this->template->file_name).'-template';
 	}
 
+	//
 	// Filters
 	// 
 
@@ -255,6 +259,7 @@ class Cms_Page extends Cms_Base
 		return $this;
 	}
 
+	//
 	// Getters
 	//
 
@@ -458,6 +463,7 @@ class Cms_Page extends Cms_Base
 	}
 
 
+	//
 	// Options
 	//
 
@@ -550,6 +556,7 @@ class Cms_Page extends Cms_Base
 		return $result;
 	}
 
+	//
 	// Validation methods
 	//
 
@@ -578,6 +585,7 @@ class Cms_Page extends Cms_Base
 		return true;
 	}
 
+	//
 	// Content blocks
 	//
 
@@ -671,6 +679,7 @@ class Cms_Page extends Cms_Base
 		return $result;
 	}
 
+	//
 	// File based methods
 	//
 
