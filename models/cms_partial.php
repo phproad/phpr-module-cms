@@ -12,6 +12,10 @@ class Cms_Partial extends Cms_Base
 
 	protected static $cache = null;
 
+	public $custom_columns = array(
+		'is_module_theme' => db_bool,
+	);
+
 	public function define_columns($context = null)
 	{
 		$this->define_column('name', 'Name')->order('asc')->validation()->fn('trim')->required("You must specify a partial name.");
@@ -27,6 +31,14 @@ class Cms_Partial extends Cms_Base
 		$this->add_form_field('name','left')->collapsible();
 		$this->add_form_field('file_name','right')->collapsible();
 		$this->add_form_field('content')->size('giant')->css_classes('code')->display_as(frm_code_editor)->language('php')->save_callback('save_code');
+
+		// Disable all fields
+		if ($this->is_module_theme) {
+			$fields = $this->get_form_fields();
+			foreach ($fields as $field) {
+				$field->disabled();
+			}
+		}
 	}
 
 	//
@@ -72,6 +84,32 @@ class Cms_Partial extends Cms_Base
 		{
 			$this->delete_file($this->fetched['file_name']);
 		}
+	}
+
+	// 
+	// Filters
+	// 
+
+	public function apply_edit_theme()
+	{
+		$theme_code = Cms_Theme::get_edit_theme()->code;
+		$this->where('theme_id=?', $theme_code);
+		return $this;
+	}
+
+	public function apply_edit_and_module_theme()
+	{
+		// Filter by edit theme and module theme
+		$theme_code = Cms_Theme::get_edit_theme()->code;
+		$this->where('cms_partials.theme_id=? or cms_partials.theme_id is null', $theme_code);
+
+		// Join all pages with their pairs (edit theme / module theme)
+		$this->join('cms_partials as cms_module_partials', 'cms_module_partials.name = cms_partials.name and cms_module_partials.id != cms_partials.id');
+
+		// If a join is found, return the record joining to the module theme, i.e the edit theme
+		$this->where('cms_module_partials.theme_id is null');
+
+		return $this;
 	}
 
 	//
@@ -203,4 +241,28 @@ class Cms_Partial extends Cms_Base
 	{
 		return strtolower(str_replace(':', ';', $name));
 	}
+
+	//
+	// Custom columns
+	// 
+
+	public function eval_is_module_theme() 
+	{
+		return ($this->module_id && !$this->theme_id);
+	}
+
+	// 
+	// Module theme
+	// 
+
+	public function convert_to_theme_object()
+	{
+		$obj = $this->duplicate();
+		$obj->is_module_theme = false;
+		$obj->module_id = null;
+		$obj->theme_id = Cms_Theme::get_edit_theme()->code;
+		$obj->save();
+		return $obj;
+	}
+
 }

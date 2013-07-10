@@ -34,12 +34,13 @@ class Cms_Page extends Cms_Base
 	);
 
 	public $calculated_columns = array(
-		'title_name'=> array('sql'=>"IF(cms_pages.title is null,cms_pages.name,cms_pages.title)", 'type'=>db_varchar)
+		'title_name' => array('sql'=>"IF(cms_pages.title is null,cms_pages.name,cms_pages.title)", 'type'=>db_varchar),
 	);
 
 	public $custom_columns = array(
 		'page_code' => db_varchar,
-		'template_code' => db_varchar
+		'template_code' => db_varchar,
+		'is_module_theme' => db_bool,
 	);
 
 	public function define_columns($context = null)
@@ -83,7 +84,7 @@ class Cms_Page extends Cms_Base
 		// Extensibility
 		$this->defined_column_list = array();
 		Phpr::$events->fire_event('cms:on_extend_page_model', $this, $context);
-		$this->api_added_columns = array_keys($this->defined_column_list);        
+		$this->api_added_columns = array_keys($this->defined_column_list);
 	}
 
 	public function define_form_fields($context = null)
@@ -152,6 +153,14 @@ class Cms_Page extends Cms_Base
 			$form_field = $this->find_form_field($column_name);
 			if ($form_field)
 				$form_field->options_method('get_added_field_options');
+		}
+
+		// Disable all fields
+		if ($this->is_module_theme) {
+			$fields = $this->get_form_fields();
+			foreach ($fields as $field) {
+				$field->disabled();
+			}
 		}
 	}
 
@@ -248,6 +257,11 @@ class Cms_Page extends Cms_Base
 		return str_replace('_', '-', $this->template->file_name).'-template';
 	}
 
+	public function eval_is_module_theme() 
+	{
+		return ($this->module_id && !$this->theme_id);
+	}
+
 	//
 	// Filters
 	// 
@@ -256,6 +270,21 @@ class Cms_Page extends Cms_Base
 	{
 		$theme_code = Cms_Theme::get_edit_theme()->code;
 		$this->where('theme_id=?', $theme_code);
+		return $this;
+	}
+
+	public function apply_edit_and_module_theme()
+	{
+		// Filter by edit theme and module theme
+		$theme_code = Cms_Theme::get_edit_theme()->code;
+		$this->where('cms_pages.theme_id=? or cms_pages.theme_id is null', $theme_code);
+
+		// Join all pages with their pairs (edit theme / module theme)
+		$this->join('cms_pages as cms_module_pages', 'cms_module_pages.url = cms_pages.url and cms_module_pages.id != cms_pages.id');
+
+		// If a join is found, return the record joining to the module theme, i.e the edit theme
+		$this->where('cms_module_pages.theme_id is null');
+
 		return $this;
 	}
 
@@ -690,7 +719,10 @@ class Cms_Page extends Cms_Base
 
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
 
-		return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name;
+		if ($this->is_module_theme)
+			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme/'.$this->cms_folder_name.'/'.$file_name;
+		else
+			return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name;
 	}
 
 	protected function get_page_file_path($file_name)
@@ -775,7 +807,6 @@ class Cms_Page extends Cms_Base
 
 	public function load_file_content()
 	{
-
 		$path = $this->get_directory_path($this->file_name);
 		if (!file_exists($path))
 			return;
@@ -823,11 +854,13 @@ class Cms_Page extends Cms_Base
 	{
 		$objects = array();
 		$dirs = self::list_orphan_directories();
-		foreach ($dirs as $dir_name)
+		foreach ($dirs as $dir_name) {
 			$objects[] = self::create_from_directory($dir_name);
+		}
 
-		foreach ($objects as $obj)
+		foreach ($objects as $obj) {
 			$obj->load_relation_settings()->save();
+		}
 	}
 
 	public static function list_orphan_directories()
@@ -899,4 +932,18 @@ class Cms_Page extends Cms_Base
 		$string = preg_replace('/\?\>\s*$/', '', $string);
 		return $string;
 	}
+
+	// 
+	// Module theme
+	// 
+
+	public function convert_to_theme_object()
+	{
+		$obj = $this->duplicate();
+		$obj->is_module_theme = false;
+		$obj->module_id = null;
+		$obj->theme_id = Cms_Theme::get_edit_theme()->code;
+		$obj->save();
+		return $obj;
+	}	
 }
