@@ -22,12 +22,12 @@ $table = Db_Structure::table('cms_pages');
 	$table->column('code_post', db_text);
 	$table->column('code_pre', db_text);
 	$table->column('code_ajax', db_text);
-	$table->column('template_id', db_number)->index();
-	$table->column('theme_id', db_varchar, 64)->index();
 	$table->column('parent_id', db_number);
+	$table->column('template_id', db_number)->index();
 	$table->column('security_id', db_varchar, 15)->set_default('everyone');
 	$table->column('security_page_id', db_number);
 	$table->column('unique_id', db_varchar, 25);
+	$table->column('theme_id', db_varchar, 64)->index();
 	$table->column('module_id', db_varchar, 30);
 	$table->footprints();
 
