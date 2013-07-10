@@ -80,7 +80,7 @@ class Cms_Pages extends Admin_Controller
 		try
 		{
 			$model = $this->form_find_model_object($record_id);
-			$obj = $model->convert_to_theme_object();
+			$obj = $model->convert_to_edit_theme();
 
 			if ($this->form_create_save_flash)
 				Phpr::$session->flash['success'] = $this->form_create_save_flash;
