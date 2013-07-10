@@ -54,7 +54,7 @@ class Cms_Partials extends Admin_Controller
 	public function list_prepare_data()
 	{
 		$obj = Cms_Partial::create();
-		$obj->apply_edit_and_module_theme();
+		$obj->apply_edit_with_module_themes();
 		return $obj;
 	}
 

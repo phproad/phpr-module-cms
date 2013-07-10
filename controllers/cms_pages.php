@@ -57,7 +57,7 @@ class Cms_Pages extends Admin_Controller
 	public function list_prepare_data()
 	{
 		$obj = Cms_Page::create();
-		$obj->apply_edit_and_module_theme();
+		$obj->apply_edit_with_module_themes();
 		return $obj;
 	}
 
@@ -98,7 +98,7 @@ class Cms_Pages extends Admin_Controller
 		catch (Exception $ex)
 		{
 			Phpr::$response->ajax_report_exception($ex, true, true);
-		}
+		}			
 	}
 
 	//

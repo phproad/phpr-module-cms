@@ -273,7 +273,7 @@ class Cms_Page extends Cms_Base
 		return $this;
 	}
 
-	public function apply_edit_and_module_theme()
+	public function apply_edit_with_module_themes()
 	{
 		// Filter by edit theme and module theme
 		$theme_code = Cms_Theme::get_edit_theme()->code;
