@@ -206,7 +206,7 @@ class Cms_Controller extends Cms_Parser
 		$head_extras[] = "<script>";
 		$head_extras[] = "<!--";
 		$head_extras[] = "root_dir = '".Phpr::$request->get_subdirectory()."';";
-		$head_extras[] = "asset_dir = '".Cms_Theme::get_theme_dir(true,false)."/assets/';";
+		$head_extras[] = "asset_dir = '".Cms_Theme::get_theme_path(true,false)."/assets/';";
 		$head_extras[] = "// -->";
 		$head_extras[] = "</script>";
 		echo implode(PHP_EOL, $head_extras);
@@ -399,7 +399,7 @@ class Cms_Controller extends Cms_Parser
 				if (strpos($file, '/') !== 0)
 					$file = '/'.$file;
 
-				$file = '/'.Cms_Theme::get_theme_dir(true,false).'/'.$file;
+				$file = '/'.Cms_Theme::get_theme_path(true,false).'/'.$file;
 			}
 
 			$files_array[] = 'file%5B%5D='.urlencode(trim($file));

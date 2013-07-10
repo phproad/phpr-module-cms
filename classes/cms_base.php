@@ -22,7 +22,7 @@ class Cms_Base extends Db_ActiveRecord
 		if ($this->is_module_theme)
 			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
 		else
-			return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
+			return Cms_Theme::get_theme_path($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
 	}	
 
 	public function config_unique_validator($checker, $obj, $session_key)
@@ -132,7 +132,7 @@ class Cms_Base extends Db_ActiveRecord
 			
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
 
-		return Cms_Theme::get_theme_dir($this->theme_id).'/meta/'.$this->cms_folder_name.'/'.$file_name.'.xml';
+		return Cms_Theme::get_theme_path($this->theme_id).'/meta/'.$this->cms_folder_name.'/'.$file_name.'.xml';
 	}
 
 	protected function save_settings()
@@ -212,8 +212,8 @@ class Cms_Base extends Db_ActiveRecord
 		$path = $this->get_settings_path($this->file_name);
 		$data = Phpr_Xml::beautify_xml($xml_obj);
 
-		if (!Cms_Theme::theme_dir_is_writable($this->theme_id))
-			throw new Phpr_ApplicationException('Directory is not writable: ' . Cms_Theme::get_theme_dir($this->theme_id));
+		if (!Cms_Theme::theme_path_is_writable($this->theme_id))
+			throw new Phpr_ApplicationException('Directory is not writable: ' . Cms_Theme::get_theme_path($this->theme_id));
  
 		if (!is_writable(dirname(dirname($path))))
 			throw new Phpr_ApplicationException('Directory is not writable: ' . dirname(dirname($path)));

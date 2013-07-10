@@ -26,7 +26,7 @@ class Cms_Html
 		if (substr($url, 0, 1) != '/')
 			$url = '/'.$url;
 
-		$url = Cms_Theme::get_theme_dir(true,false).$url;
+		$url = Cms_Theme::get_theme_path(true,false).$url;
 
 		if ($root_url)
 			return Phpr_Url::root_url($url, $public);

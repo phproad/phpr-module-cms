@@ -68,7 +68,7 @@ class Cms_Partial extends Cms_Base
 
 	public function after_delete()
 	{
-		if (Cms_Theme::theme_dir_is_writable($this->theme_id) && $this->file_name)
+		if (Cms_Theme::theme_path_is_writable($this->theme_id) && $this->file_name)
 			$this->delete_file($this->file_name);
 	}
 
@@ -129,7 +129,7 @@ class Cms_Partial extends Cms_Base
 			// Same as get_file_path but static
 			$theme = Cms_Theme::get_active_theme();
 			$file_name = self::name_to_file($name);
-			$path = Cms_Theme::get_theme_dir($theme->code).'/partials/'.$file_name.'.php';
+			$path = Cms_Theme::get_theme_path($theme->code).'/partials/'.$file_name.'.php';
 
 			if (file_exists($path))
 				return file_get_contents($path);
@@ -164,7 +164,7 @@ class Cms_Partial extends Cms_Base
 
 		// Same as get_file_path but static
 		$file_name = self::name_to_file($name);
-		$path = Cms_Theme::get_theme_dir($theme->code).'/partials/'.$file_name.'.php';
+		$path = Cms_Theme::get_theme_path($theme->code).'/partials/'.$file_name.'.php';
 
 		if (!file_exists($path))
 			throw new Phpr_ApplicationException('Could not find partial: '.$name);
@@ -196,7 +196,7 @@ class Cms_Partial extends Cms_Base
 	public static function auto_create_from_files()
 	{
 
-		$dir = Cms_Theme::get_theme_dir(false) . '/partials';
+		$dir = Cms_Theme::get_theme_path(false) . '/partials';
 
 		if (file_exists($dir) && is_dir($dir))
 		{

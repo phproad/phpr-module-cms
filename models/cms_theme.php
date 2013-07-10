@@ -60,7 +60,7 @@ class Cms_Theme extends Cms_Base
 
 		foreach ($required_dirs as $dir)
 		{
-			$check_dir = self::get_theme_dir($this->code).$dir;
+			$check_dir = self::get_theme_path($this->code).$dir;
 			if (!file_exists($check_dir))
 				@mkdir($check_dir);
 		}
@@ -68,21 +68,21 @@ class Cms_Theme extends Cms_Base
 
 	public function before_create($session_key = null)
 	{
-		if (!is_writable(trim(self::get_theme_dir(''))))
-			throw new Phpr_ApplicationException('Cannot create theme: Directory is not writable ' . self::get_theme_dir(''));
+		if (!is_writable(trim(self::get_theme_path(''))))
+			throw new Phpr_ApplicationException('Cannot create theme: Directory is not writable ' . self::get_theme_path(''));
 	}
 
 	public function before_update($session_key = null)
 	{
 		if ($this->code != $this->fetched['code'])
 		{
-			if (!is_writable(trim(self::get_theme_dir(''))))
-				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_dir(''));
+			if (!is_writable(trim(self::get_theme_path(''))))
+				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_path(''));
 
-			if (!is_writable(trim(self::get_theme_dir($this->fetched['code']))))
-				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_dir($this->fetched['code']));
+			if (!is_writable(trim(self::get_theme_path($this->fetched['code']))))
+				throw new Phpr_ApplicationException('Cannot update theme: Directory is not writable ' . self::get_theme_path($this->fetched['code']));
 
-			if (file_exists(self::get_theme_dir($this->code)))
+			if (file_exists(self::get_theme_path($this->code)))
 				throw new Phpr_ApplicationException('Cannot rename theme: Directory '.$this->code.' already exists');
 		}
 	}
@@ -91,7 +91,7 @@ class Cms_Theme extends Cms_Base
 	{
 		if ($this->code != $this->fetched['code'])
 		{
-			rename(self::get_theme_dir($this->fetched['code']), self::get_theme_dir($this->code));
+			rename(self::get_theme_path($this->fetched['code']), self::get_theme_path($this->code));
 
 			// Update strings, content blocks, pages, partials and layouts
 			//
@@ -110,7 +110,7 @@ class Cms_Theme extends Cms_Base
 		{
 			// Delete assets
 			// 
-			$theme_path = self::get_theme_dir($this->code);
+			$theme_path = self::get_theme_path($this->code);
 			if (file_exists($theme_path))
 				File_Directory::delete_recursive($theme_path);
 
@@ -252,7 +252,7 @@ class Cms_Theme extends Cms_Base
 	//   @param1 can be boolean/string
 	//     bool - front end?
 	//     string - define theme code
-	public static function get_theme_dir($param=true, $absolute=true)
+	public static function get_theme_path($param=true, $absolute=true)
 	{
 		if (is_string($param))
 			$result = "/themes/".$param;
@@ -264,14 +264,14 @@ class Cms_Theme extends Cms_Base
 		return ($absolute) ? PATH_APP . $result : $result;
 	}
 
-	public static function theme_dir_is_writable($param1=true)
+	public static function theme_path_is_writable($param1=true)
 	{
-		return is_writable(self::get_theme_dir($param1));
+		return is_writable(self::get_theme_path($param1));
 	}
 
 	public function get_asset_path($absolute=true)
 	{
-		return self::get_theme_dir($this->code, $absolute).'/assets';
+		return self::get_theme_path($this->code, $absolute).'/assets';
 	}
 
 	//
@@ -294,7 +294,7 @@ class Cms_Theme extends Cms_Base
 		$new_theme->init_form_fields();
 		$new_theme->save($data);
 
-		File_Directory::copy(self::get_theme_dir($this->code), self::get_theme_dir($new_theme->code));
+		File_Directory::copy(self::get_theme_path($this->code), self::get_theme_path($new_theme->code));
 
 		return $new_theme;
 	}

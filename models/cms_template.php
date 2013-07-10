@@ -57,7 +57,7 @@ class Cms_Template extends Cms_Base
 
 	public function after_delete()
 	{
-		if (Cms_Theme::theme_dir_is_writable($this->theme_id) && $this->file_name)
+		if (Cms_Theme::theme_path_is_writable($this->theme_id) && $this->file_name)
 			$this->delete_file($this->file_name);
 	}	
 
@@ -141,7 +141,7 @@ class Cms_Template extends Cms_Base
 			
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
 
-		return Cms_Theme::get_theme_dir($this->theme_id).'/templates/'.$file_name.'.'.$ext;
+		return Cms_Theme::get_theme_path($this->theme_id).'/templates/'.$file_name.'.'.$ext;
 	}
 
 	protected static function create_from_file($file_path)
@@ -160,7 +160,7 @@ class Cms_Template extends Cms_Base
 	public static function auto_create_from_files()
 	{
 
-		$dir = Cms_Theme::get_theme_dir(false) . '/templates';
+		$dir = Cms_Theme::get_theme_path(false) . '/templates';
 
 		if (file_exists($dir) && is_dir($dir))
 		{

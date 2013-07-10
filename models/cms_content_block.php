@@ -91,7 +91,7 @@ class Cms_Content_Block extends Cms_Base
 	}
 	public function after_delete()
 	{
-		if (Cms_Theme::theme_dir_is_writable($this->theme_id) && $this->file_name)
+		if (Cms_Theme::theme_path_is_writable($this->theme_id) && $this->file_name)
 			$this->delete_file($this->file_name);
 	}	
 
@@ -205,7 +205,7 @@ class Cms_Content_Block extends Cms_Base
 
 	public static function auto_create_from_files()
 	{
-		$dir = Cms_Theme::get_theme_dir(false) . '/content';
+		$dir = Cms_Theme::get_theme_path(false) . '/content';
 
 		if (file_exists($dir) && is_dir($dir))
 		{

@@ -63,7 +63,7 @@ class Cms_Theme_Export extends Db_ActiveRecord
 			$this->set_data($data);
 			
 			$theme = Cms_Theme::create()->find($this->theme_id);
-			$theme_path = Cms_Theme::get_theme_dir($theme->code, true);
+			$theme_path = Cms_Theme::get_theme_path($theme->code, true);
 			$temp_path = PATH_APP.'/temp/'.uniqid('phpr');
 			$zip_name = uniqid('phpr');
 			$zip_path = PATH_APP.'/temp/'.$zip_name;

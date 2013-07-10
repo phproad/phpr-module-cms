@@ -84,7 +84,7 @@ class Cms_Page extends Cms_Base
 		// Extensibility
 		$this->defined_column_list = array();
 		Phpr::$events->fire_event('cms:on_extend_page_model', $this, $context);
-		$this->api_added_columns = array_keys($this->defined_column_list);
+		$this->api_added_columns = array_keys($this->defined_column_list);        
 	}
 
 	public function define_form_fields($context = null)
@@ -161,7 +161,7 @@ class Cms_Page extends Cms_Base
 			foreach ($fields as $field) {
 				$field->disabled();
 			}
-		}
+		}		
 	}
 
 	//
@@ -236,7 +236,7 @@ class Cms_Page extends Cms_Base
 
 	public function after_delete()
 	{
-		if (Cms_Theme::theme_dir_is_writable($this->theme_id) && $this->file_name)
+		if (Cms_Theme::theme_path_is_writable($this->theme_id) && $this->file_name)
 			$this->delete_page_dir();
 	}
 
@@ -722,7 +722,7 @@ class Cms_Page extends Cms_Base
 		if ($this->is_module_theme)
 			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme/'.$this->cms_folder_name.'/'.$file_name;
 		else
-			return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name;
+			return Cms_Theme::get_theme_path($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name;
 	}
 
 	protected function get_page_file_path($file_name)
@@ -865,7 +865,7 @@ class Cms_Page extends Cms_Base
 
 	public static function list_orphan_directories()
 	{
-		$path = Cms_Theme::get_theme_dir(false) . '/pages';
+		$path = Cms_Theme::get_theme_path(false) . '/pages';
 		$result = array();
 
 		$edit_theme = Cms_Theme::get_edit_theme()->code;
