@@ -44,6 +44,10 @@ class Cms_Pages extends Admin_Controller
 		$this->app_page = 'pages';
 	}
 
+	//
+	// Index 
+	// 
+	
 	public function index()
 	{
 		Cms_Theme::auto_create_all_from_files();
@@ -53,12 +57,53 @@ class Cms_Pages extends Admin_Controller
 	public function list_prepare_data()
 	{
 		$obj = Cms_Page::create();
-		$theme = Cms_Theme::get_edit_theme();
-		if ($theme)
-			$obj->where('theme_id=?', $theme->code);
-
+		$obj->apply_edit_and_module_theme();
 		return $obj;
 	}
+
+	public function index_on_refresh_pages_from_files()
+	{
+		try {
+			Cms_Page::refresh_from_meta();
+		}
+		catch (Exception $ex) {
+			Phpr::$response->ajax_report_exception($ex, true, true);
+		}
+	}
+
+	//
+	// Edit
+	// 
+
+	public function edit_on_convert_to_theme_object($record_id)
+	{
+		try
+		{
+			$model = $this->form_find_model_object($record_id);
+			$obj = $model->convert_to_theme_object();
+
+			if ($this->form_create_save_flash)
+				Phpr::$session->flash['success'] = $this->form_create_save_flash;
+
+			$redirect_id = $obj->id;
+			$redirect_url = Phpr_Util::any($this->form_create_save_redirect, $this->form_redirect);
+
+			if (strpos($redirect_url, '%s') !== false)
+				$redirect_url = sprintf($redirect_url, $redirect_id);
+
+			if ($redirect_url)
+				Phpr::$response->redirect($redirect_url);
+
+		}
+		catch (Exception $ex)
+		{
+			Phpr::$response->ajax_report_exception($ex, true, true);
+		}
+	}
+
+	//
+	// Events
+	// 
 
 	public function edit_form_before_display($model)
 	{
@@ -72,13 +117,4 @@ class Cms_Pages extends Admin_Controller
 			$this->form_create_save_redirect = url('cms/pages');
 	}
 
-	public function index_on_refresh_pages_from_files()
-	{
-		try {
-			Cms_Page::refresh_from_meta();
-		}
-		catch (Exception $ex) {
-			Phpr::$response->ajax_report_exception($ex, true, true);
-		}
-	}
 }

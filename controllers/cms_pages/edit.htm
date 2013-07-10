@@ -6,15 +6,24 @@
 	<? if (!isset($fatal_error)): ?>
 		<div class="form-750">
 			<?=form_open(array('id'=>'form-element')) ?>
+				
+				<? if ($form_model->is_module_theme): ?>
+					<?= $this->display_partial('module_theme_header') ?>
+				<? endif ?>
 
 				<? $this->form_render() ?>
 
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
-						<?= admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, data: {redirect: 0}, customIndicator: LightLoadingIndicator") ?>
-						<?= admin_ajax_button('Save and Close', 'edit_on_save', array('class'=>'btn-primary'), "beforeSend: function(){phprTriggerSave();}") ?>
-						<?= admin_ajax_button('Cancel', 'edit_on_cancel') ?>
-						<?= admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-danger pull-right"), "confirm: 'Do you really want to delete this page?'") ?>
+						<? if ($form_model->is_module_theme): ?>
+							<?= admin_ajax_button('Import to Theme', 'edit_on_convert_to_theme_object', array('class'=>'btn-success'), "customIndicator: LightLoadingIndicator") ?>
+							<?= admin_ajax_button('Cancel', 'edit_on_cancel') ?>
+						<? else: ?>
+							<?= admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, data: {redirect: 0}, customIndicator: LightLoadingIndicator") ?>
+							<?= admin_ajax_button('Save and Close', 'edit_on_save', array('class'=>'btn-primary'), "beforeSend: function(){phprTriggerSave();}") ?>
+							<?= admin_ajax_button('Cancel', 'edit_on_cancel') ?>
+							<?= admin_ajax_button('Delete', 'edit_on_delete', array('class'=>"btn-danger pull-right"), "confirm: 'Do you really want to delete this page?'") ?>
+						<? endif ?>
 					</div>
 				</div>
 

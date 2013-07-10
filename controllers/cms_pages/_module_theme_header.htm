@@ -1,0 +1,7 @@
+<? 
+	$module = Phpr_Module_Manager::get_module($this->module_id); 
+	$module_info = $module->get_module_info();
+?>
+<div class="alert alert-block">
+	<p>This page is supplied by the module <strong><?= $module_info->name ?> (<?= $module_info->id ?>)</strong> and is read-only. If you want to modify the contents, you can import it into the current theme. </p>
+</div>
