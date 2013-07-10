@@ -280,9 +280,10 @@ class Cms_Page extends Cms_Base
 		$this->where('cms_pages.theme_id=? or cms_pages.theme_id is null', $theme_code);
 
 		// Join all pages with their pairs (edit theme / module theme)
+		// If no join is found, the record is included anyway.
+		// If a join is found, return the record joining to the module 
+		// theme, i.e the edit theme.
 		$this->join('cms_pages as cms_module_pages', 'cms_module_pages.url = cms_pages.url and cms_module_pages.id != cms_pages.id');
-
-		// If a join is found, return the record joining to the module theme, i.e the edit theme
 		$this->where('cms_module_pages.theme_id is null');
 
 		return $this;

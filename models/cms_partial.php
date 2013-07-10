@@ -104,9 +104,10 @@ class Cms_Partial extends Cms_Base
 		$this->where('cms_partials.theme_id=? or cms_partials.theme_id is null', $theme_code);
 
 		// Join all pages with their pairs (edit theme / module theme)
+		// If no join is found, the record is included anyway.
+		// If a join is found, return the record joining to the module 
+		// theme, i.e the edit theme.
 		$this->join('cms_partials as cms_module_partials', 'cms_module_partials.name = cms_partials.name and cms_module_partials.id != cms_partials.id');
-
-		// If a join is found, return the record joining to the module theme, i.e the edit theme
 		$this->where('cms_module_partials.theme_id is null');
 
 		return $this;
