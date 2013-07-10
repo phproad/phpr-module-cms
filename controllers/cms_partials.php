@@ -62,7 +62,7 @@ class Cms_Partials extends Admin_Controller
 	// Edit
 	// 
 
-	public function edit_on_convert_to_theme_object($record_id)
+	public function edit_on_convert_module_theme_to_edit_theme($record_id)
 	{
 		try
 		{

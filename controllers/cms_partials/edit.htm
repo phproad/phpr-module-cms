@@ -13,7 +13,7 @@
 				<div id="fixed-toolbar" class="top">
 					<div class="form-toolbar">
 						<? if ($form_model->is_module_theme): ?>
-							<?= admin_ajax_button('Import to Theme', 'edit_on_convert_to_theme_object', array('class'=>'btn-success'), "customIndicator: LightLoadingIndicator") ?>
+							<?= admin_ajax_button('Import to Theme', 'edit_on_convert_module_theme_to_edit_theme', array('class'=>'btn-success'), "customIndicator: LightLoadingIndicator") ?>
 							<?= admin_ajax_button('Cancel', 'edit_on_cancel') ?>
 						<? else: ?>
 							<?=admin_ajax_button('Save', 'edit_on_save', array('class'=>'btn-success'), "beforeSend: function(){phprTriggerSave();}, data: {redirect: 0}, customIndicator: LightLoadingIndicator") ?>
