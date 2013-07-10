@@ -19,7 +19,10 @@ class Cms_Base extends Db_ActiveRecord
 			
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
 
-		return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
+		if ($this->is_module_theme)
+			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
+		else
+			return Cms_Theme::get_theme_dir($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
 	}	
 
 	public function config_unique_validator($checker, $obj, $session_key)
@@ -84,7 +87,7 @@ class Cms_Base extends Db_ActiveRecord
 		}
 		catch (exception $ex)
 		{
-			// Do nothing	
+			// Do nothing
 		}
 	}
 
@@ -175,7 +178,7 @@ class Cms_Base extends Db_ActiveRecord
 			}
 			foreach ($this->cms_relations_to_save as $relation=>$link)
 			{
-				$value = "relation_".$relation;     	
+				$value = "relation_".$relation;
 				
 				if (!$this->$relation)
 					continue;
@@ -222,7 +225,7 @@ class Cms_Base extends Db_ActiveRecord
 			throw new Phpr_ApplicationException('File is not writable: ' . dirname($path));
 
 		if (@file_put_contents($path, $data) === false)
-			throw new Phpr_ApplicationException('Error writing file ' . $path);   		
+			throw new Phpr_ApplicationException('Error writing file ' . $path);
 	}
 
 	protected function find_setting(&$xml_obj, $match_field='file_name')
@@ -277,13 +280,13 @@ class Cms_Base extends Db_ActiveRecord
 		$child = $this->find_setting($xml_obj);
 
 		foreach ($this->cms_relations_to_save as $relation=>$link)
-		{        	
+		{
 			$field = "relation_".$relation;
 			if (!isset($child->$field))
 				continue;
 			
-			$this->{$link['foreign_key']} = $this->load_relation_setting($relation, $link['linked_key'], $child->$field);        	
-		}        
+			$this->{$link['foreign_key']} = $this->load_relation_setting($relation, $link['linked_key'], $child->$field);
+		}
 		return $this;
 	}
 
@@ -294,7 +297,7 @@ class Cms_Base extends Db_ActiveRecord
 
 		$edit_theme = Cms_Theme::get_edit_theme()->code;
 		$class_name = $this->belongs_to[$relation]['class_name'];
-		$obj = new $class_name();		
+		$obj = new $class_name();
 		$obj = $obj->where($linked_key.'=?',$value)->where('theme_id=?', $edit_theme)->find();
 
 		if (!$obj)
