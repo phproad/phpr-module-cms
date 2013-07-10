@@ -257,6 +257,9 @@ class Cms_Partial extends Cms_Base
 
 	public function convert_to_edit_theme()
 	{
+		if (!$this->is_module_theme)
+			return $this;
+
 		$obj = $this->duplicate();
 		$obj->is_module_theme = false;
 		$obj->module_id = null;
