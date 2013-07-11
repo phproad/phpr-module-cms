@@ -52,7 +52,7 @@ class Cms_Controller extends Cms_Parser
 	{
 		$this->page = $page;
 		$this->params = $params;
-		$this->template = $page->template;
+		$this->template = ($page->template) ? $page->template : Cms_Template::create()->apply_default()->find();
 
 		Cms_Statistics::log_visit($page, Phpr::$request->get_current_uri());
 
@@ -352,7 +352,6 @@ class Cms_Controller extends Cms_Parser
 		$aliases = array(
 			'jquery'            => '/modules/cms/assets/scripts/js/jquery.js',
 			'jquery-noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
-			'jquery-helper'     => '/modules/cms/assets/scripts/js/jquery.helper.js',
 			'jquery-validate'   => '/framework/assets/scripts/js/jquery.validate.js',
 			
 			// PHPR Libs
@@ -368,7 +367,6 @@ class Cms_Controller extends Cms_Parser
 
 			// @deprecated
 			'jquery_noconflict' => '/modules/cms/assets/scripts/js/jquery.noconflict.js',
-			'core_jquery'       => '/modules/cms/assets/scripts/js/jquery.helper.js',
 			'frontend_core'     => '/modules/cms/assets/scripts/js/cms.core.js',
 		);
 
