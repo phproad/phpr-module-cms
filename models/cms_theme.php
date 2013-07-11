@@ -205,8 +205,11 @@ class Cms_Theme extends Cms_Base
 	{
 		$theme = self::get_default_theme();
 
-		if (!$theme)
-			throw new Phpr_ApplicationException('No theme found please reinstall');
+		if (!$theme) {
+			$exception = new Phpr_ApplicationException('No theme found to use.');
+			$exception->hint_message = 'Try logging in to the admin area to create a theme, or you may need to reinstall.';
+			throw $exception;
+		}
 
 		return $theme;
 	}
