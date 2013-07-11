@@ -51,6 +51,7 @@ class Cms_Pages extends Admin_Controller
 	public function index()
 	{
 		Cms_Theme::auto_create_all_from_files();
+		Cms_Page::refresh_module_theme_pages();
 		$this->app_page_title = 'Pages';
 	}
 

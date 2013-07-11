@@ -342,7 +342,7 @@ class Cms_Page extends Cms_Base
 			return self::$cache_by_id;
 
 		$theme = Cms_Theme::get_active_theme();
-		$records = Db_Helper::object_array('select id,name,title,url,action_code from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
+		$records = Db_Helper::object_array('select id, name, title, url, action_code from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
 		$result = array();
 		foreach ($records as $page)
 			$result[$page->id] = $page;
@@ -381,7 +381,7 @@ class Cms_Page extends Cms_Base
 			self::$cache_by_url = array();
 
 			$theme = Cms_Theme::get_active_theme();
-			$all_pages = Db_Helper::object_array('select id,url from cms_pages where theme_id=:theme_id', array('theme_id'=>$theme->code));
+			$all_pages = Db_Helper::object_array('select id, url from cms_pages where theme_id=:theme_id or theme_id is null order by theme_id', array('theme_id'=>$theme->code));
 			foreach ($all_pages as $page)
 			{
 				self::$cache_by_url[$page->url] = $page;
@@ -407,7 +407,7 @@ class Cms_Page extends Cms_Base
 
 			// Find a match
 			if (self::get_url_match($segments_request, $segments_page, $page->url, $params))
-				return Cms_Page::create()->where('cms_pages.id = ?', $page->id)->find();
+				return Cms_Page::create()->where('cms_pages.id=?', $page->id)->find();
 
 		}
 
@@ -937,6 +937,64 @@ class Cms_Page extends Cms_Base
 	// 
 	// Module theme
 	// 
+
+	public static function refresh_all_module_theme_pages()
+	{
+		$all_modules = Phpr_Module_Manager::get_modules();
+		foreach ($all_modules as $module_id => $module) 
+		{
+			self::refresh_module_theme_pages($module_id, $module->dir_path)
+		}
+	}
+
+	public static function refresh_module_theme_pages($module_id, $module_path = null)
+	{
+		if (!$module_path)
+			$module_path = Phpr_Module_Manager::get_module_path($module_id);
+
+		$path = $module_path . DS . 'theme';
+		
+		if ( ! File_Directory::exists($path))
+			return;
+
+		$existing_files = Db_Helper::scalar_array("select file_name from cms_pages where module_id='".$module_id."'");
+		$files = scandir($path);
+
+		$pages_to_create = array();
+		$found_files = array();
+		foreach ($files as $file)
+		{
+			$file_path = $path.'/'.$file;
+			if (!is_dir($file_path) || substr($file, 0, 1) == '.' || !preg_match('/^[a-z_0-9-]*$/', $file))
+				continue;
+
+			$found_files[] = $file;
+			if (!in_array($file, $existing_files))
+				$pages_to_create[] = $file;
+		}
+
+		$pages_to_delete = array_diff(array_merge($existing_files, $pages_to_create), $found_files);
+
+		// @TODO this is incomplete...
+		// I'll be back
+
+		$page = self::create();
+
+		$page->init_columns();
+		$page->file_name = $dir_name;
+		$page->load_settings();
+		
+		$page->module_id = $module_id;
+		$page->theme_id = null;
+
+		$page->load_file_content();
+		$page->ignore_file_copy = true;
+
+		if (!$page->url)
+			$page->url = '/'.$dir_name;
+
+		$page->save();
+	}
 
 	public function convert_to_edit_theme()
 	{
