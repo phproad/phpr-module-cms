@@ -98,6 +98,12 @@ class Cms_Template extends Cms_Base
 		return $this;
 	}
 
+	public function apply_default()
+	{
+		$this->where('is_default = 1');
+		return $this;
+	}
+
 	//
 	// Service methods
 	// 
