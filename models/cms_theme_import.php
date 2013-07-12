@@ -85,8 +85,8 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			if ($this->theme_id == -1)
 			{
 				$theme = Cms_Theme::create();
-				$theme->code = 'imported_theme';
-				$theme->name = 'Imported Theme';
+				$theme->code = Db_Helper::get_unique_column_value($theme, 'code', 'imported_theme');
+				$theme->name = Db_Helper::get_unique_column_value($theme, 'name', 'Imported Theme');
 				$theme->save();
 			}
 			else
@@ -100,7 +100,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 				throw new Phpr_SystemException('Unable to create directory '.$temp_path);
 
 			if (!is_writable(PATH_APP.'/themes/') || !is_writable($theme_path))
-				throw new Phpr_SystemException('Insufficient writing permissions to '.PATH_APP.'/themes');
+				throw new Phpr_SystemException('Cannot write to path "'.PATH_APP.'/themes". Please check that this folder is writable.');
 
 			File_Zip::unzip($file_path, $temp_path);
 
