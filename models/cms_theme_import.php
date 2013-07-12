@@ -84,7 +84,7 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			
 			if ($this->theme_id == -1)
 			{
-				$theme = Cms_Theme::create();
+				$new_theme = $theme = Cms_Theme::create();
 				$theme->code = Db_Helper::get_unique_column_value($theme, 'code', 'imported_theme');
 				$theme->name = Db_Helper::get_unique_column_value($theme, 'name', 'Imported Theme');
 				$theme->save();
@@ -127,6 +127,9 @@ class Cms_Theme_Import extends Db_ActiveRecord
 			
 			if (isset($temp_path) && @file_exists($temp_path))
 				File_Directory::delete_recursive($temp_path);
+
+			if (isset($new_theme))
+				$new_theme->delete();
 
 			throw $ex;
 		}
