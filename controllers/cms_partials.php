@@ -48,6 +48,7 @@ class Cms_Partials extends Admin_Controller
 	public function index()
 	{
 		Cms_Partial::auto_create_from_files();
+		Cms_Partial::refresh_module_theme_files();
 		$this->app_page_title = 'Partials';
 	}
 

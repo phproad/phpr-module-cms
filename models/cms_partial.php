@@ -59,11 +59,11 @@ class Cms_Partial extends Cms_Base
 
 	public function before_create($session_key = null)
 	{
-		if (!strlen($this->theme_id))
-			$this->theme_id = Cms_Theme::get_edit_theme()->code;
-
 		if (!strlen($this->file_name))
 			$this->file_name = self::name_to_file($this->name);
+
+		if (!strlen($this->theme_id) && !$this->is_module_theme)
+			$this->theme_id = Cms_Theme::get_edit_theme()->code;
 	}
 
 	public function after_delete()
@@ -117,7 +117,9 @@ class Cms_Partial extends Cms_Base
 	// Getters
 	//
 
-	// This is designed to take a stdObject or itself
+	/**
+	 * For caching/lean reasons, this static method can take a populated stdObject or Cms_Partial object
+	 */ 
 	public static function get_content($partial=null)
 	{
 		try
@@ -127,10 +129,17 @@ class Cms_Partial extends Cms_Base
 			if (!$name)
 				throw new Phpr_ApplicationException('Partial file is not specified');
 
-			// Same as get_file_path but static
-			$theme = Cms_Theme::get_active_theme();
-			$file_name = self::name_to_file($name);
-			$path = Cms_Theme::get_theme_path($theme->code).'/partials/'.$file_name.'.php';
+			if ($partial->module_id)
+			{
+				$path = Phpr_Module_Manager::get_module_path($partial->module_id).'/theme/partials/'.$file_name.'.php';
+			}
+			else
+			{
+				// Same as Cms_Base::get_file_path but static
+				$theme = Cms_Theme::get_active_theme();
+				$file_name = self::name_to_file($name);
+				$path = Cms_Theme::get_theme_path($theme->code).'/partials/'.$file_name.'.php';
+			}
 
 			if (file_exists($path))
 				return file_get_contents($path);
@@ -163,7 +172,7 @@ class Cms_Partial extends Cms_Base
 		if (array_key_exists($name, self::$cache))
 			return self::$cache[$name];
 
-		// Same as get_file_path but static
+		// Same as Cms_Base::get_file_path but static
 		$file_name = self::name_to_file($name);
 		$path = Cms_Theme::get_theme_path($theme->code).'/partials/'.$file_name.'.php';
 
@@ -184,7 +193,7 @@ class Cms_Partial extends Cms_Base
 	protected static function create_from_file($file_path)
 	{
 		$obj = self::create();
-		$obj->file_name = pathinfo($file_path, PATHINFO_FILENAME);
+		$obj->file_name = File::get_name($file_path);
 		$obj->load_settings();
 		$obj->ignore_file_copy = true;
 		$obj->content = file_get_contents($file_path);
@@ -199,13 +208,10 @@ class Cms_Partial extends Cms_Base
 
 		$dir = Cms_Theme::get_theme_path(false) . '/partials';
 
-		if (file_exists($dir) && is_dir($dir))
+		if (File_Directory::exists($dir))
 		{
 			$edit_theme = Cms_Theme::get_edit_theme()->code;
-			$existing_partials = Db_Helper::object_array("select file_name from cms_partials where theme_id = '".$edit_theme."'");
-			$existing_files = array();
-			foreach ($existing_partials as $partial)
-				$existing_files[] = $partial->file_name.'.php';
+			$existing_files = Db_Helper::scalar_array("select file_name from cms_partials where theme_id = '".$edit_theme."'");
 
 			$files = scandir($dir);
 			foreach ($files as $file)
@@ -213,7 +219,9 @@ class Cms_Partial extends Cms_Base
 				if (!self::is_valid_file_name($file))
 					continue;
 
-				if (!in_array($file, $existing_files))
+				$file_name = File::get_name($file);
+
+				if (!in_array($file_name, $existing_files))
 				{
 					try
 					{
@@ -255,6 +263,103 @@ class Cms_Partial extends Cms_Base
 	// 
 	// Module theme
 	// 
+
+	public static function refresh_module_theme_files()
+	{
+		// Cache exisiting files
+		$all_exisiting_files = Db_Helper::object_array("select module_id, file_name from cms_partials where theme_id is null and module_id is not null");
+		$files_cache = array();
+		foreach ($all_exisiting_files as $file_obj)
+		{
+			$module_id = $file_obj->module_id;
+			if (!isset($files_cache[$module_id]))
+				$files_cache[$module_id] = array();
+
+			$files_cache[$module_id][] = $file_obj->file_name;
+		}
+
+		// Cycle modules
+		$all_modules = Phpr_Module_Manager::get_modules();
+		foreach ($all_modules as $module_id => $module) 
+		{
+			$existing_files = isset($files_cache[$module_id]) ? $files_cache[$module_id] : null;
+			self::refresh_module_theme_file($module_id, $module->dir_path, $existing_files);
+		}
+	}
+
+	public static function refresh_module_theme_file($module_id, $module_path = null, $existing_files = null)
+	{
+		if (!$module_path)
+			$module_path = Phpr_Module_Manager::get_module_path($module_id);
+
+		if (!$existing_files)
+			$existing_files = Db_Helper::scalar_array("select file_name from cms_partials where module_id='".$module_id."'");
+
+		$path = $module_path . '/theme/partials';
+		
+		// Halt and/or clean up
+		if (!File_Directory::exists($path)) {
+			if (count($existing_files))
+				Db_Helper::query('delete from cms_partials where theme_id is null and module_id=?', $module_id);
+
+			return;
+		}
+
+		// Locate files in the file system
+		$files = scandir($path);
+		$found_files = array();
+		$found_file_paths = array();
+		foreach ($files as $file)
+		{
+			if (!self::is_valid_file_name($file))
+				continue;
+
+			$file_name = File::get_name($file);
+			$found_files[] = $file_name;
+			$found_file_paths[$file_name] = $path . '/' . $file;
+		}
+
+		// Determine actions
+		$files_to_create = array_diff($found_files, $existing_files);
+		$files_to_delete = array_diff($existing_files, $found_files);
+		$files_to_update = array_diff($found_files, $files_to_create, $files_to_delete);
+
+		// Create action
+		foreach ($files_to_create as $file_name) 
+		{
+			$file_path = $found_file_paths[$file_name];
+
+			$obj = self::create();
+			$obj->module_id = $module_id;
+			$obj->is_module_theme = true;
+			$obj->file_name = $file_name;
+			$obj->load_settings();
+			$obj->ignore_file_copy = true;
+			$obj->content = file_get_contents($file_path);
+			$obj->name = self::file_to_name($obj->file_name);
+			$obj->save();
+		}
+
+		// Delete action
+		foreach ($files_to_delete as $file_name) 
+		{
+			$bind = array('file_name' => $file_name, 'module_id' => $module_id);
+			Db_Helper::query('delete from cms_partials where file_name=:file_name and module_id=:module_id', $bind);
+		}
+
+		// Update action
+		if (count($files_to_update)) 
+		{
+			$partials_to_update = self::create()->where('file_name in (?)', array($files_to_update))->where('module_id=?', $module_id)->find_all();
+			foreach ($partials_to_update as $partial) 
+			{
+				$partial->load_settings();
+				$partial->load_file_content();
+				$partial->ignore_file_copy = true;
+				$partial->save();
+			}
+		}
+	}
 
 	public function convert_to_edit_theme()
 	{
