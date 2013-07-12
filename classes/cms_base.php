@@ -12,17 +12,25 @@ class Cms_Base extends Db_ActiveRecord
 
 	public $cms_folder_name = null;
 
+	/**
+	 * Returns the working path, for example, the theme directory (/themes/default) 
+	 * or module theme directory (/modules/cms/theme).
+	 */
+	public function get_working_root_path()
+	{
+		if ($this->is_module_theme)
+			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme';
+		else
+			return Cms_Theme::get_theme_path($this->theme_id);
+	}
+
 	public function get_file_path($file_name, $ext = 'php')
 	{
 		if (!$file_name)
 			return null;
 			
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
-
-		if ($this->is_module_theme)
-			return Phpr_Module_Manager::get_module_path($this->module_id).'/theme/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
-		else
-			return Cms_Theme::get_theme_path($this->theme_id).'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
+		return $this->get_working_root_path().'/'.$this->cms_folder_name.'/'.$file_name.'.'.$ext;
 	}	
 
 	public function config_unique_validator($checker, $obj, $session_key)
@@ -131,8 +139,7 @@ class Cms_Base extends Db_ActiveRecord
 			return null;
 			
 		$file_name = pathinfo($file_name, PATHINFO_FILENAME);
-
-		return Cms_Theme::get_theme_path($this->theme_id).'/meta/'.$this->cms_folder_name.'/'.$file_name.'.xml';
+		return $this->get_working_root_path().'/meta/'.$this->cms_folder_name.'/'.$file_name.'.xml';
 	}
 
 	protected function save_settings()
@@ -212,8 +219,8 @@ class Cms_Base extends Db_ActiveRecord
 		$path = $this->get_settings_path($this->file_name);
 		$data = Phpr_Xml::beautify_xml($xml_obj);
 
-		if (!Cms_Theme::theme_path_is_writable($this->theme_id))
-			throw new Phpr_ApplicationException('Directory is not writable: ' . Cms_Theme::get_theme_path($this->theme_id));
+		if (!is_writable($this->get_working_root_path()))
+			throw new Phpr_ApplicationException('Directory is not writable: ' . $this->get_working_root_path());
  
 		if (!is_writable(dirname(dirname($path))))
 			throw new Phpr_ApplicationException('Directory is not writable: ' . dirname(dirname($path)));
@@ -267,7 +274,7 @@ class Cms_Base extends Db_ActiveRecord
 		if (!$this->name)
 			$this->name = $this->file_name;
 
-		if (!$this->theme_id)
+		if (!$this->theme_id && !$this->is_module_theme)
 			$this->theme_id = Cms_Theme::get_edit_theme()->code;
 	}
 
