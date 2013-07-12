@@ -201,6 +201,11 @@ class Cms_Theme extends Cms_Base
 		return self::$themes[$id] = self::create()->find($id);
 	}
 
+	public static function has_active_theme()
+	{
+		return self::get_default_theme() ? true : false;
+	}
+
 	public static function get_active_theme()
 	{
 		$theme = self::get_default_theme();
@@ -216,10 +221,19 @@ class Cms_Theme extends Cms_Base
 
 	public static function get_default_theme()
 	{
-		if (self::$theme_default === false)
-			self::$theme_default = self::create()->where('is_default=1')->find();
+		if (self::$theme_default !== false)
+			return self::$theme_default;
+			
+		$default_theme = self::create()->where('is_default=1')->find();
 
-		return self::$theme_default;
+		// Use anything!
+		if (!$default_theme) {
+			$default_theme = self::create()->find();
+			if ($default_theme)
+				$default_theme->make_default();
+		}
+
+		return self::$theme_default = $default_theme;
 	}
 
 	public static function get_edit_theme()

@@ -15,15 +15,19 @@ class Cms_Module extends Core_Module_Base
 
 	public function build_admin_menu($menu)
 	{
-		$content = $menu->add('cms_content', 'Content', 'cms/content', 300)->icon('font')->permission(array('manage_files', 'manage_content'));
-		$content->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
-		$content->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
-		$content->add_child('file_manager', 'File Manager', 'cms/file_manager', 700)->permission('manage_files');
+		if (Cms_Theme::has_active_theme()) {
+			$content = $menu->add('cms_content', 'Content', 'cms/content', 300)->icon('font')->permission(array('manage_files', 'manage_content'));
+			$content->add_child('content', 'Content', 'cms/content', 500)->permission('manage_content');
+			$content->add_child('strings', 'Language', 'cms/strings', 600)->permission('manage_content');
+			$content->add_child('file_manager', 'File Manager', 'cms/file_manager', 700)->permission('manage_files');
+		}
 		
-		$editor = $menu->add('cms_editor', 'Editor', 'cms/pages', 400)->icon('code')->permission(array('manage_themes', 'manage_templates', 'manage_pages', 'manage_partials'));
-		$editor->add_child('pages', 'Pages', 'cms/pages', 100)->permission(array('manage_pages', 'manage_content'));
-		$editor->add_child('partials', 'Partials', 'cms/partials', 200)->permission('manage_partials');
-		$editor->add_child('templates', 'Templates', 'cms/templates', 300)->permission('manage_templates');
+		$editor = $menu->add('cms_editor', 'Editor', '@first', 400)->icon('code')->permission(array('manage_themes', 'manage_templates', 'manage_pages', 'manage_partials'));
+		if (Cms_Theme::has_active_theme()) {
+			$editor->add_child('pages', 'Pages', 'cms/pages', 100)->permission(array('manage_pages', 'manage_content'));
+			$editor->add_child('partials', 'Partials', 'cms/partials', 200)->permission('manage_partials');
+			$editor->add_child('templates', 'Templates', 'cms/templates', 300)->permission('manage_templates');
+		}
 		$editor->add_child('themes', 'Themes', 'cms/themes', 400)->permission('manage_themes');
 	}
 
