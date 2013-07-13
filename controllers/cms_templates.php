@@ -48,7 +48,6 @@ class Cms_Templates extends Admin_Controller
 		Cms_Template::auto_create_from_files();
 		$this->app_page_title = 'Templates';
 	}
-
 	
 	public function list_get_row_class($model)
 	{
