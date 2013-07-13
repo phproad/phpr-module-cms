@@ -5,9 +5,9 @@ class Cms_Theme extends Cms_Base
 	public $table_name = 'cms_themes';
 	public $enabled = 1;
 
-	private static $theme_active = false;
-	private static $theme_default = false;
-	private static $theme_edit = false;
+	private static $active_theme = null;
+	private static $default_theme = null;
+	private static $edit_theme = null;
 	private static $themes = array();
 
 	public function define_columns($context = null)
@@ -221,8 +221,8 @@ class Cms_Theme extends Cms_Base
 
 	public static function get_default_theme()
 	{
-		if (self::$theme_default !== false)
-			return self::$theme_default;
+		if (self::$default_theme !== null)
+			return self::$default_theme;
 			
 		$default_theme = self::create()->where('is_default=1')->find();
 
@@ -233,22 +233,22 @@ class Cms_Theme extends Cms_Base
 				$default_theme->make_default();
 		}
 
-		return self::$theme_default = $default_theme;
+		return self::$default_theme = $default_theme;
 	}
 
 	public static function get_edit_theme()
 	{
-		if (self::$theme_edit !== false)
-			return self::$theme_edit;
+		if (self::$edit_theme !== null)
+			return self::$edit_theme;
 
 		if ($theme_id = Phpr_User_Parameters::get('admin_edit_theme'))
 		{
 			$theme = self::get_theme_by_id($theme_id);
 			if ($theme)
-				return self::$theme_edit = $theme;
+				return self::$edit_theme = $theme;
 		}
 
-		return self::$theme_edit = self::get_default_theme();
+		return self::$edit_theme = self::get_default_theme();
 	}
 
 	public static function set_edit_theme($id)
@@ -260,7 +260,7 @@ class Cms_Theme extends Cms_Base
 		if (!$theme)
 			throw new Phpr_ApplicationException('Could not find that theme.');
 
-		self::$theme_edit = $theme;
+		self::$edit_theme = $theme;
 
 		Phpr_User_Parameters::set('admin_edit_theme', $id);
 	}
