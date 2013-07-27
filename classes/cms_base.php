@@ -174,7 +174,6 @@ class Cms_Base extends Db_ActiveRecord
 		else
 		{
 			$node = $xml_obj->addChild('object');
-			//$node->addChild('id', $this->id);
 			$node->addChild('class', get_class($this));
 			$node->addChild('file_name', $this->file_name);
 
@@ -191,7 +190,7 @@ class Cms_Base extends Db_ActiveRecord
 					continue;
 
 				$link = $link['linked_key'];
-				$node->addChild($value, $this->$relation->$link);
+				$node->addChild($value, $this->{$relation}->{$link});
 			}
 		}
 	 
