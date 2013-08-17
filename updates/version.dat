@@ -7,3 +7,4 @@
 #7|1.0.7 Allow partials to display when file is not present
 #8|1.0.8 Separate Content and Editor menu items
 #9|1.0.9 Implement module theme support
+#10|1.0.10 Fixes issue with more than 1 theme not showing any pages or partials
